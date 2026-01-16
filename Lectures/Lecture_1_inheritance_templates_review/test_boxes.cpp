@@ -51,8 +51,9 @@ TEST_CASE("3. Test MagicBox", "[MagicBox]")
    REQUIRE(magicCard->getItem() == "Jack of Diamonds");
 
    magicCard->setItem("Joker");
-   REQUIRE(false); // TODO: edit the REQUIRE statement to test the item stored,
-                   // recall that MagicBox would only hold the first item
+   REQUIRE(magicCard->getItem() == "Jack of Diamonds");
+   // TODO: edit the REQUIRE statement to test the item stored,
+   // recall that MagicBox would only hold the first item
 }
 
 // !!! Not a good practice to declare classes in testing file, just for exercise purposes
@@ -99,23 +100,24 @@ TEST_CASE("4. Test MagicBox2", "[MagicBox2]")
    REQUIRE(magicCard2->getItem() == "Jack of Diamonds");
 
    magicCard2->setItem("Joker");
-   REQUIRE(false); // TODO: edit the REQUIRE statement to test the item stored,
+   REQUIRE(magicCard2->getItem() == "Joker"); 
+   // TODO: edit the REQUIRE statement to test the item stored,
                    // recall that MagicBox2 is supposed to only hold the first item with proper implementation
 }
 
 TEST_CASE("5. Test BoxInterface", "[BoxInterface]")
 {
-   // BoxInterface<int> boxOfIntegers;    // TODO: explain why this line of code would not compile?
+   BoxInterface<int> boxOfIntegers;    // TODO: explain why this line of code would not compile?
 
    BoxInterface<char> *generalBox[3];
 
    // TODO: which single line would you modify in PlainBox.hpp to make the following code block compile?
    //       think about the hierarchy of UML of all these classes?
 
-   // generalBox[0] = new PlainBox<char>('P');
-   // generalBox[1] = new ToyBox<char>('T', WHITE);
-   // generalBox[2] = new MagicBox<char>('M');
-   // REQUIRE(generalBox[0]->getItem()=='P');
-   // REQUIRE(generalBox[1]->getItem()=='T');
-   // REQUIRE(generalBox[2]->getItem()=='M');
+   generalBox[0] = new PlainBox<char>('P');
+   generalBox[1] = new ToyBox<char>('T', WHITE);
+   generalBox[2] = new MagicBox<char>('M');
+   REQUIRE(generalBox[0]->getItem()=='P');
+   REQUIRE(generalBox[1]->getItem()=='T');
+   REQUIRE(generalBox[2]->getItem()=='M');
 }
