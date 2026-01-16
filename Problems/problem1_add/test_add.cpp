@@ -43,17 +43,19 @@ TEST_CASE("Test add with std::string", "[Add]")
 TEST_CASE("Test add with bool", "[Add]")
 {
   Add<bool> boolAdder;
-  bool result = boolAdder.call(true,true);
+  bool result = boolAdder.call(true, true);
   REQUIRE(result == true);
 }
 
 /*
 1.The first thing I can think of is we didn't test the constructor even though it doesn't take
 parameters or anything. We also haven't tested any ADT or how it would add objects. We also
-haven't tested that Add works as an AbstractOperator. We only test Add directly. 
+haven't tested that Add works as an AbstractOperator. We only test Add directly.
 
-2. We don't need to overload for any of the primative data types we used. But, you would need to 
-overload the addition operator if you wanted to add objects or ADTs. The unittests we have only 
-test primative data types. I don't see any comments or indication on how the interface is supposed 
-to be used. So, if I gave I wouldn't know that I couldn't give it objects without reviewing the code. 
+2. We do not need to overload for any of the primative data types we used. But, you would need to
+overload the addition operator if you wanted to add objects or ADTs. The unittests we have only
+test primative data types. I don't see any comments or indication on how the interface is supposed
+to be used. So, if I gave I wouldn't know that I couldn't give it objects without reviewing the code.
+
+
 */
