@@ -12,7 +12,8 @@ TEST_CASE("Test add", "[Add]")
 TEST_CASE("Test add with long", "[Add]")
 {
   Add<long> longAdder;
-  REQUIRE(longAdder.call(32256,65535) == 97791);
+  long result = longAdder.call(32256, 65535);
+  REQUIRE(result == 97791);
 }
 
 TEST_CASE("Test add with doubles", "[Add]")
@@ -20,7 +21,7 @@ TEST_CASE("Test add with doubles", "[Add]")
   Add<double> doubleAdder;
   double expected = 7.0;
   double threshold = 1e-9;
-  double sum = (3.0 - sqrt(2.0)) + (4.0 + sqrt(2.0));
+  double sum = doubleAdder.call(3.0 - sqrt(2.0), 4.0 + sqrt(2.0));
 
   REQUIRE(std::abs(sum - expected) < threshold);
 }
@@ -28,19 +29,22 @@ TEST_CASE("Test add with doubles", "[Add]")
 TEST_CASE("Test add with chars", "[Add]")
 {
   Add<char> charAdder;
-  REQUIRE(charAdder.call('2','3') == 'e');
+  char result = charAdder.call('2', '3');
+  REQUIRE(result == 'e');
 }
 
 TEST_CASE("Test add with std::string", "[Add]")
 {
   Add<std::string> stringAdder;
-  REQUIRE(stringAdder.call("2", "5") == "25");
+  std::string result = stringAdder.call("2", "5");
+  REQUIRE(result == "25");
 }
 
 TEST_CASE("Test add with bool", "[Add]")
 {
   Add<bool> boolAdder;
-  REQUIRE(boolAdder.call(true,true) == true);
+  bool result = boolAdder.call(true,true);
+  REQUIRE(result == true);
 }
 
 /*

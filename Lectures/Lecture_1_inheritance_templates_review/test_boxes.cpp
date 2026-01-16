@@ -107,7 +107,7 @@ TEST_CASE("4. Test MagicBox2", "[MagicBox2]")
 
 TEST_CASE("5. Test BoxInterface", "[BoxInterface]")
 {
-   BoxInterface<int> boxOfIntegers;    // TODO: explain why this line of code would not compile?
+   // BoxInterface<int> boxOfIntegers;    // TODO: explain why this line of code would not compile?
 
    BoxInterface<char> *generalBox[3];
 

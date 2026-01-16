@@ -7,7 +7,7 @@
 
 // Indicates this is a template definition
 template <typename ItemType>
-class PlainBox
+class PlainBox : public BoxInterface<ItemType>
 {
 private:
    // Data field
