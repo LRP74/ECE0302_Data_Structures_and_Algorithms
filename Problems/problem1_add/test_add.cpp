@@ -16,6 +16,16 @@ TEST_CASE("Test add with long", "[Add]")
   REQUIRE(result == 97791);
 }
 
+TEST_CASE("Test add with floats", "[Add]")
+{
+  Add<float> floatAdder;
+  float expected = 5.5f;
+  float threshold = 1e-6f;
+  float sum = floatAdder.call(2.5f, 3.0f);
+
+  REQUIRE(std::abs(sum - expected) < threshold);
+}
+
 TEST_CASE("Test add with doubles", "[Add]")
 {
   Add<double> doubleAdder;
