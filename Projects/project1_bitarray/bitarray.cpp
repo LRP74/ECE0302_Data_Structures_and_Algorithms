@@ -21,6 +21,7 @@ BitArray::BitArray(intmax_t size)
         data = new uint8_t[sizeOfArray]();
     }
 }
+
 BitArray::BitArray(const std::string &value)
 {
     inputString = value;
@@ -28,19 +29,30 @@ BitArray::BitArray(const std::string &value)
     if (sizeOfArray <= 0)
     {
         isValid = false;
+        data = nullptr;
+        return;
     }
     else
     {
         isValid = true;
         data = new uint8_t[sizeOfArray]();
     }
-
+    
     for (int i = 0; i < sizeOfArray; i++)
     {
         if (inputString[i] != '0' && inputString[i] != '1')
         {
             isValid = false;
+            break;
         } 
+        if (inputString[i] == '1')
+        {
+            data[i] = 1;
+        }
+        else
+        {
+            data[i] = 0;
+        }
     }
     
 }
@@ -122,7 +134,7 @@ bool BitArray::test(intmax_t index)
 std::string BitArray::asString() const
 {
     std::string convertedString;
-    for (intmax_t i = 0; i < sizeOfArray; i++)
+    for (int i = 0; i < sizeOfArray; i++)
     {
         if (data[i] == 1)
         {

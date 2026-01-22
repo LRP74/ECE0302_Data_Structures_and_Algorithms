@@ -6,6 +6,38 @@
 #include "bitarray.hpp"
 
 // Given test cases for BitArray class
+
+TEST_CASE("Test String constructor with valid and invalid inputs", "[bitarray]")
+{
+    BitArray b1("11111111");
+    REQUIRE(b1.size() == 8);
+    REQUIRE(b1.good());
+    REQUIRE(b1.asString().compare("11111111") == 0);
+
+    BitArray b2("000011112222");
+    REQUIRE_FALSE(b2.good());
+
+    BitArray b3("abcd");
+    REQUIRE_FALSE(b3.good());
+
+    BitArray b4("10101010000");
+    REQUIRE(b4.size() == 11);
+    REQUIRE(b4.good());
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 TEST_CASE("Bitarray: Test default construction and asString", "[bitarray]")
 {
     BitArray b;
@@ -63,22 +95,7 @@ TEST_CASE("Bitarray: Test many given methods combined", "[bitarray]")
 
 // Write your own test cases below
 
-TEST_CASE("Test String constructor with valid and invalid inputs", "[bitarray]")
-{
-    BitArray b1("10101010");
-    REQUIRE(b1.size() == 8);
-    REQUIRE(b1.good());
 
-    BitArray b2("000011112222");
-    REQUIRE_FALSE(b2.good());
-
-    BitArray b3("abcd");
-    REQUIRE_FALSE(b3.good());
-
-    BitArray b4("10101010000");
-    REQUIRE(b4.size() == 11);
-    REQUIRE(b4.good());
-}
 
 TEST_CASE("Test set method with valid and invalid indices", "[bitarray]")
 {
