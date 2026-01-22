@@ -69,10 +69,30 @@ void BitArray::set(intmax_t index)
 
 void BitArray::reset(intmax_t index)
 {
+    if (index < 0 || index >= sizeOfArray)
+    {
+        isValid = false;
+    }
+    else
+    {
+        data[index] = 0;
+    }
 }
 
 void BitArray::toggle(intmax_t index)
 {
+    if (index < 0 || index >= sizeOfArray)
+    {
+        isValid = false;
+    }
+    else if (data[index] ==1)
+    {
+        data[index] = 0;
+    }
+    else
+    {
+        data[index] = 1;
+    }
 }
 
 bool BitArray::test(intmax_t index)
@@ -93,5 +113,17 @@ bool BitArray::test(intmax_t index)
 
 std::string BitArray::asString() const
 {
-    return std::string();
+    std::string convertedString;
+    for (intmax_t i = 0; i < sizeOfArray; i++)
+    {
+        if (data[i] == 1)
+        {
+            convertedString += '1';
+        }
+        else
+        {
+            convertedString += '0';
+        }
+    }
+    return convertedString;
 }
