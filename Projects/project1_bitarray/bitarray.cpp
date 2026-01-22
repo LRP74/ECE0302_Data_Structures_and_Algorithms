@@ -9,23 +9,21 @@ BitArray::BitArray()
 
 BitArray::BitArray(intmax_t size)
 {
+    sizeOfArray = size;
     if (size <= 0)
     {
         isValid = false;
-        //thrown exception?
-    }
-    else
-    {
-        sizeOfArray = size;
-        isValid = true;
-        data = new uint8_t[sizeOfArray]();
-    }
+        sizeOfArray = 0;
+        data = nullptr;
+        return;
+    }  
+    isValid = true;     
+    data = new uint8_t[sizeOfArray]();  //make new heap memory of sizeOfArray and initialize to 0
 }
 
 BitArray::BitArray(const std::string &value)
 {
-    inputString = value;
-    sizeOfArray = inputString.length();
+    sizeOfArray = value.length();
     if (sizeOfArray <= 0)
     {
         isValid = false;
@@ -40,12 +38,12 @@ BitArray::BitArray(const std::string &value)
     
     for (int i = 0; i < sizeOfArray; i++)
     {
-        if (inputString[i] != '0' && inputString[i] != '1')
+        if (value[i] != '0' && value[i] != '1')
         {
             isValid = false;
             break;
         } 
-        if (inputString[i] == '1')
+        if (value[i] == '1')
         {
             data[i] = 1;
         }
