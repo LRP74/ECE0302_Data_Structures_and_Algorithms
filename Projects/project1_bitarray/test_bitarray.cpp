@@ -6,38 +6,6 @@
 #include "bitarray.hpp"
 
 // Given test cases for BitArray class
-
-TEST_CASE("Test String constructor with valid and invalid inputs", "[bitarray]")
-{
-    BitArray b1("11111111");
-    REQUIRE(b1.size() == 8);
-    REQUIRE(b1.good());
-    REQUIRE(b1.asString().compare("11111111") == 0);
-
-    BitArray b2("000011112222");
-    REQUIRE_FALSE(b2.good());
-
-    BitArray b3("abcd");
-    REQUIRE_FALSE(b3.good());
-
-    BitArray b4("10101010000");
-    REQUIRE(b4.size() == 11);
-    REQUIRE(b4.good());
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 TEST_CASE("Bitarray: Test default construction and asString", "[bitarray]")
 {
     BitArray b;
@@ -96,7 +64,6 @@ TEST_CASE("Bitarray: Test many given methods combined", "[bitarray]")
 // Write your own test cases below
 
 
-
 TEST_CASE("Test set method with valid and invalid indices", "[bitarray]")
 {
     BitArray b(10);
@@ -117,5 +84,73 @@ TEST_CASE("Test set method with valid and invalid indices", "[bitarray]")
     BitArray b2(5);
     REQUIRE(b2.good());
     b2.set(-1); // Invalid index
+    REQUIRE_FALSE(b2.good());
+}
+
+TEST_CASE("Test String constructor with valid and invalid inputs", "[bitarray]")
+{
+    BitArray b1("11111111");
+    REQUIRE(b1.size() == 8);
+    REQUIRE(b1.good());
+    REQUIRE(b1.asString().compare("11111111") == 0);
+
+    BitArray b2("000011112222");
+    REQUIRE_FALSE(b2.good());
+
+    BitArray b3("abcd");
+    REQUIRE_FALSE(b3.good());
+
+    BitArray b4("10101010000");
+    REQUIRE(b4.size() == 11);
+    REQUIRE(b4.good());
+}
+
+TEST_CASE("Test Constructor with invalid size", "[bitarray]")
+{
+    BitArray b(-5); // Invalid size
+    REQUIRE_FALSE(b.good());
+
+    BitArray b2(0); // Size zero is valid
+    REQUIRE(b2.good());
+    REQUIRE(b2.size() == 0);
+}
+
+TEST_CASE("Test reset and toggle methods", "[bitarray]")
+{
+    BitArray b(5);
+    REQUIRE(b.good());
+
+    b.set(2);
+    REQUIRE(b.test(2));
+
+    b.reset(2);
+    REQUIRE_FALSE(b.test(2));
+
+    b.toggle(1);
+    REQUIRE(b.test(1));
+
+    b.toggle(1);
+    REQUIRE_FALSE(b.test(1));
+
+    b.reset(5); // Invalid index
+    REQUIRE_FALSE(b.good());
+
+    BitArray b2(3);
+    REQUIRE(b2.good());
+    b2.toggle(-1); // Invalid index
+    REQUIRE_FALSE(b2.good());
+}
+
+TEST_CASE("Test test() out of range indices", "[bitarray]")
+{
+    BitArray b(4);
+    REQUIRE(b.good());
+
+    REQUIRE_FALSE(b.test(4)); // Invalid index
+    REQUIRE_FALSE(b.good());
+
+    BitArray b2(6);
+    REQUIRE(b2.good());
+    REQUIRE_FALSE(b2.test(-2)); // Invalid index
     REQUIRE_FALSE(b2.good());
 }
