@@ -77,6 +77,7 @@ void BitArray::set(intmax_t index)
     if (index < 0 || index >= sizeOfArray)
     {
         isValid = false;
+        return;
     }
     else
     {
@@ -90,6 +91,7 @@ void BitArray::reset(intmax_t index)
     if (index < 0 || index >= sizeOfArray)
     {
         isValid = false;
+        return;
     }
     else
     {
@@ -102,6 +104,7 @@ void BitArray::toggle(intmax_t index)
     if (index < 0 || index >= sizeOfArray)
     {
         isValid = false;
+        return;
     }
     else if (data[index] ==1)
     {
@@ -118,6 +121,7 @@ bool BitArray::test(intmax_t index)
     if (index < 0 || index >= sizeOfArray)
     {
         isValid = false;
+        return false;
     }
     else if (data[index] == 1)
     {
