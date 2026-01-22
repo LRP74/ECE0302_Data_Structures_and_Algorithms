@@ -34,6 +34,14 @@ BitArray::BitArray(const std::string &value)
         isValid = true;
         data = new uint8_t[sizeOfArray]();
     }
+
+    for (int i = 0; i < sizeOfArray; i++)
+    {
+        if (inputString[i] != '0' && inputString[i] != '1')
+        {
+            isValid = false;
+        } 
+    }
     
 }
 

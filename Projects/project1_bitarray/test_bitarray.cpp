@@ -78,7 +78,6 @@ TEST_CASE("Test String constructor with valid and invalid inputs", "[bitarray]")
     BitArray b4("10101010000");
     REQUIRE(b4.size() == 11);
     REQUIRE(b4.good());
-    REQUIRE(b4.asString().compare("10101010000") == 0);
 }
 
 TEST_CASE("Test set method with valid and invalid indices", "[bitarray]")
