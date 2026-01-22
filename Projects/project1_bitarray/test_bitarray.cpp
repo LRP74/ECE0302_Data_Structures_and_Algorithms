@@ -110,9 +110,8 @@ TEST_CASE("Test Constructor with invalid size", "[bitarray]")
     BitArray b(-5); // Invalid size
     REQUIRE_FALSE(b.good());
 
-    BitArray b2(0); // Size zero is valid
-    REQUIRE(b2.good());
-    REQUIRE(b2.size() == 0);
+    BitArray b2(0); // Size zero is invalid
+    REQUIRE_FALSE(b2.good());
 }
 
 TEST_CASE("Test reset and toggle methods", "[bitarray]")

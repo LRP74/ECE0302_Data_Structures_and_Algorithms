@@ -10,7 +10,7 @@ BitArray::BitArray()
 BitArray::BitArray(intmax_t size)
 {
     sizeOfArray = size;
-    if (size < 0)
+    if (size <= 0)
     {
         isValid = false;
         sizeOfArray = 0;
