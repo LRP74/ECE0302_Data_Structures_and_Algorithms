@@ -36,6 +36,7 @@ public:
 private:
   intmax_t sizeOfArray; // current size of the BitArray
   intmax_t index;       // index for bit operations
+  std::string inputString;        // string representation of the BitArray
   bool isValid;         // flag to indicate if the BitArray is valid
   uint8_t *data;        // pointer to dynamic array of bytes to hold bits
 };

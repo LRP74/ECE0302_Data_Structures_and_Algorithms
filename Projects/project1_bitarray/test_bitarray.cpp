@@ -62,3 +62,45 @@ TEST_CASE("Bitarray: Test many given methods combined", "[bitarray]")
 }
 
 // Write your own test cases below
+
+TEST_CASE("Test String constructor with valid and invalid inputs", "[bitarray]")
+{
+    BitArray b1("10101010");
+    REQUIRE(b1.size() == 8);
+    REQUIRE(b1.good());
+    REQUIRE(b1.asString().compare("10101010") == 0);
+
+    BitArray b2("000011112222");
+    REQUIRE_FALSE(b2.good());
+
+    BitArray b3("abcd");
+    REQUIRE_FALSE(b3.good());
+
+    BitArray b4("10101010000");
+    REQUIRE(b4.size() == 11);
+    REQUIRE(b4.good());
+    REQUIRE(b4.asString().compare("10101010000") == 0);
+}
+
+TEST_CASE("Test set method with valid and invalid indices", "[bitarray]")
+{
+    BitArray b(10);
+    REQUIRE(b.good());
+
+    b.set(5);
+    REQUIRE(b.test(5));
+
+    b.set(0);
+    REQUIRE(b.test(0));
+
+    b.set(9);
+    REQUIRE(b.test(9));
+
+    b.set(10); // Invalid index
+    REQUIRE_FALSE(b.good());
+
+    BitArray b2(5);
+    REQUIRE(b2.good());
+    b2.set(-1); // Invalid index
+    REQUIRE_FALSE(b2.good());
+}

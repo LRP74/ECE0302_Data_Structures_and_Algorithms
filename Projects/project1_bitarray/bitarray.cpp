@@ -2,24 +2,44 @@
 
 BitArray::BitArray()
 {
-    sizeOfArray = 8;
-    isValid = true;
-    data = new uint8_t[sizeOfArray]();
+    sizeOfArray = 8;    //set default size to 8 bits
+    isValid = true;      //initialize as valid
+    data = new uint8_t[sizeOfArray]();  //make new heap memory of sizeOfArray and initialize to 0
 }
 
 BitArray::BitArray(intmax_t size)
 {
-    // TODO
+    if (size <= 0)
+    {
+        isValid = false;
+        //thrown exception?
+    }
+    else
+    {
+        sizeOfArray = size;
+        isValid = true;
+        data = new uint8_t[sizeOfArray]();
+    }
 }
-
 BitArray::BitArray(const std::string &value)
 {
-    // TODO
+    inputString = value;
+    sizeOfArray = inputString.length();
+    if (sizeOfArray <= 0)
+    {
+        isValid = false;
+    }
+    else
+    {
+        isValid = true;
+        data = new uint8_t[sizeOfArray]();
+    }
+    
 }
 
 BitArray::~BitArray()
 {
-    // TODO
+    delete[] data;
 }
 
 // TODO: other methods
@@ -36,6 +56,15 @@ bool BitArray::good() const
 
 void BitArray::set(intmax_t index)
 {
+    if (index < 0 || index >= sizeOfArray)
+    {
+        isValid = false;
+    }
+    else
+    {
+        data[index] = 1;
+    }
+
 }
 
 void BitArray::reset(intmax_t index)
@@ -48,7 +77,18 @@ void BitArray::toggle(intmax_t index)
 
 bool BitArray::test(intmax_t index)
 {
-    return false;
+    if (index < 0 || index >= sizeOfArray)
+    {
+        isValid = false;
+    }
+    else if (data[index] == 1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 std::string BitArray::asString() const
