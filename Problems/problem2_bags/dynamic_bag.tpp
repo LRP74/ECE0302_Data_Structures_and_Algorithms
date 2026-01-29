@@ -3,19 +3,29 @@
 template <typename T>
 DynamicBag<T>::DynamicBag()
 {
-  // TODO
+  itemCount = 0;
+  capacity = 10;
+  items = new T[capacity];
 }
 
 template <typename T>
 DynamicBag<T>::DynamicBag(const DynamicBag<T> &x)
 {
-  // TODO
+  itemCount = x.itemCount;
+  capacity = x.capacity;
+  items = new T[capacity];
+
+  for (int i = 0; i < x.itemCount; i++) //perform deep copy
+  {
+    items[i] = x.items[i];
+  }
+  
 }
 
 template <typename T>
 DynamicBag<T>::~DynamicBag()
 {
-  // TODO
+  delete [] items;
 }
 
 template <typename T>

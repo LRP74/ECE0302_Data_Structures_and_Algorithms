@@ -47,7 +47,9 @@ public:
   bool operator==(const AbstractBag<T> &other) const;
 
 private:
-  // TODO
+  T *items;           // array of bag items
+  int itemCount;     // current count of bag items
+  int capacity;      // current max capacity of the bag
 };
 
 #include "dynamic_bag.tpp"
