@@ -19,6 +19,9 @@ public:
   BitArray(const BitArray &) = delete;            // not Copy-Constructible
   BitArray &operator=(const BitArray &) = delete; // not Copy-Assignable
 
+  //operator overload for <
+  bool operator<(const BitArray &other) const;
+
   intmax_t size() const; // a method to return the CURRENT size of the BitArray
 
   bool good() const; // a method that checks if BitArray is valid.

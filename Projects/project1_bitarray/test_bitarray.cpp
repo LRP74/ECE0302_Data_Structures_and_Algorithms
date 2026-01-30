@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #define CATCH_CONFIG_COLOUR_NONE
 #include "catch.hpp"
-
+#include <string.h>
 #include <iostream>
 #include "bitarray.hpp"
 
@@ -152,4 +152,33 @@ TEST_CASE("Test test() out of range indices", "[bitarray]")
     REQUIRE(b2.good());
     REQUIRE_FALSE(b2.test(-2)); // Invalid index
     REQUIRE_FALSE(b2.good());
+}
+
+TEST_CASE("Test default and string constructor", "[bitarray]")
+{
+    BitArray b;
+    BitArray bstring("00000000");
+
+    std::string resultString = b.asString();
+   
+    REQUIRE((b.asString().compare(bstring.asString()) == 0));
+}
+
+//write a test case that overload < check 000<001 or 001 < 011
+TEST_CASE("Test new overloaded operator", "[bitarray]")
+{
+    BitArray b1("00000000");
+    BitArray b2("00000001");
+
+    REQUIRE((b1 < b2) == true);   // 0 should be less than one and return true
+
+    BitArray b3("01011100");
+    BitArray b4("00100100");  
+
+    REQUIRE((b4 < b3 ) == true);   //1 should be less than 6
+
+    //make require statement that throws exception when cant compare strings of different lengths
+    BitArray b5("0000");
+    BitArray b6("000000");
+    REQUIRE_THROWS_AS(b5 < b6, std::logic_error);
 }

@@ -1,4 +1,6 @@
 #include "bitarray.hpp"
+#include <string.h>
+#include <stdexcept>
 
 BitArray::BitArray()
 {
@@ -148,4 +150,29 @@ std::string BitArray::asString() const
         }
     }
     return convertedString;
+}
+
+//should return boolean false if this bitarray is less than other bitarray; should test asStrings starting with MSB. must be strings
+bool BitArray::operator<(const BitArray &other) const
+{
+    //check if different size throw exception
+    if (this->sizeOfArray != other.sizeOfArray)
+    {
+        throw std::logic_error("BitArrays must be of the same size to compare.");
+    }
+
+
+    for (intmax_t i = 0; i < sizeOfArray; i++)
+    {
+        if (this->data[i] < other.data[i])
+        {
+            return true;
+        }
+        else if(this->data[i] > other.data[i])
+        {
+            return false;
+        }
+        
+    }
+    return false;
 }
