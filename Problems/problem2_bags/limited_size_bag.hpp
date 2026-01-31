@@ -38,7 +38,8 @@ public:
   static const int maxsize = 100;
 
 private:
-  // TODO
+  T items[maxsize];
+  int itemCount;
 };
 
 #include "limited_size_bag.tpp"
