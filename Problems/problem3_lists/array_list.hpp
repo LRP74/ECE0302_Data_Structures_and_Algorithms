@@ -46,7 +46,12 @@ public:
   void setEntry(int position, const T &newValue);
 
 private:
-  // TODO
+   static const int DEFAULT_CAPACITY = 5; // Small capacity to test for a full list
+   T items[DEFAULT_CAPACITY + 1];  // Array of list items (not using items[0] in fixed-size array)
+   int itemCount;                         // Current count of list items
+   // Note: No dynamic memory allocation is needed here
+   // but you will implement dynamic array-based ADT List in Programming Problem 3
+   //implementation of dynamic array-based ADT List will be similar to this fixed-size array-based ADT List, but with dynamic memory management and resizing.
 };
 
 #include "array_list.tpp"

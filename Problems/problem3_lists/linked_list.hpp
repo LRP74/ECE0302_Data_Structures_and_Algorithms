@@ -46,9 +46,18 @@ public:
   void setEntry(int position, const T &newValue);
 
 private:
-  // TODO
-};
+    Node<T> *getNodeAt(int position) const;
+    Node<T> *headPtr; // Pointer to first node in the chain;
+                            // (contains the first entry in the list)
+   int itemCount;           // Current count of list items
+
+   // Locates a specified node in this linked list.
+   // @pre  position is the number of the desired node;
+   //       position >= 1 and position <= itemCount.
+   // @post  The node is found and a pointer to it is returned.
+   // @param position  The number of the node to locate.
+   // @return  A pointer to the node at the given position.
+}; // end LinkedList
 
 #include "linked_list.tpp"
-
 #endif
