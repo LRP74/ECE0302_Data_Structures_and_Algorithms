@@ -47,6 +47,10 @@ public:
 
 private:
   // TODO
+  Node<T> *headPtr; // pointer to the first node in the list
+  int itemCount;    // current count of list items
+  //created getnodeat after seeing it in the slides
+  Node<T>* getNodeAt(int position) const;
 };
 
 #include "linked_list.tpp"

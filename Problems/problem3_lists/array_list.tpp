@@ -90,11 +90,10 @@ bool ArrayList<T>::insert(int position, const T &item)
 template <typename T>
 bool ArrayList<T>::remove(int position)
 {
-  // TODO
-    // it is only valid to remove at 1 and at the end. after the end is invalid and 0 is invalid.
+  // it is only valid to remove at 1 and at the end. after the end is invalid and 0 is invalid.
   bool isAbleToRemove = ((position >= 1) && (position <= itemCount));
   if (isAbleToRemove)
-  {    T* newItems = new T[itemCount - 1]; // allocate a new array of size oldCount - 1
+  {    T* newItems = new T[itemCount - 1]; // create a new array of size item count - 1
     int removeIndex = position - 1; // convert to 0-based
 
     for (int i = 0; i < removeIndex; ++i) // copy items before removal point
@@ -119,7 +118,6 @@ bool ArrayList<T>::remove(int position)
 template <typename T>
 void ArrayList<T>::clear()
 {
-  // TODO
   delete[] items; // free old array and update pointer
   items = nullptr;
   itemCount = 0;
@@ -129,7 +127,6 @@ void ArrayList<T>::clear()
 template <typename T>
 T ArrayList<T>::getEntry(int position) const
 {
-  // TODO
   if (position < 1 || position > itemCount)
   {
     throw std::out_of_range("Position is out of range");
@@ -141,7 +138,6 @@ T ArrayList<T>::getEntry(int position) const
 template <typename T>
 void ArrayList<T>::setEntry(int position, const T &newValue)
 {
-  // TODO
   if (position < 1 || position > itemCount)
   {
     throw std::out_of_range("Position is out of range");
