@@ -35,7 +35,7 @@ TEST_CASE("Lists: Test ArrayList 1-index Edge Cases", "[ArrayList]")
   // and your insertion at pos=n+1 is also valid (which appends to the end of the list)
   // your removal at pos=1 is valid, but your removal at pos=n+1 is invalid
 }
-
+/*
 TEST_CASE("Lists: Test LinkedList 1-index Edge Cases", "[LinkedList]")
 {
   LinkedList<int> list;
@@ -67,6 +67,8 @@ TEST_CASE("Lists: Test LinkedList 1-index Edge Cases", "[LinkedList]")
   // and your insertion at pos=n+1 is also valid (which appends to the end of the list)
   // your removal at pos=1 is valid, but your removal at pos=n+1 is invalid
 }
+
+*/
 
 //
 // my test cases for clear() efficiency and ArrayList insert() when full

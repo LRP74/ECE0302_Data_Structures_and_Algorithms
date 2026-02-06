@@ -46,7 +46,8 @@ public:
   void setEntry(int position, const T &newValue);
 
 private:
-  // TODO
+  int itemCount; // current count of list items
+  T* items;     // array of list items, creating dynamic array
 };
 
 #include "array_list.tpp"
