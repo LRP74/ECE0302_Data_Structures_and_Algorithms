@@ -74,7 +74,7 @@ TEST_CASE("Lists: Test LinkedList 1-index Edge Cases", "[LinkedList]")
 // my test cases 
 //
 
-//ARRAY LIST TEST CASES
+//TEST CASES FOR ARRAY LIST
 TEST_CASE("ArrayList: Test Empty List Functions", "[ArrayList]")
 {
   ArrayList<int> list;

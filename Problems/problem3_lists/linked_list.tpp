@@ -156,7 +156,7 @@ void LinkedList<T>::setEntry(int position, const T &newValue)
   // TODO
   if ((position >= 1) && (position <= itemCount))
   {
-    Node<T>* nodePtr = getNodeAt(position);
+    Node<T>* nodePtr = getNodeAt(position); // get pointer to node at the given position
     nodePtr->setItem(newValue);
   }
   else
@@ -174,11 +174,12 @@ inline Node<T>* LinkedList<T>::getNodeAt(int position) const
   if ((position >= 1) && (position <= itemCount))
   {
     Node<T>* curPtr = headPtr;  // start at the first node
-    for (int skip = 1; skip < position; skip++) // move to the desired position
+    for (int skip = 1; skip < position; skip++) // move to the desired position [had ai help with this section the skip parameter looks weird]
     {
       curPtr = curPtr->getNext();;  // advance to next node
     }
     return curPtr;  // return pointer to node at position
   }
+  
   return nullptr;
 }
