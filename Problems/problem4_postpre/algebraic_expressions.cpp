@@ -41,5 +41,49 @@ bool isPost(std::string s)
 
 void convert(const std::string &postfix, std::string &prefix)
 {
-  // TODO
+  // TODO convert postfix to prefix and store the result in prefix
+
+  // Check if the input postfix expression is valid; 
+  if (isPost(postfix) == false)
+  {
+    throw std::invalid_argument("Invalid postfix expression: " + postfix);
+  }
+
+  //The given input postfix expression should be purely symbolic (e.g., "ab+", not "13+") (From the project description)
+  //Iterate through the characters and check if each character is an operand or an operator; throw exeptions for invalid characters
+  for (int i = 0; i < postfix.size(); i++)
+  {
+    char character = postfix[i];
+    if (!isalpha(character) && !isoperator(character))
+    {
+      throw std::invalid_argument("Invalid character in postfix expression: " + std::string(1, character));
+    }
+  }
+
+
+  //recursively convert the postfix expression to prefix
+  int lastIndex = postfix.size() - 1;
+  char lastChar = postfix[lastIndex];
+  // If the last character is an operand, then the prefix expression is just that operand.
+  if (isalpha(lastChar))
+  {
+    prefix = lastChar; // if the last character is an operand, then the prefix expression is just that operand
+  }
+  // if the last character is an operator, then we need to find the two expressions before it
+  // and then recursively convert them to prefix
+  // then combine the operator and the two prefix expressions to form the final prefix expression
+  else if (isoperator(lastChar))
+  {
+    int firstStart = endPost(postfix, lastIndex); // get the start index of the first postfix
+    int secondStart = endPost(postfix, lastIndex - 1); // get the start index of the second postfix
+    std::string firstPostfix = postfix.substr(firstStart, secondStart - firstStart); // get the first postfix
+    std::string secondPostfix = postfix.substr(secondStart, lastIndex - secondStart); // get the second postfix
+    std::string firstPrefix = ""; // initialize the prefix expression for the first postfix
+    std::string secondPrefix = ""; // initialize the prefix expression for the second postfix
+    convert(firstPostfix, firstPrefix); // recursively convert the first postfix to prefix
+    convert(secondPostfix, secondPrefix); // recursively convert the second postfix to prefix
+    prefix = lastChar + firstPrefix + secondPrefix; // combine the operator and the two prefix expressions to form the final prefix expression
+  }
+
 }
+  

@@ -77,3 +77,40 @@ TEST_CASE("Postpre: Test other operators", "[postpre]")
 }
 
 /** Your Test Cases Go Here */
+TEST_CASE("Postpre: Test invalid postfix expression", "[postpre]")
+{
+  std::string postfix = "ab";
+  std::string prefix = "";
+  REQUIRE_THROWS_AS(convert(postfix, prefix), std::invalid_argument);
+}
+
+TEST_CASE("Postpre: Test invalid character in postfix expression", "[postpre]")
+{
+  std::string postfix = "a1+";
+  std::string prefix = "";
+  REQUIRE_THROWS_AS(convert(postfix, prefix), std::invalid_argument);
+}
+
+TEST_CASE("Postpre: Test empty postfix expression", "[postpre]")
+{
+  std::string postfix = "";
+  std::string prefix = "";
+  REQUIRE_THROWS_AS(convert(postfix, prefix), std::invalid_argument);
+}
+
+TEST_CASE("Postpre: Test harder postfix expression", "[postpre]")
+{
+  std::string postfix = "abc*+";
+  std::string prefix = "";
+  std::string test = "+a*bc";
+
+  REQUIRE_NOTHROW(convert(postfix, prefix));
+  REQUIRE(prefix == test);
+}
+
+TEST_CASE("Check for invalid postfix with prefix charater at start", "[postpre]")
+{
+  std::string postfix = "+ab";
+  std::string prefix = "";
+  REQUIRE_THROWS_AS(convert(postfix, prefix), std::invalid_argument);
+}

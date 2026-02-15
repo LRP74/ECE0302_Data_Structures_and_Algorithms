@@ -144,4 +144,65 @@ TEST_CASE("Test remove/clear with timestamp", "[ArrayBagInt]")
   // How would you continue to write more test cases for clear4() method to prove
 
   // Hint: decrease or increase the size of the bag by a factor
+  // Write testing cases with different sizes of itemCount, such as 10, 100, 1000, 10000, 100000
+  for (int i = 0; i < 10; i++)
+  {
+    bag.add(i * i);
+  }
+  start = clock();
+  bag.clear4();
+  end = clock();
+  REQUIRE(bag.isEmpty());
+  seconds = (double)(end - start) / CLOCKS_PER_SEC;
+  std::cout << "My Test 10: clear4() time used: " << seconds << " seconds" << std::endl;
+
+  for (int i = 0; i < 100; i++)
+  {
+    bag.add(i * i);
+  }
+  start = clock();
+  bag.clear4();
+  end = clock();
+  REQUIRE(bag.isEmpty());
+  seconds = (double)(end - start) / CLOCKS_PER_SEC;
+  std::cout << "My Test 100: clear4() time used: " << seconds << " seconds" << std::endl;
+
+  for (int i = 0; i < 1000; i++)
+  {
+    bag.add(i * i);
+  }
+  start = clock();
+  bag.clear4();
+  end = clock();
+  REQUIRE(bag.isEmpty());
+  seconds = (double)(end - start) / CLOCKS_PER_SEC;
+  std::cout << "My Test 1k: clear4() time used: " << seconds << " seconds" << std::endl;
+
+  for (int i = 0; i < 10000; i++)
+  {
+    bag.add(i * i);
+  }
+  start = clock();
+  bag.clear4();
+  end = clock();
+  REQUIRE(bag.isEmpty());
+  seconds = (double)(end - start) / CLOCKS_PER_SEC;
+  std::cout << "My Test 10k: clear4() time used: " << seconds << " seconds" << std::endl;
+
+  for (int i = 0; i < 100000; i++)
+  {
+    bag.add(i * i);
+  }
+  start = clock();
+  bag.clear4();
+  end = clock();
+  REQUIRE(bag.isEmpty());
+  seconds = (double)(end - start) / CLOCKS_PER_SEC;
+  std::cout << "My Test 100k: clear4() time used: " << seconds << " seconds" << std::endl;
+
+  //The results show that the time used by clear4() method increases as the size of the bag increases, 
+  //which indicates that the time clear4() takes is O(n).
+  //It isn't exactly O(n) because the time used by clear4() method is not exactly proportional to the number of items 
+  //in the bag, but it is a good approximation. O(n) doesn't give a good approximation for the time it takes to complete
+  //an algorithm.
 }
