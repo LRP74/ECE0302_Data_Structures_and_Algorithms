@@ -9,8 +9,8 @@ class FindPalindrome
 private:
 	/** More private stuff that you define and implement goes here */
 	// TODO
-	std::vector<std::string> stringVector; //vector of strings that are added to the instance of FindPalindrome
-	std::vector<std::vector<std::string>> foundPalidromes;	//vector of vectors to store found palindromes
+	std::vector<std::string> wordBankVector; //vector of strings that are added to the instance of FindPalindrome; ie my word bank
+	std::vector<std::vector<std::string>> foundPalidromes;	//vector of vectors to store found palindromes; ie my results
 
 
 	/** @brief findPalindrome internal method

@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include "FindPalindrome.hpp"
+#include <cctype>
 
 //------------------- HELPER FUNCTIONS -----------------------------------------
 // non-class helper functions go here, should be declared as "static"
@@ -62,7 +63,7 @@ int FindPalindrome::number() const
 void FindPalindrome::clear()
 {
 	foundPalidromes.clear();
-	stringVector.clear();
+	wordBankVector.clear();
 }
 
 bool FindPalindrome::cutTest1(const std::vector<std::string> &stringVector)
@@ -172,18 +173,133 @@ bool FindPalindrome::add(const std::string &value)
 	//The words that you add to an instance of the class have to be unique. 
 	//Therefore, you cannot add "Happy" if "happy" has already been added. 
 	//Note that we ignore case in determining if a word is unique.
-	return false;
+
+	//check if empty
+	if (value.empty())
+	{
+		return false;
+	}
+	
+	//check if every character is a-z or A-Z, otherwise return false.
+		for (int i = 0; i < value.size(); i++)
+	{
+		if (isalpha(value[i]) == 0)
+		{
+			return false;	//if not a upper or lower case letter than its invalid
+		}
+		
+	}
+	//check for duplicate words
+	for (int wordIndex = 0; wordIndex < wordBankVector.size(); wordIndex++)
+	{
+		//word index is the index of the words in the string vector
+		//letter index is the index of the character of that word
+		std::string copyOfWordInVector = wordBankVector[wordIndex];
+		std::string copyOfValue = value;
+
+		//set both to lower case to compare
+		for (int letterIndex = 0; letterIndex < wordBankVector[wordIndex].size(); letterIndex++)
+		{
+			copyOfWordInVector[letterIndex] = tolower(copyOfWordInVector[letterIndex]);
+		}
+		for (int letterIndex = 0; letterIndex < value.size(); letterIndex++)
+		{
+			copyOfValue[letterIndex] = tolower(copyOfValue[letterIndex]);
+		}
+		
+		if (copyOfValue == copyOfWordInVector)
+		{
+			return false;	//found duplicate words
+		}
+		
+	}
+	
+	//add word to stringVector
+	wordBankVector.push_back(value);
+	return true;
+
+	foundPalidromes.clear();
+	std::vector<std::string> emptyVector;
+	recursiveFindPalindromes(emptyVector, wordBankVector);
 }
 
 bool FindPalindrome::add(const std::vector<std::string> &stringVector)
 {
-	// TODO
-	//can only be a-z or A-Z, all other characters are invalid
-	//when you add make sure the return string keeps the case. ex. KayAk comes back exactly the same.
-	//The words that you add to an instance of the class have to be unique. 
-	//Therefore, you cannot add "Happy" if "happy" has already been added. 
-	//Note that we ignore case in determining if a word is unique.
-	return false;
+	// check for empty vector
+	if (stringVector.empty())
+	{
+		return false;
+	}
+	
+	// check that all strings only have a-z and A-Z
+	for (int wordIndex = 0; wordIndex < stringVector.size(); wordIndex++)
+	{
+		for (int letterIndex = 0; letterIndex < stringVector[wordIndex].size(); letterIndex++)
+		{
+			if (isalpha(stringVector[wordIndex][letterIndex]) == 0)
+			{
+				return false;
+			}
+		}
+	}
+	
+	// check for duplicates against existing wordBankVector
+	std::string loweredWordBankWord;
+	std::string loweredStringVectorWord;
+	
+// grab first new word from stringVector, lowercase it
+    // compare against first stored word in wordBankVector (lowercased)
+    // compare against second stored word in wordBankVector (lowercased)
+    // compare against third stored word in wordBankVector (lowercased)
+    // ...
+// grab second new word from stringVector, lowercase it
+    // compare against first stored word in wordBankVector (lowercased)
+    // compare against second stored word in wordBankVector (lowercased)
+    // compare against third stored word in wordBankVector (lowercased)
+    // ...
+
+	
+
+	for (int wordIndex = 0; wordIndex < stringVector.size(); wordIndex++)
+	{
+		for (int wordIndex = 0; wordIndex < wordBankVector.size(); wordIndex++)
+		{
+			for (int letterIndex = 0; letterIndex < wordBankVector[wordIndex].length(); letterIndex++)
+			{
+				loweredWordBankWord[letterIndex] = wordBankVector[wordIndex][letterIndex];
+			}
+		}
+
+		for (int letterIndex = 0; letterIndex < stringVector[wordIndex].length(); letterIndex++)
+		{
+			loweredStringVectorWord[letterIndex] = tolower(stringVector[wordIndex][letterIndex]);
+		}
+
+		
+	}
+	
+	
+	
+	// check for duplicates within the new vector itself
+	/*
+	Check 1 — compare each new word against your stored words:
+
+	Is "dog" already stored? No.
+	Is "fish" already stored? No.
+	Is "DOG" already stored? No.
+	All pass ✓
+
+	Check 2 — compare the new words against each other:
+
+	Is "dog" the same as "fish"? No.
+	Is "dog" the same as "DOG"? Yes! Duplicate found, return false.
+	
+	
+	*/
+	// if everything passes, add all words to stringVector
+	// run palindrome search once
+
+	return true;
 }
 
 std::vector<std::vector<std::string>> FindPalindrome::toVector() const
