@@ -56,13 +56,13 @@ FindPalindrome::~FindPalindrome()
 
 int FindPalindrome::number() const
 {
-	// TODO
-	return -1;
+	return foundPalidromes.size();
 }
 
 void FindPalindrome::clear()
 {
-	// TODO
+	foundPalidromes.clear();
+	stringVector.clear();
 }
 
 bool FindPalindrome::cutTest1(const std::vector<std::string> &stringVector)
