@@ -21,3 +21,12 @@ TEST_CASE("test recursion", "[FindPalindrome]")
 }
 
 /** Your Test Cases Go Here */
+TEST_CASE("my test recursion", "[FindPalindrome]")
+{
+	FindPalindrome p;
+
+	REQUIRE(p.add("draw"));
+	REQUIRE(p.add("O"));
+	REQUIRE(p.add("Coward"));
+	REQUIRE(p.number() == 1);
+}
