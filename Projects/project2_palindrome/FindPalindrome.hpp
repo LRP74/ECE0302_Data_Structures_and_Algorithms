@@ -30,6 +30,7 @@ private:
 			@param currentString  The string to test if it is a palindrome.
 			@return True if the string is a palindrome, false otherwise.*/
 	bool isPalindrome(std::string currentString) const;
+	std::string recursiveLowercase(std::string, int);
 
 public:
 	/** Constructor for the FindPalindrome object.*/

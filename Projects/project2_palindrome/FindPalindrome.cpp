@@ -230,14 +230,8 @@ bool FindPalindrome::add(const std::string &value)
 		std::string copyOfValue = value;
 
 		//set both to lower case to compare
-		for (int letterIndex = 0; letterIndex < wordBankVector[wordIndex].size(); letterIndex++)
-		{
-			copyOfWordInVector[letterIndex] = tolower(copyOfWordInVector[letterIndex]);
-		}
-		for (int letterIndex = 0; letterIndex < value.size(); letterIndex++)
-		{
-			copyOfValue[letterIndex] = tolower(copyOfValue[letterIndex]);
-		}
+		convertToLowerCase(copyOfWordInVector);
+		convertToLowerCase(copyOfValue);
 		
 		if (copyOfValue == copyOfWordInVector)
 		{
@@ -288,14 +282,12 @@ bool FindPalindrome::add(const std::vector<std::string> &stringVector)
 	for (int i = 0; i < stringVector.size(); i++)
 	{
 		std::string newWord = stringVector[i];
-		for (int k = 0; k < newWord.length(); k++)
-			newWord[k] = tolower(newWord[k]);
+		convertToLowerCase(newWord);
 
 		for (int j = 0; j < wordBankVector.size(); j++)
 		{
 			std::string storedWord = wordBankVector[j];
-			for (int k = 0; k < storedWord.length(); k++)
-				storedWord[k] = tolower(storedWord[k]);
+			convertToLowerCase(storedWord);
 
 			if (newWord == storedWord)
 				return false;
@@ -307,15 +299,14 @@ bool FindPalindrome::add(const std::vector<std::string> &stringVector)
 	{
 		//lower case the first word
 		std::string word1 = stringVector[i];
-		for (int k = 0; k < word1.length(); k++)
-			word1[k] = tolower(word1[k]);
+		convertToLowerCase(word1);
 
 		for (int j = i + 1; j < stringVector.size(); j++)
 		{
 			//lowercase the second word then check
 			std::string word2 = stringVector[j];
-			for (int k = 0; k < word2.length(); k++)
-				word2[k] = tolower(word2[k]);
+			//convertToLowerCase(word2);
+			word2 = recursiveLowercase(word2, 0);
 
 			if (word1 == word2)
 				return false;
@@ -338,4 +329,12 @@ bool FindPalindrome::add(const std::vector<std::string> &stringVector)
 std::vector<std::vector<std::string>> FindPalindrome::toVector() const
 {
 	return foundPalidromes;
+}
+
+std::string FindPalindrome::recursiveLowercase(std::string testString, int index)
+{
+    if (index >= (testString.length()))
+        return testString;
+    testString[index] = (std::tolower((testString[index])));
+    return recursiveLowercase(testString, index + 1);
 }
