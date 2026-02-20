@@ -331,6 +331,7 @@ std::vector<std::vector<std::string>> FindPalindrome::toVector() const
 	return foundPalidromes;
 }
 
+//this was a function i made just for fun to play around with recursion more
 std::string FindPalindrome::recursiveLowercase(std::string testString, int index)
 {
     if (index >= (testString.length()))

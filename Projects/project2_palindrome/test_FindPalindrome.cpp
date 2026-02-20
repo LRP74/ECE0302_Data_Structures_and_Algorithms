@@ -144,12 +144,33 @@ TEST_CASE("Test add with string vector part 2", "[FindPalindrome]")
 //therefore the number of sentence palindromes is N!. This should be a test case!
 TEST_CASE("permutation count", "[FindPalindrome]")
 {
+	FindPalindrome p;
 
+	p.add("b");
+	p.add("bB");
+	p.add("bBb");
+	p.add("BbbB");
+	p.add("BbBbb");
+	p.add("BBBbbb");
+
+	REQUIRE(p.number() == 720);
 }
 
 TEST_CASE("Test cut test 1", "[FindPalindrome]")
 {
+	FindPalindrome p;
+	std::vector <std::string> myStringVector;
 
+	myStringVector.push_back("eevve");	//not a palindrome but e is odd and v is even; odd count = 1
+	REQUIRE(p.cutTest1(myStringVector) == true); 
+	myStringVector.clear();
+
+	myStringVector.push_back("eevvve");	//not a palindrome but e is odd and v is odd; odd count = 2
+	REQUIRE(p.cutTest1(myStringVector) == false); 
+	myStringVector.clear();
+	
+	myStringVector.push_back("eeevvvve");	//not a palindrome but e is even and v is even; odd count = 0
+	REQUIRE(p.cutTest1(myStringVector) == true);
 }
 
 TEST_CASE("Test cut test 2", "[FindPalindrome]")
