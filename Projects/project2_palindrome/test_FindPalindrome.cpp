@@ -173,7 +173,7 @@ TEST_CASE("Test cut test 1", "[FindPalindrome]")
 	REQUIRE(p.cutTest1(myStringVector) == true);
 }
 
-TEST_CASE("Test cut test 2", "[FindPalindrome]")
+TEST_CASE("Test cut test 2, part 1", "[FindPalindrome]")
 {
 	FindPalindrome p;
 	std::vector <std::string> smallerStringVector;
@@ -189,12 +189,42 @@ TEST_CASE("Test cut test 2", "[FindPalindrome]")
 
 	REQUIRE(p.cutTest2(smallerStringVector, largerStringVector) == false);
 
+}
 
+TEST_CASE("Test cut test 2, part 2", "[FindPalindrome]")
+{
+	FindPalindrome p;
+	std::vector <std::string> smallerStringVector;
+	std::vector <std::string> largerStringVector;
 
+	smallerStringVector.push_back("at");
+	smallerStringVector.push_back("no");
+	smallerStringVector.push_back("be");	//total letters = 9
+
+	largerStringVector.push_back("bone");
+	largerStringVector.push_back("tent");
+	largerStringVector.push_back("aa");	//total letters = 12
+
+	REQUIRE(p.cutTest2(smallerStringVector, largerStringVector) == true);
+	
 }
 
 TEST_CASE("Test toVector function", "[FindPalindrome]")
 {
+	FindPalindrome p;
+
+	REQUIRE(p.add("draw"));
+	REQUIRE(p.add("O"));
+	REQUIRE(p.add("Coward"));
+	REQUIRE(p.number() == 1);
+
+    std::vector<std::vector<std::string>> result = p.toVector();
+
+    REQUIRE(result.size() == 1);
+    REQUIRE(result[0].size() == 3);
+    REQUIRE(result[0][0] == "draw");
+    REQUIRE(result[0][1] == "O");
+    REQUIRE(result[0][2] == "Coward");
 
 }
 

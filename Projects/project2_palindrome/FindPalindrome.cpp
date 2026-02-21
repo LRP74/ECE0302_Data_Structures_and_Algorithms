@@ -39,7 +39,13 @@ bool FindPalindrome::isPalindrome(std::string currentString) const
 void FindPalindrome::recursiveFindPalindromes(std::vector<std::string> candidateStringVector,
 																							std::vector<std::string> currentStringVector)
 {
-    // Are there any cards left on the table?
+    if (cutTest2(candidateStringVector, currentStringVector) == false)
+	{
+		return;
+	}
+	
+	
+	// Are there any cards left on the table?
     if (currentStringVector.empty())
     {
         // No cards left - the line is complete
@@ -50,10 +56,12 @@ void FindPalindrome::recursiveFindPalindromes(std::vector<std::string> candidate
 			testSentence += candidateStringVector[i];
 		}
 
-		if (isPalindrome(testSentence))
+		if (cutTest1(candidateStringVector) && isPalindrome(testSentence))
 		{
 			foundPalidromes.push_back(candidateStringVector);
 		}
+
+		return;
 	
     }
 
