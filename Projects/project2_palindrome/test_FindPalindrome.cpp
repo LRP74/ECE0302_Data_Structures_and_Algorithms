@@ -199,11 +199,11 @@ TEST_CASE("Test cut test 2, part 2", "[FindPalindrome]")
 
 	smallerStringVector.push_back("at");
 	smallerStringVector.push_back("no");
-	smallerStringVector.push_back("be");	//total letters = 9
+	smallerStringVector.push_back("be");	//total letters = 6
 
 	largerStringVector.push_back("bone");
 	largerStringVector.push_back("tent");
-	largerStringVector.push_back("aa");	//total letters = 12
+	largerStringVector.push_back("aa");		//total letters = 10
 
 	REQUIRE(p.cutTest2(smallerStringVector, largerStringVector) == true);
 	
@@ -228,12 +228,24 @@ TEST_CASE("Test toVector function", "[FindPalindrome]")
 
 }
 
-TEST_CASE("Test invalid cases, with words", "[FindPalindrome]")
+TEST_CASE("Test case-insensitive duplicate", "[FindPalindrome]")
 {
+	//make sure you can't add the same thing with different cases
+    FindPalindrome p;
 
+    REQUIRE(p.add("Happy"));
+    REQUIRE(p.add("happy") == false);
+    REQUIRE(p.add("HAPPY") == false);
+    REQUIRE(p.add("hApPy") == false);
 }
 
-TEST_CASE("Test invalid cases, with empty strings", "[FindPalindrome]")
+TEST_CASE("Test non-palindrome case", "[FindPalindrome]")
 {
+   //give it a non palindrome and make sure it can't find one
+	FindPalindrome p;
 
+    REQUIRE(p.add("hello"));
+    REQUIRE(p.add("world"));
+    REQUIRE(p.number() == 0);
 }
+

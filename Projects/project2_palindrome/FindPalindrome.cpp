@@ -37,49 +37,49 @@ bool FindPalindrome::isPalindrome(std::string currentString) const
 
 // private recursive function. Must use this signature!
 void FindPalindrome::recursiveFindPalindromes(std::vector<std::string> candidateStringVector,
-																							std::vector<std::string> currentStringVector)
+											  std::vector<std::string> currentStringVector)
 {
-    if (cutTest2(candidateStringVector, currentStringVector) == false)
+	// start with all the cards in my right hand, current string vector. candidate is empty table
+
+	// check the letter counts and see if it is even possible
+	if (cutTest2(candidateStringVector, currentStringVector) == false)
 	{
 		return;
 	}
-	
-	
-	// Are there any cards left on the table?
-    if (currentStringVector.empty())
-    {
-        // No cards left - the line is complete
-        // Check if it's a palindrome
+	// Are there any cards left in my hand?
+	if (currentStringVector.empty())
+	{
+		// No cards left in my hand
+		// now check if it's a palindrome
 		std::string testSentence;
-		for (int i = 0; i < candidateStringVector.size() ; i++)
+		// fill up the cards on the table into one continuous sentence
+		for (int i = 0; i < candidateStringVector.size(); i++)
 		{
 			testSentence += candidateStringVector[i];
 		}
-
+		// check the odd letter count and is palindrome
 		if (cutTest1(candidateStringVector) && isPalindrome(testSentence))
 		{
 			foundPalidromes.push_back(candidateStringVector);
 		}
-
 		return;
-	
-    }
+	}
+	// Try putting card on the table
+	for (int i = 0; i < currentStringVector.size(); i++)
+	{
+		// make copies so you don't mess up the original
+		std::vector<std::string> newCandidate = candidateStringVector;
+		std::vector<std::string> newRemaining = currentStringVector;
 
-    // Try picking up each card on the table
-    for (int i = 0; i < currentStringVector.size(); i++)
-    {
-        // Pick up card i and add it to the line
-        std::vector<std::string> newCandidate = candidateStringVector;
-        newCandidate.push_back(currentStringVector[i]);
+		// take the card i and put it on the copied table
+		newCandidate.push_back(currentStringVector[i]);
 
-        // Remove that card from the table
-        std::vector<std::string> newRemaining = currentStringVector;
-        newRemaining.erase(newRemaining.begin() + i);
+		// Remove that card from the copied hand; this analogy is starting to not make sense but oh well
+		newRemaining.erase(newRemaining.begin() + i);
 
-        // Now do the same thing with fewer cards on the table
-        recursiveFindPalindromes(newCandidate, newRemaining);
-    }
-	
+		// Now do the same thing with fewer cards on the table
+		recursiveFindPalindromes(newCandidate, newRemaining);
+	}
 	return;
 }
 
@@ -111,19 +111,19 @@ bool FindPalindrome::cutTest1(const std::vector<std::string> &stringVector)
 	int letterFrequency[26] = {};
 	char currentLetter;
 	int foundLetterIndex;
-	
-	//need a nested loop to go through the vector list then the inner loop to go through the character of the words at i
+
+	// need a nested loop to go through the vector list then the inner loop to go through the character of the words at i
 	for (int i = 0; i < stringVector.size(); i++)
 	{
 		for (int j = 0; j < stringVector[i].size(); j++)
 		{
 			currentLetter = stringVector[i][j];
-			foundLetterIndex = tolower(currentLetter) - 'a';	//this will give an index that can be incremented in the letter freq array
+			foundLetterIndex = tolower(currentLetter) - 'a'; // this will give an index that can be incremented in the letter freq array
 			letterFrequency[foundLetterIndex] += 1;
 		}
 	}
-	
-	//iterate throught the letter frequency array and increment them if they are odd
+
+	// iterate throught the letter frequency array and increment them if they are odd
 	int oddLetterCount = 0;
 	for (int i = 0; i < 26; i++)
 	{
@@ -133,7 +133,7 @@ bool FindPalindrome::cutTest1(const std::vector<std::string> &stringVector)
 		}
 	}
 
-	//more than one odd means it can't be a palindrome
+	// more than one odd means it can't be a palindrome
 	if (oddLetterCount > 1)
 	{
 		return false;
@@ -143,7 +143,7 @@ bool FindPalindrome::cutTest1(const std::vector<std::string> &stringVector)
 }
 
 bool FindPalindrome::cutTest2(const std::vector<std::string> &stringVector1,
-															const std::vector<std::string> &stringVector2)
+							  const std::vector<std::string> &stringVector2)
 {
 	// break down strings into character arrays
 	// see if values in both letter frequencies match
@@ -163,7 +163,7 @@ bool FindPalindrome::cutTest2(const std::vector<std::string> &stringVector1,
 			letterFrequency_1[foundLetterIndex_1] += 1;
 		}
 	}
-	
+
 	for (int i = 0; i < stringVector2.size(); i++)
 	{
 		for (int j = 0; j < stringVector2[i].size(); j++)
@@ -186,7 +186,7 @@ bool FindPalindrome::cutTest2(const std::vector<std::string> &stringVector1,
 	for (int i = 0; i < 26; i++)
 	{
 		// check smaller letter group; the larger char group should have at least that many occurances
-		if (totalCharacters_1 < totalCharacters_2)
+		if (totalCharacters_1 <= totalCharacters_2)
 		{
 			if (letterFrequency_1[i] > letterFrequency_2[i])
 			{
@@ -195,7 +195,7 @@ bool FindPalindrome::cutTest2(const std::vector<std::string> &stringVector1,
 		}
 		else
 		{
-			if (letterFrequency_2[i] > letterFrequency_1[i] )
+			if (letterFrequency_2[i] > letterFrequency_1[i])
 			{
 				return false;
 			}
@@ -208,53 +208,50 @@ bool FindPalindrome::cutTest2(const std::vector<std::string> &stringVector1,
 bool FindPalindrome::add(const std::string &value)
 {
 	// TODO
-	//can only be a-z or A-Z, all other characters are invalid
-	//when you add make sure the return string keeps the case. ex. KayAk comes back exactly the same.
-	//The words that you add to an instance of the class have to be unique. 
-	//Therefore, you cannot add "Happy" if "happy" has already been added. 
-	//Note that we ignore case in determining if a word is unique.
+	// can only be a-z or A-Z, all other characters are invalid
+	// when you add make sure the return string keeps the case. ex. KayAk comes back exactly the same.
+	// The words that you add to an instance of the class have to be unique.
+	// Therefore, you cannot add "Happy" if "happy" has already been added.
+	// Note that we ignore case in determining if a word is unique.
 
-	//check if empty
+	// check if empty
 	if (value.empty())
 	{
 		return false;
 	}
-	
-	//check if every character is a-z or A-Z, otherwise return false.
-		for (int i = 0; i < value.size(); i++)
+
+	// check if every character is a-z or A-Z, otherwise return false.
+	for (int i = 0; i < value.size(); i++)
 	{
 		if (isalpha(value[i]) == 0)
 		{
-			return false;	//if not a upper or lower case letter than its invalid
+			return false; // if not a upper or lower case letter than its invalid
 		}
-		
 	}
-	//check for duplicate words
+	// check for duplicate words
 	for (int wordIndex = 0; wordIndex < wordBankVector.size(); wordIndex++)
 	{
-		//word index is the index of the words in the string vector
-		//letter index is the index of the character of that word
+		// word index is the index of the words in the string vector
+		// letter index is the index of the character of that word
 		std::string copyOfWordInVector = wordBankVector[wordIndex];
 		std::string copyOfValue = value;
 
-		//set both to lower case to compare
+		// set both to lower case to compare
 		convertToLowerCase(copyOfWordInVector);
 		convertToLowerCase(copyOfValue);
-		
+
 		if (copyOfValue == copyOfWordInVector)
 		{
-			return false;	//found duplicate words
+			return false; // found duplicate words
 		}
-		
 	}
-	
-	//add word to stringVector
+
+	// add word to stringVector
 	wordBankVector.push_back(value);
 	foundPalidromes.clear();
 	std::vector<std::string> emptyVector;
 	recursiveFindPalindromes(emptyVector, wordBankVector);
 	return true;
-
 }
 
 bool FindPalindrome::add(const std::vector<std::string> &stringVector)
@@ -264,13 +261,13 @@ bool FindPalindrome::add(const std::vector<std::string> &stringVector)
 	{
 		return false;
 	}
-	//check for empty within the vector
+	// check for empty within the vector
 	for (int wordIndex = 0; wordIndex < stringVector.size(); wordIndex++)
 	{
 		if (stringVector[wordIndex].empty())
 		{
 			return false;
-		}	
+		}
 	}
 
 	// check that all strings only have a-z and A-Z
@@ -284,7 +281,7 @@ bool FindPalindrome::add(const std::vector<std::string> &stringVector)
 			}
 		}
 	}
-	
+
 	// check for duplicates against existing wordBankVector
 
 	for (int i = 0; i < stringVector.size(); i++)
@@ -301,32 +298,32 @@ bool FindPalindrome::add(const std::vector<std::string> &stringVector)
 				return false;
 		}
 	}
-	
+
 	// check for duplicates within the new vector itself
 	for (int i = 0; i < stringVector.size(); i++)
 	{
-		//lower case the first word
+		// lower case the first word
 		std::string word1 = stringVector[i];
 		convertToLowerCase(word1);
 
 		for (int j = i + 1; j < stringVector.size(); j++)
 		{
-			//lowercase the second word then check
+			// lowercase the second word then check
 			std::string word2 = stringVector[j];
-			//convertToLowerCase(word2);
+			// convertToLowerCase(word2);
 			word2 = recursiveLowercase(word2, 0);
 
 			if (word1 == word2)
 				return false;
 		}
 	}
-	
+
 	// if everything passes, add all words to stringVector
 	for (int i = 0; i < stringVector.size(); i++)
 	{
 		wordBankVector.push_back(stringVector[i]);
 	}
-	
+
 	// run palindrome search once
 	foundPalidromes.clear();
 	std::vector<std::string> empty_canidateString;
@@ -339,11 +336,11 @@ std::vector<std::vector<std::string>> FindPalindrome::toVector() const
 	return foundPalidromes;
 }
 
-//this was a function i made just for fun to play around with recursion more
+// this was a function i made just for fun to play around with recursion more
 std::string FindPalindrome::recursiveLowercase(std::string testString, int index)
 {
-    if (index >= (testString.length()))
-        return testString;
-    testString[index] = (std::tolower((testString[index])));
-    return recursiveLowercase(testString, index + 1);
+	if (index >= (testString.length()))
+		return testString;
+	testString[index] = (std::tolower((testString[index])));
+	return recursiveLowercase(testString, index + 1);
 }
