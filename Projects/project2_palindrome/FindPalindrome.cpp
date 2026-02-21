@@ -178,7 +178,7 @@ bool FindPalindrome::cutTest2(const std::vector<std::string> &stringVector1,
 	for (int i = 0; i < 26; i++)
 	{
 		// check smaller letter group; the larger char group should have at least that many occurances
-		if (totalCharacters_1 <= totalCharacters_2)
+		if (totalCharacters_1 < totalCharacters_2)
 		{
 			if (letterFrequency_1[i] > letterFrequency_2[i])
 			{
@@ -187,7 +187,7 @@ bool FindPalindrome::cutTest2(const std::vector<std::string> &stringVector1,
 		}
 		else
 		{
-			if (letterFrequency_2[i] < letterFrequency_1[i] )
+			if (letterFrequency_2[i] > letterFrequency_1[i] )
 			{
 				return false;
 			}

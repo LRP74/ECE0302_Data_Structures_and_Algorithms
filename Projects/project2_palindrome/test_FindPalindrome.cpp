@@ -161,20 +161,35 @@ TEST_CASE("Test cut test 1", "[FindPalindrome]")
 	FindPalindrome p;
 	std::vector <std::string> myStringVector;
 
-	myStringVector.push_back("eevve");	//not a palindrome but e is odd and v is even; odd count = 1
+	myStringVector.push_back("eevve");	//not a palindrome but e is odd and v is even; odd count = 1 should pass
 	REQUIRE(p.cutTest1(myStringVector) == true); 
 	myStringVector.clear();
 
-	myStringVector.push_back("eevvve");	//not a palindrome but e is odd and v is odd; odd count = 2
+	myStringVector.push_back("eevvve");	//not a palindrome but e is odd and v is odd; odd count = 2 should fail
 	REQUIRE(p.cutTest1(myStringVector) == false); 
 	myStringVector.clear();
-	
-	myStringVector.push_back("eeevvvve");	//not a palindrome but e is even and v is even; odd count = 0
+
+	myStringVector.push_back("eeevvvve");	//not a palindrome but e is even and v is even; odd count = 0 should pass
 	REQUIRE(p.cutTest1(myStringVector) == true);
 }
 
 TEST_CASE("Test cut test 2", "[FindPalindrome]")
 {
+	FindPalindrome p;
+	std::vector <std::string> smallerStringVector;
+	std::vector <std::string> largerStringVector;
+
+	smallerStringVector.push_back("toe");
+	smallerStringVector.push_back("may");
+	smallerStringVector.push_back("pop");	//total letters = 9
+
+	largerStringVector.push_back("four");
+	largerStringVector.push_back("yoga");
+	largerStringVector.push_back("lard");	//total letters = 12
+
+	REQUIRE(p.cutTest2(smallerStringVector, largerStringVector) == false);
+
+
 
 }
 
