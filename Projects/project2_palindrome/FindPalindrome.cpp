@@ -77,7 +77,7 @@ void FindPalindrome::recursiveFindPalindromes(std::vector<std::string> candidate
 		// Remove that card from the copied hand; this analogy is starting to not make sense but oh well
 		newRemaining.erase(newRemaining.begin() + i);
 
-		// Now do the same thing with fewer cards on the table
+		// Now do the same thing with fewer cards in my hand
 		recursiveFindPalindromes(newCandidate, newRemaining);
 	}
 	return;
