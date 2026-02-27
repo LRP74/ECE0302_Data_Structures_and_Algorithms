@@ -35,8 +35,8 @@ public:
   void moveEntry(int from, int to);
 
 private:
-
-  //TODO
+  int itemCount; // current count of list items
+  T* items;     // array of list items, creating dynamic array
   
 };
 

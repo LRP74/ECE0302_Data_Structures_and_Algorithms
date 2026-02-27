@@ -79,3 +79,16 @@ TEST_CASE("Sort: Test move entry throw", "[sorting]")
 }
 
 /* Your test cases */
+TEST_CASE("Test out of range" , "[sorting]")
+{
+  List<int> myList;
+  
+  myList.insert(1, 100);
+  myList.insert(2, 4);
+  myList.insert(3, 10);
+  myList.insert(4, 25);
+  myList.insert(5, 11);
+
+  REQUIRE_THROWS(myList.moveEntry(0 , 3));
+  REQUIRE_THROWS(myList.moveEntry(2 , 23));
+}
