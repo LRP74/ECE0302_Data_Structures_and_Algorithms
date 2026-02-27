@@ -22,6 +22,7 @@
   "workbench.fontAliasing": "antialiased",
   "workbench.statusBar.visible": false,
   "cmake.sourceDirectory": [
+    "${workspaceFolder}/Problems/problem5_sorting",
     "${workspaceFolder}/Lectures/Lecture_8_9_sort_alg",
     "${workspaceFolder}/Problems/problem4_postpre",
     "${workspaceFolder}/Projects/project2_palindrome",
