@@ -350,6 +350,7 @@ std::string FindPalindrome::recursiveLowercase(std::string testString, int index
 	return recursiveLowercase(testString, index + 1);
 }
 
+
 bool FindPalindrome::remove(const std::string &value)
 {
     std::string copyOfValue = value;
