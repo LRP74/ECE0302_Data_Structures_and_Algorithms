@@ -92,3 +92,4 @@ TEST_CASE("Test out of range" , "[sorting]")
   REQUIRE_THROWS(myList.moveEntry(0 , 3));
   REQUIRE_THROWS(myList.moveEntry(2 , 23));
 }
+

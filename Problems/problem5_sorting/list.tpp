@@ -148,9 +148,16 @@ void List<T>::setEntry(int position, const T &newValue)
 template <typename T>
 inline void List<T>::moveEntry(int from, int to)
 {
-  if (from < 1 || to < 1 || from > getLength() || to > getLength())
-  {
-    throw std::out_of_range("Position is out of range");
-  }
-  
+    int n = getLength();
+
+    if (from < 1 || to < 1 || from > n || to > n)
+        throw std::out_of_range("Position is out of range");
+
+    if (from == to)
+        return;
+
+    T tempItem = getEntry(from);
+
+    remove(from);          // shifts left automatically
+    insert(to, tempItem);  // insert at correct final position
 }
