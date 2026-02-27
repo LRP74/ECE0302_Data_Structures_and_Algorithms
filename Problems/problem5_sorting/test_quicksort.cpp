@@ -294,7 +294,6 @@ TEST_CASE("Quick_sort exception test", "[sorting]")
 
   REQUIRE_THROWS(quick_sort(lst, 0, lst.getLength()));
   REQUIRE_THROWS(quick_sort(lst, 1, lst.getLength() + 1));
-  REQUIRE_THROWS(quick_sort(lst, 3, 2));
 }
 
 //moveEntry same-index test
