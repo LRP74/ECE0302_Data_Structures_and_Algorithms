@@ -111,7 +111,8 @@ bool FindPalindrome::cutTest1(const std::vector<std::string> &stringVector)
 	int letterFrequency[26] = {};
 	char currentLetter;
 	int foundLetterIndex;
-
+	//Checks if a set of words could possibly form a palindrome by counting how many letters have an odd frequency. 
+	//If more than one letter has an odd count, no palindrome is possible, so it returns false.
 	// need a nested loop to go through the vector list then the inner loop to go through the character of the words at i
 	for (int i = 0; i < stringVector.size(); i++)
 	{
@@ -147,6 +148,9 @@ bool FindPalindrome::cutTest2(const std::vector<std::string> &stringVector1,
 {
 	// break down strings into character arrays
 	// see if values in both letter frequencies match
+	//Compares two groups of words and checks if the smaller group's letter frequencies are all present in the 
+	//larger group with sufficient counts. 
+	//If the smaller side has a letter the larger side doesn't have enough of, no palindrome is possible, so it returns false.
 	int letterFrequency_1[26] = {};
 	int letterFrequency_2[26] = {};
 	char currentLetter_1;
@@ -336,6 +340,7 @@ std::vector<std::vector<std::string>> FindPalindrome::toVector() const
 	return foundPalidromes;
 }
 
+
 // this was a function i made just for fun to play around with recursion more
 std::string FindPalindrome::recursiveLowercase(std::string testString, int index)
 {
@@ -343,4 +348,29 @@ std::string FindPalindrome::recursiveLowercase(std::string testString, int index
 		return testString;
 	testString[index] = (std::tolower((testString[index])));
 	return recursiveLowercase(testString, index + 1);
+}
+
+bool FindPalindrome::remove(const std::string &value)
+{
+    std::string copyOfValue = value;
+    convertToLowerCase(copyOfValue);	//make lowercase for easy compare
+
+    for (int i = 0; i < wordBankVector.size(); i++)
+    {
+        std::string copyOfWord = wordBankVector[i];
+        convertToLowerCase(copyOfWord);
+
+        if (copyOfWord == copyOfValue)
+        {
+            wordBankVector.erase(wordBankVector.begin() + i);
+
+            foundPalidromes.clear();	//clear and resend to wordBankVector
+            std::vector<std::string> emptyVector;
+            recursiveFindPalindromes(emptyVector, wordBankVector);
+
+            return true;	//return that it is found
+        }
+    }
+
+    return false;
 }

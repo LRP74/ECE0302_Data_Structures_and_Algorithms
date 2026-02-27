@@ -249,3 +249,77 @@ TEST_CASE("Test non-palindrome case", "[FindPalindrome]")
     REQUIRE(p.number() == 0);
 }
 
+// Write a test case demonstrating that cutTest2 fails when comparing two string vectors: 
+// Vector 1 is a longer string vector with a lower frequency of the letter 'a',
+//  Vector 2 is a shorter string vector with a higher frequency of the letter 'a'. 
+//  (Maintain Vec1 has higher frequency of other letters)
+TEST_CASE("cut test 2 checkoff", "[FindPalindrome]")
+{
+	FindPalindrome p;
+
+	std::vector <std::string> vector1;
+	std::vector <std::string> vector2;
+
+	vector1.push_back("aaabbbbb");
+
+	vector2.push_back("aaaa");
+
+	REQUIRE(p.cutTest2(vector1, vector2) == false);
+
+}
+
+//Write a test case to verify that if you add each vector that is already the size of 2 and each vector is already a palindrome, 
+// the object would have a number of palindromes of at least n! (n is the vector size). 
+// For example, adding {"de", "ed"}, {"no", "on"}, {"pe", "ep"}, {"ab", "ba"}, it would be at least 24 palindromes.
+TEST_CASE("verify vector add thing checkoff", "[FindPalindrome]")
+{
+	FindPalindrome p;
+
+	std::vector <std::string> stringVector1;
+	std::vector <std::string> stringVector2;
+	std::vector <std::string> stringVector3;
+	std::vector <std::string> stringVector4;
+
+	stringVector1.push_back("de");
+	stringVector1.push_back("ed");
+	stringVector2.push_back("on");
+	stringVector2.push_back("no");
+	stringVector3.push_back("pe");
+	stringVector3.push_back("ep");
+	stringVector4.push_back("ab");
+	stringVector4.push_back("ba");
+
+	p.add(stringVector1);
+	p.add(stringVector2);
+	p.add(stringVector3);
+	p.add(stringVector4);
+
+	REQUIRE(p.number() >= 24);
+}
+
+//remove coward and it should be 0
+TEST_CASE("remove TDD checkoff", "[FindPalindrome]")
+{
+	FindPalindrome p;
+
+	REQUIRE(p.add("draw"));
+	REQUIRE(p.add("O"));
+	REQUIRE(p.add("Coward"));
+	REQUIRE(p.number() == 1);
+
+	p.remove("Coward");
+	REQUIRE(p.number() == 0);
+}
+
+TEST_CASE("remove 2 checkoff", "[FindPalindrome]")
+{
+	FindPalindrome p;
+
+	REQUIRE(p.add("a"));
+	REQUIRE(p.add("AA"));
+	REQUIRE(p.add("AaA"));
+	REQUIRE(p.number() == 6);
+
+	p.remove("AaA");
+	REQUIRE(p.number() == 2);	
+}

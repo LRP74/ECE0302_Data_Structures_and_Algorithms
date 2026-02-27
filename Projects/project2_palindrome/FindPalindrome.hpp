@@ -105,6 +105,8 @@ public:
 								Also, the sentence palindromes should preserve the case of the strings as they were added
 			@return A vector of vectors containing all sentence palindromes. */
 	std::vector<std::vector<std::string>> toVector() const;
+
+	bool remove(const std::string &stringVector3);
 };
 
 #endif
