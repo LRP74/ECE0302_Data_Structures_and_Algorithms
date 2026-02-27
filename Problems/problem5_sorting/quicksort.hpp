@@ -15,14 +15,19 @@ void quick_sort(List<T> &list, int first, int last)
 {
     // TODO
     // Must call helper function partition()
-    if (last <= first)
-   {
-    return; //base case
-   }
+    if (first < 1 || last > list.getLength())
+    {
+        throw std::out_of_range("quick_sort out of range");
+    }
 
-   int pivot = partition(list, first, last);
-   quick_sort(list, first, pivot - 1);  //left partition
-   quick_sort(list, pivot + 1, last);  //right partition
+    if (last <= first)
+    {
+        return; // base case
+    }
+
+    int pivot = partition(list, first, last);
+    quick_sort(list, first, pivot - 1); // left partition
+    quick_sort(list, pivot + 1, last);  // right partition
 }
 
 /** Partitions the entries in an array about a pivot entry for quicksort.
@@ -46,6 +51,13 @@ int partition(List<T> &list, int first, int last)
     this takes thre arguements, the array, the begining and the end of the array
 
     */
+   int n = list.getLength();
+    if (first > last || first < 1 || last > n)
+    {
+        throw std::out_of_range("partition out of range");
+    }
+    
+
    T pivot  = list.getEntry(last);
    int i = first - 1;
 

@@ -93,8 +93,8 @@ TEST_CASE("Test out of range" , "[sorting]")
   REQUIRE_THROWS(myList.moveEntry(2 , 23));
 }
 
-//partition correctness test for string
-TEST_CASE("Partition correctness test for string", "[sorting]")
+//partition correct test for string
+TEST_CASE("Partition correct test for string", "[sorting]")
 {
   List<std::string> lst;
 
@@ -108,7 +108,7 @@ TEST_CASE("Partition correctness test for string", "[sorting]")
 
   // Check that the pivot is in the correct position
   std::string pivot = lst.getEntry(pivotIndex);
-  REQUIRE(pivot == "grape");
+  REQUIRE(pivot == "kiwi");
 
   // Check that elements to the left of the pivot are less than or equal to the pivot
   for (int i = 1; i < pivotIndex; i++)
@@ -123,8 +123,8 @@ TEST_CASE("Partition correctness test for string", "[sorting]")
   }
 }
 
-//partition correctness test for char
-TEST_CASE("Partition correctness test for char", "[sorting]")
+//partition correct test for char
+TEST_CASE("Partition correct test for char", "[sorting]")
 {
   List<char> lst;
 
@@ -138,7 +138,7 @@ TEST_CASE("Partition correctness test for char", "[sorting]")
 
   // Check that the pivot is in the correct position
   char pivot = lst.getEntry(pivotIndex);
-  REQUIRE(pivot == 'e');
+  REQUIRE(pivot == 'b');
 
   // Check that elements to the left of the pivot are less than or equal to the pivot
   for (int i = 1; i < pivotIndex; i++)
@@ -153,8 +153,8 @@ TEST_CASE("Partition correctness test for char", "[sorting]")
   }
 }
 
-//partition correctness test for double
-TEST_CASE("Partition correctness test for double", "[sorting]")
+//partition correct test for double
+TEST_CASE("Partition correct test for double", "[sorting]")
 {
   List<double> lst;
 
