@@ -83,6 +83,7 @@ int partition(List<T> &list, int first, int last)
 #endif
 
 /*
+i found this algorithm on youtube, i think it is called th lomuto partitiion scheme
 set pivot to the end of the array
 set j to start of the array
 set i to 1 before the start of the array
