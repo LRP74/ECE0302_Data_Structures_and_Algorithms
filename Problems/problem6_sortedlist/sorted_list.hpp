@@ -41,7 +41,7 @@ public:
   int getPosition(const T &item);
 
 private:
-  // TODO
+  //TODO
 };
 
 #include "sorted_list.tpp"
