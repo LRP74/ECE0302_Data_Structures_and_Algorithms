@@ -8,52 +8,76 @@
 template <typename ItemType>
 Stack<ItemType>::Stack()
 {
-	// TODO
+	headPtr = nullptr;
+	itemCount = 0;
 }
 
 template <typename ItemType>
 Stack<ItemType>::~Stack()
 {
-	// TODO
+	clear();
 }
 
 template <typename ItemType>
 bool Stack<ItemType>::isEmpty() const
 {
-	// TODO
-	return true;
+	if (currentSize == 0)
+	{
+		return true;
+	}
+	
+	return false;
 }
 
 template <typename ItemType>
 int Stack<ItemType>::size() const
 {
-	// TODO
-	return 0;
+	return currentSize;
 }
 
 template <typename ItemType>
 bool Stack<ItemType>::push(const ItemType &newItem)
 {
-	// TODO
-	return true;
+	Node<ItemType>* newNode = new Node<ItemType>(newItem, headPtr);
+	headPtr = newNode;
+	currentSize++;
+	return true;	// i don't need to check anything because c++ will throw exception if a node can't be made
 }
 
 template <typename ItemType>
 ItemType Stack<ItemType>::peek() const
 {
-	// TODO
-	return ItemType();
+	if (currentSize == 0)
+	{
+		throw std::logic_error ("stack is empty");
+	}
+	
+	return headPtr->getItem();
 }
 
 template <typename ItemType>
 bool Stack<ItemType>::pop()
 {
-	// TODO
-	return false;
+	if (currentSize == 0)
+	{
+		return false;
+	}
+	Node<ItemType>* tempPointer = headPtr->getNext();
+	delete headPtr;
+	headPtr = tempPointer;
+	currentSize--;
+	return true;
 }
 
 template <typename ItemType>
 void Stack<ItemType>::clear()
 {
-	// TODO
+	Node<ItemType>* currentPtr = headPtr;
+	while (headPtr != nullptr)
+	{
+		currentPtr = headPtr->getNext();
+		delete headPtr;
+		headPtr = currentPtr;
+	}
+	currentSize = 0;
 }
