@@ -9,7 +9,7 @@ template <typename ItemType>
 Stack<ItemType>::Stack()
 {
 	headPtr = nullptr;
-	itemCount = 0;
+	currentSize = 0;
 }
 
 template <typename ItemType>
