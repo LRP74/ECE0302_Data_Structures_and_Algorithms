@@ -34,6 +34,7 @@ private:
 	/** Vector to store the tokenized input string and the token types. */
 	std::vector<TokenStruct> tokenizedInputVector;
 
+	bool isValidTagName(const std::string &testString);
 	// TODO: add private members or private functions if needed
 
 public:

@@ -6,93 +6,110 @@
 #include <vector>
 #include "XMLParser.hpp"
 
+
 XMLParser::XMLParser()
 {
 	// TODO
 }
 
-// Then finish this function to pass unit tests 4-6
 bool XMLParser::tokenizeInputString(const std::string &inputString)
 {
-	// TODO
-	// Use '<' and '>' as anchors to scan the string. Remember to clear each time before
-	// tokenizing a new string, and refer to the following code structure:
+    tokenizedInputVector.clear();
+    
+    bool inTag = false;
+    std::string testString = "";
 
-	// for (char c : inputString)
-	// {
-	// 	if (c == '<') {?? continue;}
-	// 	else if (c == '>') {?? continue;}
-	// 	else {?? continue;}
-	// }
-	//Example: <test>stuff</test>
+    for (int i = 0; i < inputString.length(); i++)
+    {
+        if (inputString[i] == '<')
+        {
+            if (inTag) return false;
+            if (!testString.empty())
+            {
+                tokenizedInputVector.push_back({CONTENT, testString});
+            }
+            testString = "";
+            inTag = true;
+        }
+        else if (inputString[i] == '>')
+        {
+            if (!inTag) return false;
+            inTag = false;
+            
+            if (testString.empty()) return false;
+            
+            if (testString[0] == '?' && testString.back() == '?')
+            {
+                // DECLARATION - use full testString, no space stripping
+                tokenizedInputVector.push_back({DECLARATION, testString.substr(1, testString.length() - 2)});
+            }
+            else
+            {
+                // strip at first space to get tag name only
+                std::string tagName = testString.substr(0, testString.find(' '));
+                
+                if (tagName.empty()) return false;
+                
+                if (tagName[0] == '/')
+                {
+                    // END_TAG - strip the leading /
+                    tagName = tagName.substr(1);
+                    if (!isValidTagName(tagName)) return false;
+                    tokenizedInputVector.push_back({END_TAG, tagName});
+                }
+                else if (tagName.back() == '/')
+                {
+                    // EMPTY_TAG - strip the last /
+                    tagName = tagName.substr(0, tagName.length() - 1);
+                    if (!isValidTagName(tagName)) return false;
+                    tokenizedInputVector.push_back({EMPTY_TAG, tagName});
+                }
+                else
+                {
+                    // START_TAG
+                    if (!isValidTagName(tagName)) return false;
+                    tokenizedInputVector.push_back({START_TAG, tagName});
+                }
+            }
+            testString = "";
+        }
+        else
+        {
+            testString += inputString[i];
+        }
+    }
+    
+    if (inTag) return false;
+    if (tokenizedInputVector.empty()) return false;
+    return true;
+}
 
-	bool tag = false;
-	bool isEndTag = false;
-	std::string testString = "";
-	TokenStruct temp_token;
-
-	for (int i = 0; i < inputString.length(); i++)
+bool XMLParser::isValidTagName(const std::string &testString)
+{
+	/*
+	 Return false if string is empty
+ 	 Check first character — return false if it is NOT a-z, A-Z, or _
+	 Loop through remaining characters (index 1 onwards) — return false if any character is NOT a-z, A-Z, 0-9, _, -, or .
+ 	 Return true if all checks passed
+	*/
+	if (testString.empty() == true)
 	{
-		if (inputString[i] == '<')
-		{
-			if (tag == true)
-			{
-				return false;	//means there is two < like <<...>
-			}
-			if (testString.empty() == false)	//means there is something in the content section
-			{
-				temp_token.tokenType = CONTENT;
-				temp_token.tokenString = testString;
-				tokenizedInputVector.push_back(temp_token);
-				testString = "";
-				continue;
-			}
-			
-			tag = true;
-			continue;
-		}
-		else if (inputString[i] == '>')
-		{
-			tag = false;
-			if (isEndTag == true)
-			{
-				temp_token.tokenType = END_TAG;
-				temp_token.tokenString = testString;
-				tokenizedInputVector.push_back(temp_token);
-				testString = "";
-				continue;
-			}
-				
-			temp_token.tokenType = START_TAG;
-			temp_token.tokenString = testString;
-			tokenizedInputVector.push_back(temp_token);
-			testString = "";
-			continue;
-		}
+		return false;
+	}
 
-		else if (inputString[i] == '/')
-		{
-			isEndTag = true;
-			continue;
-		}
-		
-				
-		else if (tag == true)
-		{
-			testString += inputString[i];
-			continue;
-		}
-		
-		else if (tag == false)
-		{
-			testString += inputString[i];
-			continue;
-		}
-		
-		
+	if (isalpha(testString[0]) == 0 && testString[0] != '_')
+	{
+		return false;
+	}
+
+	for (int i = 1; i < testString.length(); i++)
+	{
+		if (isalpha(testString[i]) == 0 && isdigit(testString[i]) == 0 && testString[i] != '_' && testString[i] != '-' && testString[i] != '.')
+		{			
+			return false;
+		}			
 	}
 	
-
 	return true;
 }
 
