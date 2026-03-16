@@ -26,53 +26,66 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
             if (inTag) return false;
             if (!testString.empty())
             {
-                tokenizedInputVector.push_back({CONTENT, testString});
+				//ai helped me fix counting blank contents
+				if (!testString.empty())
+				{
+					size_t firstNonSpace = testString.find_first_not_of(" \t\n\r");
+					if (firstNonSpace != std::string::npos)
+					{
+						std::string trimmed = testString.substr(firstNonSpace);
+						tokenizedInputVector.push_back({CONTENT, trimmed});
+					}
+				}
             }
             testString = "";
             inTag = true;
         }
         else if (inputString[i] == '>')
+{
+    if (!inTag) return false;
+    inTag = false;
+    
+    if (testString.empty()) return false;
+    
+    if (testString[0] == '?' && testString.back() == '?')
+    {
+        // DECLARATION
+        tokenizedInputVector.push_back({DECLARATION, testString.substr(1, testString.length() - 2)});
+    }
+    else
+    {
+        // check full testString for trailing / BEFORE space stripping
+        bool isEmptyTag = (testString.back() == '/');
+        
+        // strip at first space to get tag name only
+        std::string tagName = testString.substr(0, testString.find(' '));
+        
+        if (tagName.empty()) return false;
+        
+        if (tagName[0] == '/')
         {
-            if (!inTag) return false;
-            inTag = false;
-            
-            if (testString.empty()) return false;
-            
-            if (testString[0] == '?' && testString.back() == '?')
-            {
-                // DECLARATION - use full testString, no space stripping
-                tokenizedInputVector.push_back({DECLARATION, testString.substr(1, testString.length() - 2)});
-            }
-            else
-            {
-                // strip at first space to get tag name only
-                std::string tagName = testString.substr(0, testString.find(' '));
-                
-                if (tagName.empty()) return false;
-                
-                if (tagName[0] == '/')
-                {
-                    // END_TAG - strip the leading /
-                    tagName = tagName.substr(1);
-                    if (!isValidTagName(tagName)) return false;
-                    tokenizedInputVector.push_back({END_TAG, tagName});
-                }
-                else if (tagName.back() == '/')
-                {
-                    // EMPTY_TAG - strip the last /
-                    tagName = tagName.substr(0, tagName.length() - 1);
-                    if (!isValidTagName(tagName)) return false;
-                    tokenizedInputVector.push_back({EMPTY_TAG, tagName});
-                }
-                else
-                {
-                    // START_TAG
-                    if (!isValidTagName(tagName)) return false;
-                    tokenizedInputVector.push_back({START_TAG, tagName});
-                }
-            }
-            testString = "";
+            // END_TAG
+            tagName = tagName.substr(1);
+            if (!isValidTagName(tagName)) return false;
+            tokenizedInputVector.push_back({END_TAG, tagName});
         }
+        else if (isEmptyTag)
+        {
+            // EMPTY_TAG
+            if (tagName.back() == '/')
+                tagName = tagName.substr(0, tagName.length() - 1);
+            if (!isValidTagName(tagName)) return false;
+            tokenizedInputVector.push_back({EMPTY_TAG, tagName});
+        }
+        else
+        {
+            // START_TAG
+            if (!isValidTagName(tagName)) return false;
+            tokenizedInputVector.push_back({START_TAG, tagName});
+        }
+    }
+    testString = "";
+}
         else
         {
             testString += inputString[i];
@@ -127,13 +140,63 @@ bool XMLParser::parseTokenizedInput()
 	//   else if (?? == EMPTY_TAG) {?? continue;}
 	//   ...
 	// }
-
-	return false;
+	if (tokenizedInputVector.empty())
+		{
+			return false;
+		}
+	
+		bool rootFound = false;
+	for (int i = 0; i < tokenizedInputVector.size(); i++)
+	{	
+		if(tokenizedInputVector[i].tokenType == START_TAG)
+		{
+			if (parseStack.isEmpty() && rootFound) return false; // second root!
+			parseStack.push(tokenizedInputVector[i].tokenString);
+			elementNameBag.add(tokenizedInputVector[i].tokenString);
+			rootFound = true;
+			continue;
+		}
+		else if (tokenizedInputVector[i].tokenType == END_TAG)
+		{
+			if (parseStack.isEmpty())
+			{
+				return false;
+			}
+			if (parseStack.peek() != tokenizedInputVector[i].tokenString)
+			{
+				return false;
+			}
+			
+			
+			parseStack.pop();	
+			continue;
+		}
+		else if (tokenizedInputVector[i].tokenType == EMPTY_TAG)
+		{
+			elementNameBag.add(tokenizedInputVector[i].tokenString);
+			continue;
+		}
+		else if (tokenizedInputVector[i].tokenType == DECLARATION)
+		{
+			continue;
+		}
+		
+	}
+	
+	if (parseStack.isEmpty() == false)
+	{
+		return false;
+	}
+	
+	isParsed = true;
+	return true;
 }
 
 void XMLParser::clear()
 {
-	// TODO
+	elementNameBag.clear();
+	parseStack.clear();
+	tokenizedInputVector.clear();
 }
 
 std::vector<TokenStruct> XMLParser::returnTokenizedInput() const
@@ -143,8 +206,11 @@ std::vector<TokenStruct> XMLParser::returnTokenizedInput() const
 
 bool XMLParser::containsElementName(const std::string &element) const
 {
-	// TODO
-	return false;
+    if (!isParsed) 
+	{
+		throw std::logic_error("Input has not been tokenized and parsed");
+	}
+    return elementNameBag.contains(element);
 }
 
 int XMLParser::frequencyElementName(const std::string &element) const
@@ -153,6 +219,10 @@ int XMLParser::frequencyElementName(const std::string &element) const
 	// Throw std::logic_error if either tokenizeInputString()
 	// or parseTokenizedInput() returns false
 	// If Bag is updated correctly, this should be as simple as one line.
-
-	return -1;
+	if (isParsed == false)
+	{
+		throw std::logic_error("Input has not been tokenized and parsed");
+	}
+	
+	return elementNameBag.getFrequencyOf(element);
 }

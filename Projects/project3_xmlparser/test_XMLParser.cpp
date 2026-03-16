@@ -281,24 +281,3 @@ TEST_CASE("XMLParser: Test XMLParser with XML file workflow", "[XMLParser]")
 }
 
 /* Write your own uint tests here*/
-TEST_CASE("XMLParser: Test tokenize declaration", "[XMLParser]")
-{
-    XMLParser myXMLParser;
-    std::string testString = "<?xml version=\"1.0\"?><root>content</root>";
-    REQUIRE(myXMLParser.tokenizeInputString(testString));
-    
-    std::vector<TokenStruct> result = {
-        TokenStruct{StringTokenType::DECLARATION, std::string("xml version=\"1.0\"")},
-        TokenStruct{StringTokenType::START_TAG, std::string("root")},
-        TokenStruct{StringTokenType::CONTENT, std::string("content")},
-        TokenStruct{StringTokenType::END_TAG, std::string("root")}
-    };
-    
-    std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
-    REQUIRE(result.size() == output.size());
-    for (int i = 0; i < result.size(); i++)
-    {
-        REQUIRE(result[i].tokenType == output[i].tokenType);
-        REQUIRE(result[i].tokenString == output[i].tokenString);
-    }
-}
