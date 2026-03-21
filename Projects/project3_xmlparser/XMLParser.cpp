@@ -9,7 +9,7 @@
 
 XMLParser::XMLParser()
 {
-	bool isParsed = false;
+	isParsed = false;
 }
 
 bool XMLParser::tokenizeInputString(const std::string &inputString)
@@ -62,7 +62,7 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
         std::string tagName = testString.substr(0, testString.find(' '));
         
         if (tagName.empty()) return false;
-        
+        if (isEmptyTag && tagName[0] == '/') return false;
         if (tagName[0] == '/')
         {
             // END_TAG
@@ -174,11 +174,14 @@ bool XMLParser::parseTokenizedInput()
 		}
 		else if (tokenizedInputVector[i].tokenType == EMPTY_TAG)
 		{
+			if (parseStack.isEmpty() && rootFound) return false;
 			elementNameBag.add(tokenizedInputVector[i].tokenString);
+			rootFound = true;
 			continue;
 		}
 		else if (tokenizedInputVector[i].tokenType == DECLARATION)
 		{
+			if (!parseStack.isEmpty()) return false;
 			continue;
 		}
 		else if (tokenizedInputVector[i].tokenType == CONTENT)
@@ -203,6 +206,7 @@ void XMLParser::clear()
 	elementNameBag.clear();
 	parseStack.clear();
 	tokenizedInputVector.clear();
+	isParsed = false;
 }
 
 std::vector<TokenStruct> XMLParser::returnTokenizedInput() const
