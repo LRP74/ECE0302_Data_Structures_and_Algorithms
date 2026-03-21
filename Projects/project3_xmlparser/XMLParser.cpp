@@ -9,12 +9,13 @@
 
 XMLParser::XMLParser()
 {
-	// TODO
+	bool isParsed = false;
 }
 
 bool XMLParser::tokenizeInputString(const std::string &inputString)
 {
     tokenizedInputVector.clear();
+	isParsed = false;
     
     bool inTag = false;
     std::string testString = "";
@@ -54,7 +55,7 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
     }
     else
     {
-        // check full testString for trailing / BEFORE space stripping
+        // check full testString for trailing / before space stripping
         bool isEmptyTag = (testString.back() == '/');
         
         // strip at first space to get tag name only
@@ -69,14 +70,14 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
             if (!isValidTagName(tagName)) return false;
             tokenizedInputVector.push_back({END_TAG, tagName});
         }
-        else if (isEmptyTag)
-        {
-            // EMPTY_TAG
-            if (tagName.back() == '/')
-                tagName = tagName.substr(0, tagName.length() - 1);
-            if (!isValidTagName(tagName)) return false;
-            tokenizedInputVector.push_back({EMPTY_TAG, tagName});
-        }
+		else if (isEmptyTag)
+		{
+			if (tagName[0] == '/') return false;  // can't be both end and empty
+			if (tagName.back() == '/')
+				tagName = tagName.substr(0, tagName.length() - 1);
+			if (!isValidTagName(tagName)) return false;
+			tokenizedInputVector.push_back({EMPTY_TAG, tagName});
+		}
         else
         {
             // START_TAG
@@ -179,6 +180,11 @@ bool XMLParser::parseTokenizedInput()
 		else if (tokenizedInputVector[i].tokenType == DECLARATION)
 		{
 			continue;
+		}
+		else if (tokenizedInputVector[i].tokenType == CONTENT)
+		{
+		if (parseStack.isEmpty()) return false;
+		continue;
 		}
 		
 	}

@@ -35,7 +35,7 @@ private:
 	std::vector<TokenStruct> tokenizedInputVector;
 
 	bool isValidTagName(const std::string &testString);
-	bool isParsed = false;
+	bool isParsed;
 	// TODO: add private members or private functions if needed
 
 public:
