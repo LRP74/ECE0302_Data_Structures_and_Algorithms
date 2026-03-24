@@ -2,6 +2,7 @@
 #define _PRIORITY_QUEUE_HPP_
 
 #include "abstract_priority_queue.hpp"
+#include <memory>
 
 // Type T must be orderable
 template <typename T>
@@ -22,6 +23,7 @@ public:
 
 private:
   // TODO, you need to use composition to implement the priority queue using a sorted list
+  std::unique_ptr<SortedList<T>> sortedListPtr{new SortedList<T>()};
 };
 
 #include "priority_queue.tpp"

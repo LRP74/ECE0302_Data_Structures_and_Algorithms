@@ -32,7 +32,8 @@ public:
   void setEntry(int position, const T &newValue);
 
 private:
-  // TODO, you might be able reuse code from Problem 3/5/6
+  int itemCount; // current count of list items
+  T *items;      // array of list items, creating dynamic array
 };
 
 #include "list.tpp"

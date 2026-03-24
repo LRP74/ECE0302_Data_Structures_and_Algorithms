@@ -4,24 +4,25 @@ template <typename T>
 bool PriorityQueue<T>::isEmpty() const
 {
     // TODO
-    return false;
+    return sortedListPtr->isEmpty();
 }
 
 template <typename T>
 void PriorityQueue<T>::add(const T &item)
 {
-    // TODO
+    sortedListPtr->insert(item);
 }
 
 template <typename T>
 void PriorityQueue<T>::remove()
 {
     // TODO, but exception handling should be delegated
+    sortedListPtr->removeAt(sortedListPtr->getLength());
 }
 
 template <typename T>
 T PriorityQueue<T>::peek()
 {
     // TODO, but exception handling should be delegated
-    return T();
+    return sortedListPtr->getEntry(sortedListPtr->getLength());
 }

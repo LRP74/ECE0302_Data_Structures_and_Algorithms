@@ -88,3 +88,163 @@ TEST_CASE("Priority: Testing Priority Queue Add/isEmpty/peek/remove", "[priority
 }
 
 /** Write your own test cases here */
+
+// Test isEmpty returns true on empty queue, false after add
+TEST_CASE("Test isEmpty returns true on empty queue, false after add", "[priority queue]")
+{
+  PriorityQueue<int> pq;
+
+  REQUIRE(pq.isEmpty());
+  pq.add(7);
+  REQUIRE_FALSE(pq.isEmpty());
+  pq.remove();
+  REQUIRE(pq.isEmpty());
+}
+
+// Test add maintains ascending sorted order in underlying SortedList
+TEST_CASE("Test add maintains ascending sorted order in underlying SortedList", "[priority queue]")
+{
+  PriorityQueue<int> pq;
+
+  pq.add(7);
+  pq.add(5);
+  pq.add(4);
+  pq.add(72);
+  pq.add(79);
+  pq.add(1);
+  pq.add(13);
+
+  REQUIRE(pq.peek() == 79);
+  pq.remove();
+  REQUIRE(pq.peek() == 72);
+  pq.remove();
+  REQUIRE(pq.peek() == 13);
+  pq.remove();
+  REQUIRE(pq.peek() == 7);
+  pq.remove();
+  REQUIRE(pq.peek() == 5);
+  pq.remove();
+  REQUIRE(pq.peek() == 4);
+  pq.remove();
+  REQUIRE(pq.peek() == 1);
+}
+
+// Test peek returns highest priority item (largest value)
+TEST_CASE("Test peek returns highest priority item (largest value)", "[priority queue]")
+{
+  PriorityQueue<int> pq;
+
+  pq.add(517);
+  pq.add(52);
+  pq.add(432);
+  pq.add(72);
+  pq.add(79);
+  pq.add(100);
+  pq.add(13);
+  REQUIRE(pq.peek() == 517);
+}
+
+// Test peek throws std::out_of_range on empty queue
+TEST_CASE("Test peek throws std::out_of_range on empty queue", "[priority queue]")
+{
+  PriorityQueue<int> pq;
+
+  REQUIRE_THROWS_AS(pq.peek(), std::out_of_range);
+}
+
+// Test remove deletes highest priority item
+TEST_CASE("Test remove deletes highest priority item", "[priority queue]")
+{
+  PriorityQueue<int> pq;
+
+  pq.add(517);
+  pq.add(52);
+  pq.add(432);
+  pq.add(72);
+  pq.add(79);
+  pq.add(100);
+  pq.add(13);
+  REQUIRE(pq.peek() == 517);
+  pq.remove();  //remove last item
+  REQUIRE(pq.peek() == 432);
+}
+
+
+// Test with double data type
+TEST_CASE("Test with double data type", "[priority queue]")
+{
+  PriorityQueue<double> pq;
+  pq.add(7.35);
+  pq.add(5.222);
+  pq.add(4.89);
+  pq.add(72.1);
+  pq.add(79.005);
+  pq.add(1.96);
+  pq.add(13.452);
+
+  REQUIRE(pq.peek() == 79.005);
+  pq.remove();
+  REQUIRE(pq.peek() == 72.1);
+  pq.remove();
+  REQUIRE(pq.peek() == 13.452);
+  pq.remove();
+  REQUIRE(pq.peek() == 7.35);
+  pq.remove();
+  REQUIRE(pq.peek() == 5.222);
+  pq.remove();
+  REQUIRE(pq.peek() == 4.89);
+  pq.remove();
+  REQUIRE(pq.peek() == 1.96);
+}
+
+// Test with char data type
+TEST_CASE("Test with char data type", "[priority queue]")
+{
+  PriorityQueue<char> pq;
+
+  pq.add('a');
+  pq.add('j');
+  pq.add('i');
+  pq.add('q');
+  pq.add('l');
+  pq.add('b');
+  pq.add('s');
+
+  REQUIRE(pq.peek() == 's');
+  pq.remove();
+  REQUIRE(pq.peek() == 'q');
+  pq.remove();
+  REQUIRE(pq.peek() == 'l');
+  pq.remove();
+  REQUIRE(pq.peek() == 'j');
+  pq.remove();
+  REQUIRE(pq.peek() == 'i');
+  pq.remove();
+  REQUIRE(pq.peek() == 'b');
+  pq.remove();
+  REQUIRE(pq.peek() == 'a');
+}
+
+//overload > and == to compare priority queues
+struct TestItem
+{
+  int priority;
+
+  bool operator>(const TestItem& other) const
+  {
+    return priority > other.priority;
+  }
+
+  bool operator==(const TestItem& other) const
+  {
+    return priority == other.priority;
+  }
+};
+
+
+// Test with a custom struct that overloads operator> and operator==
+//Test your priority queue with custom data types that you have overloaded operators for comparison.
+TEST_CASE("Test with a custom struct that overloads operator> and operator==", "[priority queue]")
+{
+
+}
