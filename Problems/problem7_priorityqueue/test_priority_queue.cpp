@@ -101,8 +101,8 @@ TEST_CASE("Test isEmpty returns true on empty queue, false after add", "[priorit
   REQUIRE(pq.isEmpty());
 }
 
-// Test add maintains ascending sorted order in underlying SortedList
-TEST_CASE("Test add maintains ascending sorted order in underlying SortedList", "[priority queue]")
+// Test add maintains sorted order in SortedList
+TEST_CASE("Test add maintains sorted order in SortedList", "[priority queue]")
 {
   PriorityQueue<int> pq;
 
@@ -223,28 +223,4 @@ TEST_CASE("Test with char data type", "[priority queue]")
   REQUIRE(pq.peek() == 'b');
   pq.remove();
   REQUIRE(pq.peek() == 'a');
-}
-
-//overload > and == to compare priority queues
-struct TestItem
-{
-  int priority;
-
-  bool operator>(const TestItem& other) const
-  {
-    return priority > other.priority;
-  }
-
-  bool operator==(const TestItem& other) const
-  {
-    return priority == other.priority;
-  }
-};
-
-
-// Test with a custom struct that overloads operator> and operator==
-//Test your priority queue with custom data types that you have overloaded operators for comparison.
-TEST_CASE("Test with a custom struct that overloads operator> and operator==", "[priority queue]")
-{
-
 }
