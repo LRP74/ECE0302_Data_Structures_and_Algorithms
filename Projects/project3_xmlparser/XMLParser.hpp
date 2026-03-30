@@ -100,6 +100,9 @@ public:
 	/** Clears the internal data structures for an instance of the class.
 		@post The class instance can be used to tokenize a new input string. */
 	void clear();
+
+	bool cutTest();
+
 }; // end XMLParser
 
 #endif

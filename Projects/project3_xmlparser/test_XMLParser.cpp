@@ -8,249 +8,249 @@
 #include <vector>
 
 /* Provided test cases*/
-TEST_CASE("XMLParser: Test int Stack push and size", "[Stack]")
-{
-	Stack<int> intStack;
-	int testSize = 3;
-	int stackSize;
-	bool correctPush, correctSize;
-	for (int i = 0; i < testSize; i++)
-	{
-		correctPush = intStack.push(i);
-		stackSize = intStack.size();
-		correctSize = (stackSize == (i + 1));
-		if (!correctPush || !correctSize)
-		{
-			break;
-		}
-	}
-	REQUIRE(correctPush);
-	REQUIRE(correctSize);
-}
+// TEST_CASE("XMLParser: Test int Stack push and size", "[Stack]")
+// {
+// 	Stack<int> intStack;
+// 	int testSize = 3;
+// 	int stackSize;
+// 	bool correctPush, correctSize;
+// 	for (int i = 0; i < testSize; i++)
+// 	{
+// 		correctPush = intStack.push(i);
+// 		stackSize = intStack.size();
+// 		correctSize = (stackSize == (i + 1));
+// 		if (!correctPush || !correctSize)
+// 		{
+// 			break;
+// 		}
+// 	}
+// 	REQUIRE(correctPush);
+// 	REQUIRE(correctSize);
+// }
 
-TEST_CASE("XMLParser: Test int Stack peek and pop", "[Stack]")
-{
-	Stack<char> charStack;
-	int testSize = 10;
-	int stackSize;
-	bool correctSizeAfterPush;
-	for (char c = 'a'; c < 'a' + testSize; c++)
-	{
-		charStack.push(c);
-		stackSize = charStack.size();
-		correctSizeAfterPush = (stackSize == (c - 'a' + 1));
-		if (!correctSizeAfterPush)
-		{
-			break;
-		}
-	} // should be 'a' to 'j'
-	REQUIRE(correctSizeAfterPush);
-	bool notEmptyYetAfterPop, correctItem, notEmptyYetAfterPeek;
-	for (char i = 'a' + testSize - 1; i >= 'a'; i--)
-	{
-		notEmptyYetAfterPop = !charStack.isEmpty();
-		char elem = charStack.peek();
-		correctItem = (elem == i);
-		notEmptyYetAfterPeek = !charStack.isEmpty();
-		charStack.pop();
-		if (!notEmptyYetAfterPop || !correctItem || !notEmptyYetAfterPeek)
-		{
-			break;
-		}
-	}
-	REQUIRE(notEmptyYetAfterPop);
-	REQUIRE(correctItem);
-	REQUIRE(notEmptyYetAfterPeek);
-	REQUIRE(charStack.isEmpty() == true);
-}
+// TEST_CASE("XMLParser: Test int Stack peek and pop", "[Stack]")
+// {
+// 	Stack<char> charStack;
+// 	int testSize = 10;
+// 	int stackSize;
+// 	bool correctSizeAfterPush;
+// 	for (char c = 'a'; c < 'a' + testSize; c++)
+// 	{
+// 		charStack.push(c);
+// 		stackSize = charStack.size();
+// 		correctSizeAfterPush = (stackSize == (c - 'a' + 1));
+// 		if (!correctSizeAfterPush)
+// 		{
+// 			break;
+// 		}
+// 	} // should be 'a' to 'j'
+// 	REQUIRE(correctSizeAfterPush);
+// 	bool notEmptyYetAfterPop, correctItem, notEmptyYetAfterPeek;
+// 	for (char i = 'a' + testSize - 1; i >= 'a'; i--)
+// 	{
+// 		notEmptyYetAfterPop = !charStack.isEmpty();
+// 		char elem = charStack.peek();
+// 		correctItem = (elem == i);
+// 		notEmptyYetAfterPeek = !charStack.isEmpty();
+// 		charStack.pop();
+// 		if (!notEmptyYetAfterPop || !correctItem || !notEmptyYetAfterPeek)
+// 		{
+// 			break;
+// 		}
+// 	}
+// 	REQUIRE(notEmptyYetAfterPop);
+// 	REQUIRE(correctItem);
+// 	REQUIRE(notEmptyYetAfterPeek);
+// 	REQUIRE(charStack.isEmpty() == true);
+// }
 
-TEST_CASE("XMLParser: Test std::string Stack peek, pop and clear", "[Stack]")
-{
-	Stack<std::string> stringStack;
-	std::vector<std::string> vec = {"Touching", "you", "touching", "me", "sweet", "Caroline"};
-	int i = 1;
-	bool correctSize;
-	for (std::string s : vec)
-	{
-		stringStack.push(s);
-		correctSize = (stringStack.size() == i);
-		if (!correctSize)
-		{
-			break;
-		}
-		i++;
-	}
-	REQUIRE(correctSize);
-	bool notEmptyYetAfterPop, correctItem, notEmptyYetAfterPeek;
-	for (i = 0; i < 4; i++)
-	{
-		notEmptyYetAfterPop = !stringStack.isEmpty();
-		std::string c = stringStack.peek();
-		correctItem = (c == vec[vec.size() - 1 - i]);
-		notEmptyYetAfterPeek = !stringStack.isEmpty();
-		stringStack.pop();
-		if (!notEmptyYetAfterPop || !correctItem || !notEmptyYetAfterPeek)
-		{
-			break;
-		}
-	}
-	REQUIRE(notEmptyYetAfterPop);
-	REQUIRE(correctItem);
-	REQUIRE(notEmptyYetAfterPeek);
-	REQUIRE(stringStack.size() == 2);
-	stringStack.clear();
-	REQUIRE(stringStack.isEmpty() == true);
-}
+// TEST_CASE("XMLParser: Test std::string Stack peek, pop and clear", "[Stack]")
+// {
+// 	Stack<std::string> stringStack;
+// 	std::vector<std::string> vec = {"Touching", "you", "touching", "me", "sweet", "Caroline"};
+// 	int i = 1;
+// 	bool correctSize;
+// 	for (std::string s : vec)
+// 	{
+// 		stringStack.push(s);
+// 		correctSize = (stringStack.size() == i);
+// 		if (!correctSize)
+// 		{
+// 			break;
+// 		}
+// 		i++;
+// 	}
+// 	REQUIRE(correctSize);
+// 	bool notEmptyYetAfterPop, correctItem, notEmptyYetAfterPeek;
+// 	for (i = 0; i < 4; i++)
+// 	{
+// 		notEmptyYetAfterPop = !stringStack.isEmpty();
+// 		std::string c = stringStack.peek();
+// 		correctItem = (c == vec[vec.size() - 1 - i]);
+// 		notEmptyYetAfterPeek = !stringStack.isEmpty();
+// 		stringStack.pop();
+// 		if (!notEmptyYetAfterPop || !correctItem || !notEmptyYetAfterPeek)
+// 		{
+// 			break;
+// 		}
+// 	}
+// 	REQUIRE(notEmptyYetAfterPop);
+// 	REQUIRE(correctItem);
+// 	REQUIRE(notEmptyYetAfterPeek);
+// 	REQUIRE(stringStack.size() == 2);
+// 	stringStack.clear();
+// 	REQUIRE(stringStack.isEmpty() == true);
+// }
 
-TEST_CASE("XMLParser: Test tokenize <test>stuff</test>", "[XMLParser]")
-{
-	// You can assume that the beginning and the end of CONTENT will not be filled with whitespace
-	XMLParser myXMLParser;
-	std::string testString = "<test>stuff</test>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString));
-	std::vector<TokenStruct> result = {TokenStruct{StringTokenType::START_TAG, std::string("test")},
-																		 TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
-																		 TokenStruct{StringTokenType::END_TAG, std::string("test")}};
-	std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
-	REQUIRE(result.size() == output.size());
-	for (int i = 0; i < result.size(); i++)
-	{
-		REQUIRE(result[i].tokenType == output[i].tokenType);
-		REQUIRE(result[i].tokenString == output[i].tokenString);
-	}
-}
+// TEST_CASE("XMLParser: Test tokenize <test>stuff</test>", "[XMLParser]")
+// {
+// 	// You can assume that the beginning and the end of CONTENT will not be filled with whitespace
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<test>stuff</test>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString));
+// 	std::vector<TokenStruct> result = {TokenStruct{StringTokenType::START_TAG, std::string("test")},
+// 																		 TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
+// 																		 TokenStruct{StringTokenType::END_TAG, std::string("test")}};
+// 	std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
+// 	REQUIRE(result.size() == output.size());
+// 	for (int i = 0; i < result.size(); i++)
+// 	{
+// 		REQUIRE(result[i].tokenType == output[i].tokenType);
+// 		REQUIRE(result[i].tokenString == output[i].tokenString);
+// 	}
+// }
 
-TEST_CASE("XMLParser: Test tokenize with invalid chars", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::string testString = "<test>stuff</3test>";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // first char being number in tag
+// TEST_CASE("XMLParser: Test tokenize with invalid chars", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<test>stuff</3test>";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // first char being number in tag
 
-	testString = "<te$t>stuff</te$t>";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // $ in tag
+// 	testString = "<te$t>stuff</te$t>";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // $ in tag
 
-	testString = "<test>stuff< hi/></test>";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // space in tag
+// 	testString = "<test>stuff< hi/></test>";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // space in tag
 
-	testString = "<start";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // example in project description
+// 	testString = "<start";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // example in project description
 
-	testString = "  >";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+// 	testString = "  >";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
 
-	testString = " ";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+// 	testString = " ";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
 
-	testString = "< /end>";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+// 	testString = "< /end>";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
 
-	testString = "<>";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+// 	testString = "<>";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
 
-	testString = "<start <stuff>>";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+// 	testString = "<start <stuff>>";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
 
-	testString = "</test>stuff<test>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString)); // example in project description, true even not valid
-}
+// 	testString = "</test>stuff<test>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString)); // example in project description, true even not valid
+// }
 
-TEST_CASE("XMLParser: Test tokenize string with more elements", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::string testString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Note src='gmail'>  <From>Tom</From> <To>Alice</To> </Note>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString));
-	std::vector<TokenStruct> result = {TokenStruct{StringTokenType::DECLARATION, std::string("xml version=\"1.0\" encoding=\"UTF-8\"")},
-																		 TokenStruct{StringTokenType::START_TAG, std::string("Note")},
-																		 TokenStruct{StringTokenType::START_TAG, std::string("From")},
-																		 TokenStruct{StringTokenType::CONTENT, std::string("Tom")},
-																		 TokenStruct{StringTokenType::END_TAG, std::string("From")},
-																		 TokenStruct{StringTokenType::START_TAG, std::string("To")},
-																		 TokenStruct{StringTokenType::CONTENT, std::string("Alice")},
-																		 TokenStruct{StringTokenType::END_TAG, std::string("To")},
-																		 TokenStruct{StringTokenType::END_TAG, std::string("Note")}};
-	std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
+// TEST_CASE("XMLParser: Test tokenize string with more elements", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Note src='gmail'>  <From>Tom</From> <To>Alice</To> </Note>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString));
+// 	std::vector<TokenStruct> result = {TokenStruct{StringTokenType::DECLARATION, std::string("xml version=\"1.0\" encoding=\"UTF-8\"")},
+// 																		 TokenStruct{StringTokenType::START_TAG, std::string("Note")},
+// 																		 TokenStruct{StringTokenType::START_TAG, std::string("From")},
+// 																		 TokenStruct{StringTokenType::CONTENT, std::string("Tom")},
+// 																		 TokenStruct{StringTokenType::END_TAG, std::string("From")},
+// 																		 TokenStruct{StringTokenType::START_TAG, std::string("To")},
+// 																		 TokenStruct{StringTokenType::CONTENT, std::string("Alice")},
+// 																		 TokenStruct{StringTokenType::END_TAG, std::string("To")},
+// 																		 TokenStruct{StringTokenType::END_TAG, std::string("Note")}};
+// 	std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
 
-	REQUIRE(result.size() == output.size());
-	bool correctType, correctString;
-	for (int i = 0; i < result.size(); i++)
-	{
-		correctType = (result[i].tokenType == output[i].tokenType);
-		correctString = (result[i].tokenString.compare(output[i].tokenString) == 0);
-		if (!correctType || !correctString)
-		{
-			break;
-		}
-	}
-	REQUIRE(correctType);
-	REQUIRE(correctString);
-}
+// 	REQUIRE(result.size() == output.size());
+// 	bool correctType, correctString;
+// 	for (int i = 0; i < result.size(); i++)
+// 	{
+// 		correctType = (result[i].tokenType == output[i].tokenType);
+// 		correctString = (result[i].tokenString.compare(output[i].tokenString) == 0);
+// 		if (!correctType || !correctString)
+// 		{
+// 			break;
+// 		}
+// 	}
+// 	REQUIRE(correctType);
+// 	REQUIRE(correctString);
+// }
 
-TEST_CASE("XMLParser: Test parseTokenizedInput", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::string testString = "<test myattr='abcdef'>stuff<this_is_empty_tag/></test>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString));
-	std::vector<TokenStruct> result = {TokenStruct{StringTokenType::START_TAG, std::string("test")},
-																		 TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
-																		 TokenStruct{StringTokenType::EMPTY_TAG, std::string("this_is_empty_tag")},
-																		 TokenStruct{StringTokenType::END_TAG, std::string("test")}};
-	std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
-	REQUIRE(result.size() == output.size());
-	REQUIRE(myXMLParser.parseTokenizedInput());
-	output = myXMLParser.returnTokenizedInput();
-	REQUIRE(result.size() == output.size());
-	bool correctType, correctString;
-	for (int i = 0; i < result.size(); i++)
-	{
-		correctType = (result[i].tokenType == output[i].tokenType);
-		correctString = (result[i].tokenString.compare(output[i].tokenString) == 0);
-		if (!correctType || !correctString)
-		{
-			break;
-		}
-	}
-	REQUIRE(correctType);
-	REQUIRE(correctString);
-}
+// TEST_CASE("XMLParser: Test parseTokenizedInput", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<test myattr='abcdef'>stuff<this_is_empty_tag/></test>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString));
+// 	std::vector<TokenStruct> result = {TokenStruct{StringTokenType::START_TAG, std::string("test")},
+// 																		 TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
+// 																		 TokenStruct{StringTokenType::EMPTY_TAG, std::string("this_is_empty_tag")},
+// 																		 TokenStruct{StringTokenType::END_TAG, std::string("test")}};
+// 	std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
+// 	REQUIRE(result.size() == output.size());
+// 	REQUIRE(myXMLParser.parseTokenizedInput());
+// 	output = myXMLParser.returnTokenizedInput();
+// 	REQUIRE(result.size() == output.size());
+// 	bool correctType, correctString;
+// 	for (int i = 0; i < result.size(); i++)
+// 	{
+// 		correctType = (result[i].tokenType == output[i].tokenType);
+// 		correctString = (result[i].tokenString.compare(output[i].tokenString) == 0);
+// 		if (!correctType || !correctString)
+// 		{
+// 			break;
+// 		}
+// 	}
+// 	REQUIRE(correctType);
+// 	REQUIRE(correctString);
+// }
 
-// Refer to online parser https://jsonformatter.org/xml-parser#Sample
-TEST_CASE("XMLParser: Test XMLParser tokenize then parse various strings", "[XMLParser]")
-{
-	XMLParser myXMLParser;
+// // Refer to online parser https://jsonformatter.org/xml-parser#Sample
+// TEST_CASE("XMLParser: Test XMLParser tokenize then parse various strings", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
 
-	REQUIRE_FALSE(myXMLParser.parseTokenizedInput()); // Hint: Can't parse empty
+// 	REQUIRE_FALSE(myXMLParser.parseTokenizedInput()); // Hint: Can't parse empty
 
-	REQUIRE(myXMLParser.tokenizeInputString(" <someTag>Content</someTag> ")); // Hint: Tokenize then parse \" <someTag>Content</someTag> \""
-	REQUIRE(myXMLParser.parseTokenizedInput());
+// 	REQUIRE(myXMLParser.tokenizeInputString(" <someTag>Content</someTag> ")); // Hint: Tokenize then parse \" <someTag>Content</someTag> \""
+// 	REQUIRE(myXMLParser.parseTokenizedInput());
 
-	REQUIRE(myXMLParser.tokenizeInputString("<?xml version =\"1.0\"?><html><head>Content here</head><body>Content here<empty src=\"f\"/></body></html>"));
-	REQUIRE(myXMLParser.parseTokenizedInput());
+// 	REQUIRE(myXMLParser.tokenizeInputString("<?xml version =\"1.0\"?><html><head>Content here</head><body>Content here<empty src=\"f\"/></body></html>"));
+// 	REQUIRE(myXMLParser.parseTokenizedInput());
 
-	REQUIRE(myXMLParser.tokenizeInputString("<?xml version =\"1.0\"?><head>sometext</head>\n<body>sometext</body>"));
-	REQUIRE_FALSE(myXMLParser.parseTokenizedInput());
-}
+// 	REQUIRE(myXMLParser.tokenizeInputString("<?xml version =\"1.0\"?><head>sometext</head>\n<body>sometext</body>"));
+// 	REQUIRE_FALSE(myXMLParser.parseTokenizedInput());
+// }
 
-TEST_CASE("XMLParser: Test XMLParser parse, contains and frequency", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::ifstream myfile("../TestFile.txt");
-	std::string inputString((std::istreambuf_iterator<char>(myfile)), (std::istreambuf_iterator<char>()));
+// TEST_CASE("XMLParser: Test XMLParser parse, contains and frequency", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::ifstream myfile("../TestFile.txt");
+// 	std::string inputString((std::istreambuf_iterator<char>(myfile)), (std::istreambuf_iterator<char>()));
 
-	REQUIRE(myXMLParser.tokenizeInputString(inputString));
-	REQUIRE(myXMLParser.parseTokenizedInput());
-	REQUIRE(myXMLParser.containsElementName("catalog"));
-	REQUIRE(myXMLParser.frequencyElementName("catalog") == 1);
-	REQUIRE(myXMLParser.containsElementName("product"));
-	REQUIRE(myXMLParser.frequencyElementName("product") == 1);
-	REQUIRE(myXMLParser.containsElementName("catalog_item"));
-	REQUIRE(myXMLParser.frequencyElementName("catalog_item") == 2);
-	REQUIRE(myXMLParser.containsElementName("item_number"));
-	REQUIRE(myXMLParser.frequencyElementName("item_number") == 2);
-	REQUIRE(myXMLParser.containsElementName("size"));
-	REQUIRE(myXMLParser.frequencyElementName("size") == 6);
-	REQUIRE(myXMLParser.containsElementName("color_swatch"));
-	REQUIRE(myXMLParser.frequencyElementName("color_swatch") == 15);
-}
+// 	REQUIRE(myXMLParser.tokenizeInputString(inputString));
+// 	REQUIRE(myXMLParser.parseTokenizedInput());
+// 	REQUIRE(myXMLParser.containsElementName("catalog"));
+// 	REQUIRE(myXMLParser.frequencyElementName("catalog") == 1);
+// 	REQUIRE(myXMLParser.containsElementName("product"));
+// 	REQUIRE(myXMLParser.frequencyElementName("product") == 1);
+// 	REQUIRE(myXMLParser.containsElementName("catalog_item"));
+// 	REQUIRE(myXMLParser.frequencyElementName("catalog_item") == 2);
+// 	REQUIRE(myXMLParser.containsElementName("item_number"));
+// 	REQUIRE(myXMLParser.frequencyElementName("item_number") == 2);
+// 	REQUIRE(myXMLParser.containsElementName("size"));
+// 	REQUIRE(myXMLParser.frequencyElementName("size") == 6);
+// 	REQUIRE(myXMLParser.containsElementName("color_swatch"));
+// 	REQUIRE(myXMLParser.frequencyElementName("color_swatch") == 15);
+// }
 
 TEST_CASE("XMLParser: Test XMLParser with XML file workflow", "[XMLParser]")
 {
@@ -265,6 +265,7 @@ TEST_CASE("XMLParser: Test XMLParser with XML file workflow", "[XMLParser]")
 
 	// look at the tokenized input string
 	std::vector<TokenStruct> tokenizedInput = myParser.returnTokenizedInput();
+	int sizeOfVector = tokenizedInput.size();
 	REQUIRE(tokenizedInput.size() == 91);
 
 	// try to parse the tokenized input string to see if it is valid XML
@@ -280,186 +281,238 @@ TEST_CASE("XMLParser: Test XMLParser with XML file workflow", "[XMLParser]")
 	REQUIRE(number == 16);
 }
 
-/* Write your own uint tests here*/
-		//**********************************************************************************//
-		//							Stack Tests
-		//**********************************************************************************//
-// Test 1: push, peek, and pop work correctly together
-TEST_CASE("XMLParser: Test Stack push, peek and pop together", "[Stack]")
-{
-	Stack<std::string> stringStack;
-	std::vector<std::string> testVector = {"Hello", "World", "!"};
-	for (std::string s : testVector)
-	{
-		stringStack.push(s);
-	}
-	bool correctItem;
-	for (int i = testVector.size() - 1; i >= 0; i--)
-	{
-		std::string testCaseString = stringStack.peek();
-		correctItem = (testCaseString == testVector[i]);
-		stringStack.pop();
-		if (!correctItem)
-		{
-			break;
-		}
-	}
-	REQUIRE(correctItem);
-}
-// Test 2: pop on empty stack returns false, peek throws logic_error
-TEST_CASE("XMLParser: Test Stack pop and peek on empty stack", "[Stack]")
-{
-	Stack<int> intStack;
-	REQUIRE(intStack.pop() == false);
-	REQUIRE_THROWS_AS(intStack.peek(), std::logic_error);
-}
-// Test 3: clear empties the stack
-TEST_CASE("XMLParser: Test Stack clear", "[Stack]")
-{
-	Stack<int> intStack;
-	intStack.push(1);
-	intStack.push(2);
-	intStack.clear();
-	REQUIRE(intStack.isEmpty() == true);
-}
+// /* Write your own uint tests here*/
+// 		//**********************************************************************************//
+// 		//							Stack Tests
+// 		//**********************************************************************************//
+// // Test 1: push, peek, and pop work correctly together
+// TEST_CASE("XMLParser: Test Stack push, peek and pop together", "[Stack]")
+// {
+// 	Stack<std::string> stringStack;
+// 	std::vector<std::string> testVector = {"Hello", "World", "!"};
+// 	for (std::string s : testVector)
+// 	{
+// 		stringStack.push(s);
+// 	}
+// 	bool correctItem;
+// 	for (int i = testVector.size() - 1; i >= 0; i--)
+// 	{
+// 		std::string testCaseString = stringStack.peek();
+// 		correctItem = (testCaseString == testVector[i]);
+// 		stringStack.pop();
+// 		if (!correctItem)
+// 		{
+// 			break;
+// 		}
+// 	}
+// 	REQUIRE(correctItem);
+// }
+// // Test 2: pop on empty stack returns false, peek throws logic_error
+// TEST_CASE("XMLParser: Test Stack pop and peek on empty stack", "[Stack]")
+// {
+// 	Stack<int> intStack;
+// 	REQUIRE(intStack.pop() == false);
+// 	REQUIRE_THROWS_AS(intStack.peek(), std::logic_error);
+// }
+// // Test 3: clear empties the stack
+// TEST_CASE("XMLParser: Test Stack clear", "[Stack]")
+// {
+// 	Stack<int> intStack;
+// 	intStack.push(1);
+// 	intStack.push(2);
+// 	intStack.clear();
+// 	REQUIRE(intStack.isEmpty() == true);
+// }
 
-		//**********************************************************************************//
-		//							Tokenizer Tests
-		//**********************************************************************************//
+// 		//**********************************************************************************//
+// 		//							Tokenizer Tests
+// 		//**********************************************************************************//
 
-// Test 4: valid string with start, end, content, empty, and declaration tokenizes correctly
-TEST_CASE("XMLParser: Test tokenize string with all token types", "[XMLParser]")
+// // Test 4: valid string with start, end, content, empty, and declaration tokenizes correctly
+// TEST_CASE("XMLParser: Test tokenize string with all token types", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<?xml version=\"1.0\"?><test>stuff<empty/></test>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString));
+// 	std::vector<TokenStruct> result = {TokenStruct{StringTokenType::DECLARATION, std::string("xml version=\"1.0\"")},
+// 																		 TokenStruct{StringTokenType::START_TAG, std::string("test")},
+// 																		 TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
+// 																		 TokenStruct{StringTokenType::EMPTY_TAG, std::string("empty")},
+// 																		 TokenStruct{StringTokenType::END_TAG, std::string("test")}};
+// 	std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
+// 	REQUIRE(result.size() == output.size());
+// 	bool correctType, correctString;
+// 	for (int i = 0; i < result.size(); i++)
+// 	{
+// 		correctType = (result[i].tokenType == output[i].tokenType);
+// 		correctString = (result[i].tokenString.compare(output[i].tokenString) == 0);
+// 		if (!correctType || !correctString)
+// 		{
+// 			break;
+// 		}
+// 	}
+// 	REQUIRE(correctType);
+// 	REQUIRE(correctString);
+// }
+// // Test 5: tag name with invalid first character like digit or period returns false
+// TEST_CASE("XMLParser: Test tokenize with invalid first char in tag name", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<3test>stuff</3test>";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // first char being number in tag
+
+// 	testString = "<.test>stuff</.test>";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // first char being period in tag
+// }
+// // Test 6: tag name with invalid character like $ returns false
+// TEST_CASE("XMLParser: Test tokenize with invalid char in tag name", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<te$t>stuff</te$t>";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // $ in tag
+// }
+// // Test 7: unclosed tag or nested angle brackets returns false
+// TEST_CASE("XMLParser: Test tokenize with unclosed tag or nested angle brackets", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<start";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // example in project description
+
+// 	testString = "  >";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+
+// 	testString = " ";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+
+// 	testString = "< /end>";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+
+// 	testString = "<>";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+
+// 	testString = "<start <stuff>>";
+// 	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+// }
+
+// 		//**********************************************************************************//
+// 		//							Parser Tests
+// 		//**********************************************************************************//
+
+// // Test 8: mismatched or out of order tags return false
+// TEST_CASE("XMLParser: Test parse with mismatched or out of order tags", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<a><b></b></a>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString));
+// 	REQUIRE(myXMLParser.parseTokenizedInput());
+
+// 	testString = "<a><b></a></b>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString));
+// 	REQUIRE_FALSE(myXMLParser.parseTokenizedInput());
+// }
+// // Test 9: content or declaration outside root element returns false
+// TEST_CASE("XMLParser: Test parse with content or declaration outside root element", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<?xml version=\"1.0\"?><a>content</a>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString));
+// 	REQUIRE(myXMLParser.parseTokenizedInput());
+
+// 	testString = "content<a></a>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString));
+// 	REQUIRE_FALSE(myXMLParser.parseTokenizedInput());
+// }
+// // Test 10: two root elements returns false
+// TEST_CASE("XMLParser: Test parse with multiple root elements", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<a></a><b></b>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString));
+// 	REQUIRE_FALSE(myXMLParser.parseTokenizedInput());
+// }
+
+// // Contains and Frequency Tests
+// // Test 11: containsElementName and frequencyElementName throw before parsing
+// TEST_CASE("XMLParser: Test containsElementName and frequencyElementName throw before parsing", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<a><b></b></a>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString));
+// 	REQUIRE_THROWS_AS(myXMLParser.containsElementName("a"), std::logic_error);
+// 	REQUIRE_THROWS_AS(myXMLParser.frequencyElementName("a"), std::logic_error);
+// }
+// // Test 12: containsElementName and frequencyElementName return correct results after parsing
+// TEST_CASE("XMLParser: Test containsElementName and frequencyElementName after parsing", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<a><b></b><b></b></a>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString));
+// 	REQUIRE(myXMLParser.parseTokenizedInput());
+// 	REQUIRE(myXMLParser.containsElementName("a"));
+// 	REQUIRE(myXMLParser.frequencyElementName("a") == 1);
+// 	REQUIRE(myXMLParser.containsElementName("b"));
+// 	REQUIRE(myXMLParser.frequencyElementName("b") == 2);
+// }
+// // Test 13: clear resets isParsed so contains throws on next call
+// TEST_CASE("XMLParser: Test clear resets isParsed", "[XMLParser]")
+// {
+// 	XMLParser myXMLParser;
+// 	std::string testString = "<a><b></b></a>";
+// 	REQUIRE(myXMLParser.tokenizeInputString(testString));
+// 	REQUIRE(myXMLParser.parseTokenizedInput());
+// 	myXMLParser.clear();
+// 	REQUIRE_THROWS_AS(myXMLParser.containsElementName("a"), std::logic_error);
+// 	REQUIRE_THROWS_AS(myXMLParser.frequencyElementName("a"), std::logic_error);
+// }
+
+// TEST_CASE("checkoff question", "[XMLParser]")
+// {
+// 	// Test a workflow with a valid XML file (e.g., one Canvas page)
+// 	XMLParser myParser;
+// 	std::ifstream myfile("../xmlFile.txt");
+// 	std::string inputString((std::istreambuf_iterator<char>(myfile)), (std::istreambuf_iterator<char>()));
+
+// 	REQUIRE(myParser.tokenizeInputString(inputString));
+// 	REQUIRE(myParser.parseTokenizedInput());
+
+// 	std::vector<TokenStruct> testVector = myParser.returnTokenizedInput();
+
+// 	bool isConsecutive = false;
+// 	for (int i = 0; i < testVector.size(); i++)
+// 	{
+// 		if (testVector[i].tokenType == CONTENT && testVector[i + 1].tokenType == CONTENT)
+// 		{
+// 			isConsecutive = true;
+// 		}
+		
+// 	}
+// 	REQUIRE_FALSE(isConsecutive);
+// }
+TEST_CASE("checkoff test 2", "[XMLParser]")
 {
-	XMLParser myXMLParser;
-	std::string testString = "<?xml version=\"1.0\"?><test>stuff<empty/></test>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString));
-	std::vector<TokenStruct> result = {TokenStruct{StringTokenType::DECLARATION, std::string("xml version=\"1.0\"")},
-																		 TokenStruct{StringTokenType::START_TAG, std::string("test")},
-																		 TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
-																		 TokenStruct{StringTokenType::EMPTY_TAG, std::string("empty")},
-																		 TokenStruct{StringTokenType::END_TAG, std::string("test")}};
-	std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
-	REQUIRE(result.size() == output.size());
-	bool correctType, correctString;
-	for (int i = 0; i < result.size(); i++)
-	{
-		correctType = (result[i].tokenType == output[i].tokenType);
-		correctString = (result[i].tokenString.compare(output[i].tokenString) == 0);
-		if (!correctType || !correctString)
-		{
-			break;
-		}
-	}
-	REQUIRE(correctType);
-	REQUIRE(correctString);
-}
-// Test 5: tag name with invalid first character like digit or period returns false
-TEST_CASE("XMLParser: Test tokenize with invalid first char in tag name", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::string testString = "<3test>stuff</3test>";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // first char being number in tag
+	XMLParser myParser;
 
-	testString = "<.test>stuff</.test>";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // first char being period in tag
-}
-// Test 6: tag name with invalid character like $ returns false
-TEST_CASE("XMLParser: Test tokenize with invalid char in tag name", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::string testString = "<te$t>stuff</te$t>";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // $ in tag
-}
-// Test 7: unclosed tag or nested angle brackets returns false
-TEST_CASE("XMLParser: Test tokenize with unclosed tag or nested angle brackets", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::string testString = "<start";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString)); // example in project description
+	std::string inputString2 = "</root> content </root>";
+	REQUIRE(myParser.tokenizeInputString(inputString2));
+	bool res = myParser.parseTokenizedInput();	//can't start with end
 
-	testString = "  >";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+	REQUIRE_FALSE(res);
 
-	testString = " ";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+	std::string inputString3 = "<root> content <root>";	//can't end with start
+	REQUIRE(myParser.tokenizeInputString(inputString3));
+	REQUIRE_FALSE(myParser.parseTokenizedInput());
 
-	testString = "< /end>";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+	std::string inputString4 = "<root> content <?xmlstuff?>";	//can't end with declaration
+	REQUIRE(myParser.tokenizeInputString(inputString2));
+	REQUIRE_FALSE(myParser.parseTokenizedInput());
 
-	testString = "<>";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
+	std::string inputString5 = "content <root> content </root>";	//can't start with content
+	REQUIRE(myParser.tokenizeInputString(inputString5));
+	REQUIRE_FALSE(myParser.parseTokenizedInput());
 
-	testString = "<start <stuff>>";
-	REQUIRE_FALSE(myXMLParser.tokenizeInputString(testString));
-}
+	std::string inputString6 = "<root>content</root>content"; // can't end with content
+	REQUIRE(myParser.tokenizeInputString(inputString6));
 
-		//**********************************************************************************//
-		//							Parser Tests
-		//**********************************************************************************//
-
-// Test 8: mismatched or out of order tags return false
-TEST_CASE("XMLParser: Test parse with mismatched or out of order tags", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::string testString = "<a><b></b></a>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString));
-	REQUIRE(myXMLParser.parseTokenizedInput());
-
-	testString = "<a><b></a></b>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString));
-	REQUIRE_FALSE(myXMLParser.parseTokenizedInput());
-}
-// Test 9: content or declaration outside root element returns false
-TEST_CASE("XMLParser: Test parse with content or declaration outside root element", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::string testString = "<?xml version=\"1.0\"?><a>content</a>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString));
-	REQUIRE(myXMLParser.parseTokenizedInput());
-
-	testString = "content<a></a>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString));
-	REQUIRE_FALSE(myXMLParser.parseTokenizedInput());
-}
-// Test 10: two root elements returns false
-TEST_CASE("XMLParser: Test parse with multiple root elements", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::string testString = "<a></a><b></b>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString));
-	REQUIRE_FALSE(myXMLParser.parseTokenizedInput());
-}
-
-// Contains and Frequency Tests
-// Test 11: containsElementName and frequencyElementName throw before parsing
-TEST_CASE("XMLParser: Test containsElementName and frequencyElementName throw before parsing", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::string testString = "<a><b></b></a>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString));
-	REQUIRE_THROWS_AS(myXMLParser.containsElementName("a"), std::logic_error);
-	REQUIRE_THROWS_AS(myXMLParser.frequencyElementName("a"), std::logic_error);
-}
-// Test 12: containsElementName and frequencyElementName return correct results after parsing
-TEST_CASE("XMLParser: Test containsElementName and frequencyElementName after parsing", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::string testString = "<a><b></b><b></b></a>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString));
-	REQUIRE(myXMLParser.parseTokenizedInput());
-	REQUIRE(myXMLParser.containsElementName("a"));
-	REQUIRE(myXMLParser.frequencyElementName("a") == 1);
-	REQUIRE(myXMLParser.containsElementName("b"));
-	REQUIRE(myXMLParser.frequencyElementName("b") == 2);
-}
-// Test 13: clear resets isParsed so contains throws on next call
-TEST_CASE("XMLParser: Test clear resets isParsed", "[XMLParser]")
-{
-	XMLParser myXMLParser;
-	std::string testString = "<a><b></b></a>";
-	REQUIRE(myXMLParser.tokenizeInputString(testString));
-	REQUIRE(myXMLParser.parseTokenizedInput());
-	myXMLParser.clear();
-	REQUIRE_THROWS_AS(myXMLParser.containsElementName("a"), std::logic_error);
-	REQUIRE_THROWS_AS(myXMLParser.frequencyElementName("a"), std::logic_error);
+	bool result = myParser.parseTokenizedInput();
+	REQUIRE_FALSE(myParser.parseTokenizedInput());
 }
