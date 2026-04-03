@@ -59,6 +59,37 @@ bool BinarySearchTree<KeyType, ItemType>::insert(const KeyType &key, const ItemT
     // Hint: If the tree is empty, create it as root node.
     // Otherwise, use the search function to check for duplicates and find the correct parent
     // If the key is unique, allocate a new node, and link it as the left or right child of the parent.
+    Node<KeyType, ItemType> *curr = nullptr;
+    Node<KeyType, ItemType> *curr_parent = nullptr;
+    //bool found = search(key, curr, curr_parent);   
+    if (isEmpty() == true)
+    {
+        root = new Node<KeyType, ItemType>;
+        root->key = key;
+        root->data = item;
+        root->left = nullptr;
+        root->right = nullptr;
+        return true;
+    }
+    else if (search(key, curr, curr_parent) == false) // item not found
+    {
+        Node<KeyType, ItemType> *newNode = new Node<KeyType, ItemType>; // make a new node
+        newNode->key = key;
+        newNode->data = item;
+        newNode->left = nullptr;
+        newNode->right = nullptr;
+        if (key < curr_parent->key)
+        {
+            curr_parent->left = newNode;
+            return true;
+        }
+        else
+        {
+            curr_parent->right = newNode;
+            return true;
+        }
+    }
+    
     return false;
 }
 
