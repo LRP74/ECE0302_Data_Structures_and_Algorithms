@@ -172,3 +172,59 @@ TEST_CASE("BST: Test tree sort", "[tree sort]")
     REQUIRE(arr[3] == 10);
     REQUIRE(arr[4] == 15);
 }
+
+TEST_CASE("BST: Test tree sort duplicate", "[tree sort]")
+{
+    TreeType bst1;
+    int arr[5] = {10, 5, 15, 3, 5};
+    REQUIRE_THROWS_AS(bst1.treeSort(arr, 5), std::invalid_argument);
+}
+
+TEST_CASE("BST: Test remove non-existent and empty", "[remove]")
+{
+    TreeType bst1;
+    REQUIRE_FALSE(bst1.remove(10)); // empty tree
+    bst1.insert(10, 10);
+    REQUIRE_FALSE(bst1.remove(99)); // key not found
+}
+
+TEST_CASE("BST: Test Insert multiple and retrieve", "[insert]")
+{
+    TreeType bst1;
+    REQUIRE(bst1.insert(10, 10));
+    REQUIRE(bst1.insert(5, 5));
+    REQUIRE(bst1.insert(15, 15));
+    int item;
+    REQUIRE(bst1.retrieve(10, item));
+    REQUIRE(item == 10);
+    REQUIRE(bst1.retrieve(5, item));
+    REQUIRE(item == 5);
+    REQUIRE(bst1.retrieve(15, item));
+    REQUIRE(item == 15);
+    REQUIRE_FALSE(bst1.retrieve(99, item));
+}
+
+TEST_CASE("BST: Test Destroy", "[destroy]")
+{
+    TreeType bst1;
+    bst1.insert(10, 10);
+    bst1.insert(5, 5);
+    bst1.insert(15, 15);
+    bst1.destroy();
+    REQUIRE(bst1.isEmpty());
+    int item;
+    REQUIRE_FALSE(bst1.retrieve(10, item));
+}
+
+TEST_CASE("BST: Test remove root with two children", "[remove]")
+{
+    TreeType bst1;
+    bst1.insert(10, 10);
+    bst1.insert(5, 5);
+    bst1.insert(15, 15);
+    int item;
+    bst1.remove(10);
+    REQUIRE_FALSE(bst1.retrieve(10, item));
+    REQUIRE(bst1.retrieve(5, item));
+    REQUIRE(bst1.retrieve(15, item));
+}
