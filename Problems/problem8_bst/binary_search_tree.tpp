@@ -137,9 +137,9 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
     Node<KeyType, ItemType>* curr = nullptr;    //locastion of the found key, if nullptr after search then it doesn't exist
     Node<KeyType, ItemType> *curr_parent = nullptr; //location of the node right above the location of the curr or found key
 
-    //case 1, no children just a leaf
     if (search(key, curr, curr_parent) == true) //key found
     {
+        //case 1, no children just a leaf
         if ((curr->left == nullptr) && (curr->right == nullptr)) //there are no children so is an individual leaf
         {
             if (curr == root){ root = nullptr;}        
@@ -148,10 +148,41 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
             delete curr;    //free the memory of the leaf
             return true;
         } 
-    }
-    
 
     //case 2, only one left or right child
+        if (((curr->left != nullptr) && (curr->right == nullptr)) || ((curr->left == nullptr) && (curr->right != nullptr)))
+        {
+            if (curr == root)
+            {
+                if (root->left == nullptr)
+                {
+                    root = curr->right;
+                } // root has a right child
+                else
+                {
+                    root = curr->left;
+                }
+            }
+            else if (curr->key < curr_parent->key) // curr is left child of parent
+            {
+                if (curr->left != nullptr)
+                    curr_parent->left = curr->left;
+                else
+                    curr_parent->left = curr->right;
+            }
+            else // curr is right child of parent
+            {
+                if (curr->left != nullptr)
+                    curr_parent->right = curr->left;
+                else
+                    curr_parent->right = curr->right;
+            }
+            delete curr;
+            return true;
+        }
+    }
+
+    
 
     //case 3, two children
     return false;

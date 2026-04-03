@@ -73,3 +73,90 @@ TEST_CASE("BST: Test Destroy after Copy Assign", "[copy assign]")
     REQUIRE_FALSE(bst2.retrieve(51, item));
 }
 /* Write your own test cases here */
+
+TEST_CASE("BST: Test Remove With one child", "[remove]")
+{
+    TreeType bst1;
+    bst1.insert(10, 10);
+    bst1.insert(5, 5);
+    bst1.insert(15, 15);
+    bst1.insert(3, 3);
+    int item;
+    REQUIRE(bst1.retrieve(10, item));
+    REQUIRE(bst1.retrieve(5, item));
+    REQUIRE(bst1.retrieve(15, item));
+    REQUIRE(bst1.retrieve(3, item));
+    bst1.remove(5);
+    REQUIRE_FALSE(bst1.retrieve(5, item));
+    REQUIRE(bst1.retrieve(3, item));
+    bst1.remove(15);
+    REQUIRE_FALSE(bst1.retrieve(15, item));
+    REQUIRE(bst1.retrieve(3, item));
+    bst1.remove(10);
+    REQUIRE_FALSE(bst1.retrieve(10, item));
+    REQUIRE(bst1.retrieve(3, item));
+    bst1.remove(3);
+    REQUIRE_FALSE(bst1.retrieve(3, item));
+    REQUIRE(bst1.isEmpty());
+       
+}
+TEST_CASE("BST: Test remove with one child other branch", "[remove]")
+{
+    TreeType bst1;
+    bst1.insert(10, 10);
+    bst1.insert(5, 5);
+    bst1.insert(15, 15);
+    bst1.insert(7, 7);
+    int item;
+    REQUIRE(bst1.retrieve(10, item));
+    REQUIRE(bst1.retrieve(5, item));
+    REQUIRE(bst1.retrieve(15, item));
+    REQUIRE(bst1.retrieve(7, item));
+    bst1.remove(5);
+    REQUIRE_FALSE(bst1.retrieve(5, item));
+    REQUIRE(bst1.retrieve(7, item));
+    bst1.remove(15);
+    REQUIRE_FALSE(bst1.retrieve(15, item));
+    REQUIRE(bst1.retrieve(7, item));
+    bst1.remove(10);
+    REQUIRE_FALSE(bst1.retrieve(10, item));
+    REQUIRE(bst1.retrieve(7, item));
+    bst1.remove(7);
+    REQUIRE_FALSE(bst1.retrieve(7, item));
+    REQUIRE(bst1.isEmpty());
+       
+}
+
+TEST_CASE("BST: Test Remove With two children", "[remove]")
+{
+    TreeType bst1;
+    bst1.insert(10, 10);
+    bst1.insert(5, 5);
+    bst1.insert(15, 15);
+    bst1.insert(3, 3);
+    bst1.insert(7, 7);
+    int item;
+    REQUIRE(bst1.retrieve(10, item));
+    REQUIRE(bst1.retrieve(5, item));
+    REQUIRE(bst1.retrieve(15, item));
+    REQUIRE(bst1.retrieve(3, item));
+    REQUIRE(bst1.retrieve(7, item));
+    bst1.remove(5);
+    REQUIRE_FALSE(bst1.retrieve(5, item));
+    REQUIRE(bst1.retrieve(3, item));
+    REQUIRE(bst1.retrieve(7, item));
+    bst1.remove(15);
+    REQUIRE_FALSE(bst1.retrieve(15, item));
+    REQUIRE(bst1.retrieve(3, item));
+    REQUIRE(bst1.retrieve(7, item));
+    bst1.remove(10);
+    REQUIRE_FALSE(bst1.retrieve(10, item));
+    REQUIRE(bst1.retrieve(3, item));
+    REQUIRE(bst1.retrieve(7, item));
+    bst1.remove(3);
+    REQUIRE_FALSE(bst1.retrieve(3, item));
+    REQUIRE(bst1.retrieve(7, item));
+    bst1.remove(7);
+    REQUIRE_FALSE(bst1.retrieve(7, item));
+    REQUIRE(bst1.isEmpty());
+}
