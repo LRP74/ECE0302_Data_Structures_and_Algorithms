@@ -223,6 +223,32 @@ void BinarySearchTree<KeyType, ItemType>::treeSort(KeyType arr[], int arr_size)
     // Then perform an in-order traversal to collect sorted values and overwrite the input array with them.
     // In-order traversal can be conducted starting from the leftmost node and repeatedly finding the inorder successor.
     // Alternatively, you can find the leftmost node, remove it from the tree, and repeatly find the new leftmost node.
+    destroy(); //clear any trees
+
+    for (int i = 0; i < arr_size; i++)
+    {
+        bool insertPassed = insert(arr[i], arr[i]);
+        if (insertPassed == false)
+        {
+            destroy(); // destroy the partially built tree before throwing
+            throw std::invalid_argument("failed to insert");
+        }
+        
+    }
+    
+    Node<KeyType, ItemType>* curr = root;
+    // find the leftmost node to start the in-order traversal
+    while (curr->left != nullptr)
+        curr = curr->left;
+    // overwrite the input array with sorted values using inorder successor
+    for (int i = 0; i < arr_size; i++)
+    {
+        arr[i] = curr->key;
+        Node<KeyType, ItemType>* inorder = nullptr;
+        Node<KeyType, ItemType>* inorder_parent = nullptr;
+        inorder_successor(root, curr, inorder, inorder_parent);
+        curr = inorder;
+    }
 }
 
 // ==================== Private Helper Functions ====================

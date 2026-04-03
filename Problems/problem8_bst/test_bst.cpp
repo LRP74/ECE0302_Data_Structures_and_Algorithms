@@ -160,3 +160,15 @@ TEST_CASE("BST: Test Remove With two children", "[remove]")
     REQUIRE_FALSE(bst1.retrieve(7, item));
     REQUIRE(bst1.isEmpty());
 }
+
+TEST_CASE("BST: Test tree sort", "[tree sort]")
+{
+    TreeType bst1;
+    int arr[5] = {10, 5, 15, 3, 7};
+    bst1.treeSort(arr, 5);
+    REQUIRE(arr[0] == 3);
+    REQUIRE(arr[1] == 5);
+    REQUIRE(arr[2] == 7);
+    REQUIRE(arr[3] == 10);
+    REQUIRE(arr[4] == 15);
+}
