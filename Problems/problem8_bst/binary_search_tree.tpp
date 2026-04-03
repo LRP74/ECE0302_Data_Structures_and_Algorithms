@@ -139,17 +139,26 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
 
     if (search(key, curr, curr_parent) == true) //key found
     {
-        //case 1, no children just a leaf
-        if ((curr->left == nullptr) && (curr->right == nullptr)) //there are no children so is an individual leaf
+        // case 1, no children just a leaf
+        if ((curr->left == nullptr) && (curr->right == nullptr)) // there are no children so is an individual leaf
         {
-            if (curr == root){ root = nullptr;}        
-            else if (curr->key < curr_parent->key) {curr_parent->left = nullptr;}//if the found key is less than the parent key then its a left child
-            else{curr_parent->right = nullptr;}
-            delete curr;    //free the memory of the leaf
+            if (curr == root)
+            {
+                root = nullptr;
+            }
+            else if (curr->key < curr_parent->key)
+            {
+                curr_parent->left = nullptr;
+            } // if the found key is less than the parent key then its a left child
+            else
+            {
+                curr_parent->right = nullptr;
+            }
+            delete curr; // free the memory of the leaf
             return true;
-        } 
+        }
 
-    //case 2, only one left or right child
+        // case 2, only one left or right child
         if (((curr->left != nullptr) && (curr->right == nullptr)) || ((curr->left == nullptr) && (curr->right != nullptr)))
         {
             if (curr == root)
@@ -180,11 +189,29 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
             delete curr;
             return true;
         }
+        // case 3, two children
+        if ((curr->left != nullptr) && (curr->right != nullptr))
+        {
+            //inorder sucessor function needs these pointers
+            Node<KeyType, ItemType>* inorder = nullptr;   
+            Node<KeyType, ItemType>* inorder_parent = nullptr; 
+
+            inorder_successor(root, curr, inorder, inorder_parent);
+
+            //'swap' the data like how the book describes. case 3 is swap the node you want to delete with the inorder successor
+            curr->key = inorder->key;
+            curr->data = inorder->data;
+
+            if (inorder_parent->left == inorder)
+                inorder_parent->left = inorder->right;
+            else
+                inorder_parent->right = inorder->right;
+
+            delete inorder;
+            return true;
+        }
     }
 
-    
-
-    //case 3, two children
     return false;
 }
 
