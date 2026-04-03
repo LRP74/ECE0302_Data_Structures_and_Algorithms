@@ -131,6 +131,29 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
     // For deletion, handle these cases:  (1) node is a leaf, (2) node has only a right child,
     // (3) node has only a left child, (4) node has two children (replace with inorder successor).
     // Update parent pointers and free memory as needed. Return true if deleted, false otherwise.
+
+    if (isEmpty() == true){return false;}   // tree is empty return false
+    
+    Node<KeyType, ItemType>* curr = nullptr;    //locastion of the found key, if nullptr after search then it doesn't exist
+    Node<KeyType, ItemType> *curr_parent = nullptr; //location of the node right above the location of the curr or found key
+
+    //case 1, no children just a leaf
+    if (search(key, curr, curr_parent) == true) //key found
+    {
+        if ((curr->left == nullptr) && (curr->right == nullptr)) //there are no children so is an individual leaf
+        {
+            if (curr == root){ root = nullptr;}        
+            else if (curr->key < curr_parent->key) {curr_parent->left = nullptr;}//if the found key is less than the parent key then its a left child
+            else{curr_parent->right = nullptr;}
+            delete curr;    //free the memory of the leaf
+            return true;
+        } 
+    }
+    
+
+    //case 2, only one left or right child
+
+    //case 3, two children
     return false;
 }
 
