@@ -241,7 +241,7 @@ void BinarySearchTree<KeyType, ItemType>::treeSort(KeyType arr[], int arr_size)
     while (curr->left != nullptr)
         curr = curr->left;
     // overwrite the input array with sorted values using inorder successor
-    for (int i = 0; i < arr_size; i++)
+    for (int i = 0; i < arr_size && curr != nullptr; i++)
     {
         arr[i] = curr->key;
         Node<KeyType, ItemType>* inorder = nullptr;
