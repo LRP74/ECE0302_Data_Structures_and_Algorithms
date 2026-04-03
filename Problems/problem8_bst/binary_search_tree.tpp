@@ -50,6 +50,35 @@ void BinarySearchTree<KeyType, ItemType>::destroy()
     // TODO: Iteratively delete all nodes in the tree using a stack.
     // Hint: Use a stack to traverse the tree. For each node, push its children onto the stack, delete the node,
     // and repeat until the stack is empty. Set root to nullptr at the end to avoid dangling pointers.
+    if (root == nullptr)    //check if the tree is empty
+    {
+        return;
+    }
+    
+    std::stack<Node<KeyType, ItemType> *> treeStack; // create a stack that holds a pointers of Node type
+    treeStack.push(root);
+    Node<KeyType, ItemType>* poppedPtr;   //temporary pointer to grab the top of the stack
+
+    while (treeStack.empty() == false)
+    {
+        // pop a node
+        poppedPtr = treeStack.top();
+        treeStack.pop();
+        // push its left child if it exists
+        if (poppedPtr->left != nullptr)
+        {
+            treeStack.push(poppedPtr->left);
+        }
+        
+        // push its right child if it exists
+        if (poppedPtr->right != nullptr)
+        {
+            treeStack.push(poppedPtr->right);
+        }
+        // delete the popped node
+        delete poppedPtr;
+    }
+    root = nullptr;
 }
 
 template <typename KeyType, typename ItemType>
