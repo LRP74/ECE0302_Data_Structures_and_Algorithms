@@ -16,6 +16,9 @@ PathFinder::~PathFinder()
 void PathFinder::load(const Image<Pixel> &img)
 {
     // TODO
+    checkImage(img);
+    image = img;
+
 }
 
 void PathFinder::clear()
@@ -26,6 +29,37 @@ void PathFinder::clear()
 void PathFinder::checkImage(const Image<Pixel> &img) const
 {
     // TODO
+    int imgageHeight = img.height();
+    int imageWidth = img.width();
+    int numberOfRedPixels = 0;
+
+    for (int i = 0; i < imgageHeight; i++)
+    {
+        for (int j = 0; j < imageWidth; j++)
+        {
+            if (img(i,j) == RED)
+            {
+                numberOfRedPixels++;
+                if (numberOfRedPixels > 1)
+                {
+                    throw std::invalid_argument("image is invalid; too many red pixels");
+                }
+                
+            }
+            else if (img(i,j) != WHITE && img(i,j) != BLACK)
+            {
+                throw std::invalid_argument("image is invalid, pixel is not white or black");
+            } 
+            
+        }
+    }
+    
+    if (numberOfRedPixels == 0)
+    {
+        throw std::invalid_argument("invalid image, no red pixels");
+    }
+    
+
 }
 
 Coord PathFinder::getStart() const
