@@ -97,6 +97,8 @@ public:
 
 private:
   Image<Pixel> image;
+  Coord startPoint;
+  Coord endPoint;
   // TODO: Add more private member variables and methods as needed
 };
 

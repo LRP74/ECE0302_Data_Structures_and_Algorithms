@@ -18,12 +18,31 @@ void PathFinder::load(const Image<Pixel> &img)
     // TODO
     checkImage(img);
     image = img;
+    int imgageHeight = img.height();
+    int imageWidth = img.width();
+
+    for (int i = 0; i < imgageHeight; i++)
+    {
+        for (int j = 0; j < imageWidth; j++)
+        {
+            if (img(i,j) == RED)
+            {
+                startPoint.row = i;
+                startPoint.col = j;
+                return;
+            }
+            
+        }
+    }
 
 }
 
 void PathFinder::clear()
 {
     // TODO
+    startPoint = Coord();
+    endPoint = Coord();
+    image = Image<Pixel>();
 }
 
 void PathFinder::checkImage(const Image<Pixel> &img) const
@@ -65,7 +84,14 @@ void PathFinder::checkImage(const Image<Pixel> &img) const
 Coord PathFinder::getStart() const
 {
     // TODO
-    return Coord(); // placeholder
+    if (startPoint.row == -1 && startPoint.col == -1)
+    {
+        return Coord();
+    }
+    else
+    {
+        return startPoint;
+    }
 }
 
 Coord PathFinder::getEnd() const

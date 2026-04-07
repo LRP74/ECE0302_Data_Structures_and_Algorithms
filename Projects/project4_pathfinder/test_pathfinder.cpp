@@ -110,7 +110,7 @@ TEST_CASE("PathFinder: Test helper functions load, clear and checkImage", "[path
     REQUIRE_NOTHROW(myFinder.checkImage(img));
 }
 
-/*
+
 // Demo of how long it takes to find a path (not included in grader)
 TEST_CASE("Demo Pathfinding Duration Test", "[pathfinder]")
 {
@@ -180,6 +180,6 @@ TEST_CASE("Demo Pathfinding Gif Creation", "[pathfinder]")
     my_solver.findPathWithVisualization("../tests/myoutput02", 5, 50);
     my_solver.clear();
 }
-*/
+
 
 /* Write your own unit tests here */
