@@ -2,6 +2,8 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <iostream>
+#include <vector>
+#include <string>
 
 PathFinder::PathFinder(const Image<Pixel> &img)
 {
@@ -97,12 +99,99 @@ Coord PathFinder::getStart() const
 Coord PathFinder::getEnd() const
 {
     // TODO
-    return Coord(); // placeholder
+    if (endPoint.row == -1 && endPoint.col == -1)
+    {
+        return Coord();
+    }
+    else
+    {
+        return endPoint;
+    }
 }
 
 void PathFinder::findPath(const std::string &strategy)
 {
-    // TODO, strategy is default at "NSWE". Must use Queue ADT to implement BFS algorithm
+    // if the start point is on the edge then that is the goal so just return
+    if (startPoint.row == 0 || startPoint.row == image.height() - 1 ||
+        startPoint.col == 0 || startPoint.col == image.width() - 1)
+    {
+        endPoint = startPoint;
+        image(startPoint.row, startPoint.col) = GREEN;
+        return;
+    }
+
+    Queue<Coord> frontier;  // a queue of coordinates
+    std::vector<std::vector<bool>> visited(image.height(), std::vector<bool>(image.width(), false)); 
+    /* a vector of bool vectors so you know where you have been. like a grid you turn on and off
+    vector[0] [F,F,F,F,F]
+    vector[1] [F,F,F,F,F]
+    vector[2] [F,F,F,F,F]
+    vector[3] [F,F,F,F,F]
+    vector[4] [F,F,F,F,F]    
+    */
+    std::vector<std::vector<Coord>> cameFrom(image.height(), std::vector<Coord>(image.width()));
+    /* a vector of coord type vectors to store that path that makes the yellow line
+    vector[0] [(x,x),(x,x)(x,x),(x,x),(x,x)]
+    vector[1] [(x,x),(x,x)(x,x),(x,x),(x,x)]
+    vector[2] [(x,x),(x,x)(x,x),(x,x),(x,x)]
+    vector[3] [(x,x),(x,x)(x,x),(x,x),(x,x)]
+    vector[4] [(x,x),(x,x)(x,x),(x,x),(x,x)]    
+    */
+
+    frontier.enqueue(startPoint);   //put the start point to the front of the line
+    visited[startPoint.row][startPoint.col] = true;  //mark the start point as visited
+
+    while (true)
+    {
+        if (frontier.isEmpty()) throw std::runtime_error("no path found");  
+
+        Coord currentSquare = frontier.peekFront();  // store the coord in the front of the line into current square 
+        frontier.dequeue(); // dequeue or service that square
+
+        // if the routine has reached the edge do the following
+        if (currentSquare.row == 0 || currentSquare.row == image.height()-1 ||
+            currentSquare.col == 0 || currentSquare.col == image.width()-1)
+        {
+            endPoint = currentSquare;  
+            image(currentSquare.row, currentSquare.col) = GREEN;  
+            Coord trace = cameFrom[currentSquare.row][currentSquare.col];
+            while (trace != startPoint)
+            {
+                image(trace.row,trace.col) = YELLOW;
+                trace = cameFrom[trace.row][trace.col];
+            }
+            return;
+        }
+        //step through the 4 letter strategy string
+        for (int i = 0; i < 4; i++)
+        {
+            Coord adjacent = currentSquare; // adjacent square coordinate variable
+            if (strategy[i] == 'N') adjacent.row--;
+            else if (strategy[i] == 'S') adjacent.row++;
+            else if (strategy[i] == 'W') adjacent.col--;
+            else if (strategy[i] == 'E') adjacent.col++;
+
+            // BFS is like a queue of customers. Start at H, search NSWE and enqueue all valid neighbors,
+            // recording cameFrom[adjacent] = currentSquare so we know who sent them. Then dequeue H and 
+            // move to the next customer (A), repeat the process. Because we service everyone at distance 1
+            // before distance 2, the first exit we find is always the shortest path. Once we find the exit,
+            // trace back through cameFrom coloring each cell YELLOW until we hit the start.
+
+            // check if adjacent square is in bounds
+            if (adjacent.row >= 0 && adjacent.row < image.height() &&
+                adjacent.col >= 0 && adjacent.col < image.width())
+            {
+                // check if the adjacent square is white and not visited
+                if (image(adjacent.row, adjacent.col) == WHITE && !visited[adjacent.row][adjacent.col])
+                {
+                    visited[adjacent.row][adjacent.col] = true; //now it is visited so mark it
+                    cameFrom[adjacent.row][adjacent.col] = currentSquare; //update camefrom
+                    frontier.enqueue(adjacent);
+                }
+            }
+        }     
+        
+    }
 }
 
 // BONUS: Same BFS as findPath(), plus GIF visualization
