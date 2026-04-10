@@ -183,3 +183,55 @@ TEST_CASE("Demo Pathfinding Gif Creation", "[pathfinder]")
 
 
 /* Write your own unit tests here */
+// Test 1: findPath on maze00 with NSWE strategy, check exit is correct with compareImagesExit
+TEST_CASE("PathFinder: Test findPath on maze00 with NSWE strategy", "[pathfinder]")
+{
+    Image<Pixel> img = readFromFile("../tests/maze00.png");
+    PathFinder myFinder(img);
+    REQUIRE_NOTHROW(myFinder.findPath("NSWE"));
+    myFinder.writeSolutionToFile("../tests/myoutput00_NSWE.png");
+    REQUIRE(compareImagesExit("../tests/output00_NSWE.png", "../tests/myoutput00_NSWE.png"));
+}
+// Test 2: findPath on maze01 throws std::runtime_error (unsolvable)
+TEST_CASE("PathFinder: Test findPath on maze01 throws std::runtime_error", "[pathfinder]")
+{
+    Image<Pixel> img = readFromFile("../tests/maze01.png");
+    PathFinder myFinder(img);
+    REQUIRE_THROWS_AS(myFinder.findPath(), std::runtime_error);
+}
+// Test 3: getEnd returns correct coord after findPath runs on maze00
+TEST_CASE("PathFinder: Test getEnd returns correct coord after findPath on maze00", "[pathfinder]")
+{
+    Image<Pixel> img = readFromFile("../tests/maze00.png");
+    PathFinder myFinder(img);
+    REQUIRE_NOTHROW(myFinder.findPath());
+    REQUIRE(myFinder.getEnd() == Coord(14, 0));
+}
+// Test 4: clear resets endPoint to (-1,-1) after findPath has run
+TEST_CASE("PathFinder: Test clear resets endPoint after findPath", "[pathfinder]")
+{
+    Image<Pixel> img = readFromFile("../tests/maze00.png");
+    PathFinder myFinder(img);
+    REQUIRE_NOTHROW(myFinder.findPath());
+    REQUIRE(myFinder.getEnd() == Coord(14, 0));
+    myFinder.clear();
+    REQUIRE(myFinder.getEnd() == Coord(-1, -1));
+}
+// Test 5: findPath on maze03 with NSWE strategy
+TEST_CASE("PathFinder: Test findPath on maze03 with NSWE strategy", "[pathfinder]")
+{
+    Image<Pixel> img = readFromFile("../tests/maze03.png");
+    PathFinder myFinder(img);
+    REQUIRE_NOTHROW(myFinder.findPath("NSWE"));
+    myFinder.writeSolutionToFile("../tests/myoutput03_NSWE.png");
+    REQUIRE(compareImagesExit("../tests/output03_NSWE.png", "../tests/myoutput03_NSWE.png"));
+}
+// Test 6: findPath on maze00 with WENS strategy, check exit with compareImagesExit
+TEST_CASE("PathFinder: Test findPath on maze00 with WENS strategy", "[pathfinder]")
+{
+    Image<Pixel> img = readFromFile("../tests/maze00.png");
+    PathFinder myFinder(img);
+    REQUIRE_NOTHROW(myFinder.findPath("WENS"));
+    myFinder.writeSolutionToFile("../tests/myoutput00_WENS.png");
+    REQUIRE(compareImagesExit("../tests/output00_WENS.png", "../tests/myoutput00_WENS.png"));
+}
