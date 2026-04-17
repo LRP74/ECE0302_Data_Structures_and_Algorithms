@@ -45,6 +45,7 @@ void PathFinder::clear()
     startPoint = Coord();
     endPoint = Coord();
     image = Image<Pixel>();
+    NumofDeadEnds = 0;
 }
 
 void PathFinder::checkImage(const Image<Pixel> &img) const
@@ -143,6 +144,7 @@ void PathFinder::findPath(const std::string &strategy)
 
     while (true)
     {
+        //NumofDeadEnds = 0;
         if (frontier.isEmpty()) throw std::runtime_error("no path found");  
 
         Coord currentSquare = frontier.peekFront();  // store the coord in the front of the line into current square 
@@ -162,6 +164,7 @@ void PathFinder::findPath(const std::string &strategy)
             }
             return;
         }
+        int validNeighborCount = 0;
         //step through the 4 letter strategy string
         for (int i = 0; i < 4; i++)
         {
@@ -177,22 +180,48 @@ void PathFinder::findPath(const std::string &strategy)
             // before distance 2, the first exit we find is always the shortest path. Once we find the exit,
             // trace back through cameFrom coloring each cell YELLOW until we hit the start.
 
-            // check if adjacent square is in bounds
-            if (adjacent.row >= 0 && adjacent.row < image.height() &&
-                adjacent.col >= 0 && adjacent.col < image.width())
-            {
-                // check if the adjacent square is white and not visited
-                if (image(adjacent.row, adjacent.col) == WHITE && !visited[adjacent.row][adjacent.col])
+                // check if adjacent square is in bounds
+                if (adjacent.row >= 0 && adjacent.row < image.height() &&
+                    adjacent.col >= 0 && adjacent.col < image.width())
                 {
-                    visited[adjacent.row][adjacent.col] = true; //now it is visited so mark it
-                    cameFrom[adjacent.row][adjacent.col] = currentSquare; //update camefrom
-                    frontier.enqueue(adjacent);
+
+                    // check if the adjacent square is white and not visited
+                    if (image(adjacent.row, adjacent.col) == WHITE && !visited[adjacent.row][adjacent.col])
+                    {
+                        visited[adjacent.row][adjacent.col] = true;
+                        cameFrom[adjacent.row][adjacent.col] = currentSquare;
+
+                        // if adjacent is the exit, stop immediately
+                        if (adjacent.row == 0 || adjacent.row == image.height() - 1 ||
+                            adjacent.col == 0 || adjacent.col == image.width() - 1)
+                        {
+                            endPoint = adjacent;
+                            image(adjacent.row, adjacent.col) = GREEN;
+
+                            Coord trace = currentSquare;
+                            while (trace != startPoint)
+                            {
+                                image(trace.row, trace.col) = YELLOW;
+                                trace = cameFrom[trace.row][trace.col];
+                            }
+                            return;
+                        }
+
+                        // otherwise count it as a visited interior state
+                        validNeighborCount++;
+                        frontier.enqueue(adjacent);
+                    }
                 }
-            }
-        }     
-        
+
+        }  
+            //check off
+            if (validNeighborCount == 0)
+            {
+                NumofDeadEnds++;
+            }           
     }
 }
+
 
 // BONUS: Same BFS as findPath(), plus GIF visualization
 void PathFinder::findPathWithVisualization(const std::string &outfile, int frame_duration, int frame_gap, const std::string &strategy)
@@ -355,4 +384,9 @@ bool compareImages(const std::string &img1_str, const std::string &img2_str)
         }
     }
     return true;
+}
+
+int PathFinder::getNumofDeadEnds()
+{
+    return NumofDeadEnds;
 }

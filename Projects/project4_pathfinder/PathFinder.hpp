@@ -95,10 +95,13 @@ public:
    * @param filename: name of the output PNG file */
   void writeSolutionToFile(const std::string &filename);
 
+  int getNumofDeadEnds();
+
 private:
   Image<Pixel> image;
   Coord startPoint;
   Coord endPoint;
+  int NumofDeadEnds = 0;
   // TODO: Add more private member variables and methods as needed
 };
 
