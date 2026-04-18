@@ -212,9 +212,9 @@ bool ArrayMaxHeap<ItemType>::remove()
       return false;
    }
    
-   std::swap(items[0], items[itemCount - 1]);
+   std::swap(items[0], items[itemCount - 1]);   // swap root with last item
    itemCount--;
-   shiftDown(0);
+   shiftDown(0); // sift down from root to restore heap property
    return true; // placeholder
 }
 
@@ -232,11 +232,12 @@ void ArrayMaxHeap<ItemType>::heapSort(ItemType anArray[], int n)
    //    Heapify root to restore heap
    // 4. End state: Heap region empty, Sorted region = entire array (ascending order)
    // 5. Reverse array to get descending order
+   // Throw std::invalid_argument if anArray has duplicates or n > DEFAULT_CAPACITY
    if (n > DEFAULT_CAPACITY)
    {
       throw std::invalid_argument("anArray is too big");
    }
-
+   // check for duplicates
    for (int i = 0; i < n; i++)
    {
       for (int j = i + 1; j < n; j++)
@@ -250,27 +251,29 @@ void ArrayMaxHeap<ItemType>::heapSort(ItemType anArray[], int n)
       
    }
    
-
+   // copy anArray to items
    for (int i = 0; i < n; i++)
    {
       items[i] = anArray[i];
    }
    itemCount = n;
-   heapCreate();
+   heapCreate();  // build max heap from unsorted array
 
    while (itemCount > 1)
    {
       std::swap(items[0], items[itemCount - 1]); //swap first item in array, root, with last item in the array
       itemCount--;
-      heapRebuild(0);
+      heapRebuild(0); //heapRebuild to restore heap property, start at root since we just swapped the root
    }
    
    itemCount = 0;
+   // copy sorted items back to anArray
    for (int i = 0; i < n; i++)
    {
     anArray[i] = items[i];
    }
 
+   // reverse array to get descending order
    int j = n - 1;
    int i = 0;
    while (i < j)
