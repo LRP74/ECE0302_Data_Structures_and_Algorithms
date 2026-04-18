@@ -66,12 +66,12 @@ void ArrayMaxHeap<ItemType>::shiftDown(int index)
    }
    int largestIndex = index;  // largest index seen so far
    // if getleftchild returns a number greater then item count then skip
-   if (getLeftChildIndex(index) <= itemCount && items[index] < items[getLeftChildIndex(index)]) // fix this to <
+   if (getLeftChildIndex(index) < itemCount && items[index] < items[getLeftChildIndex(index)]) 
    {
       largestIndex = getLeftChildIndex(index);
    }
    // if getleftchild returns a number greater then item count then skip
-   if (getRightChildIndex(index) <= itemCount && items[index] < items[getRightChildIndex(index)]) // fix this to <
+   if (getRightChildIndex(index) < itemCount && items[largestIndex] < items[getRightChildIndex(index)]) 
    {
       largestIndex = getRightChildIndex(index);
    }
@@ -229,7 +229,7 @@ void ArrayMaxHeap<ItemType>::heapSort(ItemType anArray[], int n)
 
    for (int i = 0; i < n; i++)
    {
-      for (int j = 0; j < n; j++)
+      for (int j = i + 1; j < n; j++)
       {
          if (anArray[i] == anArray[j])
          {
