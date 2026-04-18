@@ -146,6 +146,7 @@ void ArrayMaxHeap<ItemType>::heapRebuild(const int subTreeNodeIndex)
       // 1. Find the larger child
       // 2. If the node < larger child, swap them
       // 3. Recurse on the swapped child's index
+      shiftDown(subTreeNodeIndex);
    }
 }
 
@@ -186,7 +187,7 @@ bool ArrayMaxHeap<ItemType>::add(const ItemType &newData)
    itemCount++;
    shiftUp(itemCount - 1);      // sift up from where we just inserted
    
-   return false; // placeholder
+   return true; 
 }
 
 template <typename ItemType>
@@ -201,7 +202,6 @@ bool ArrayMaxHeap<ItemType>::remove()
       return false;
    }
    
-   int maxNumber = items[0];
    std::swap(items[0], items[itemCount - 1]);
    itemCount--;
    shiftDown(0);
