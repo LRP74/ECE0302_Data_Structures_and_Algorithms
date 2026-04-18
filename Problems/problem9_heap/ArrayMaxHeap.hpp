@@ -17,6 +17,8 @@ private:
    int getParentIndex(int nodeIndex) const;
    bool isLeaf(int nodeIndex) const;
    void heapCreate();
+   void shiftUp(int index);
+   void shiftDown(int index);
 
    // Private methods
    void heapRebuild(int subTreeRootIndex);
