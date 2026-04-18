@@ -101,7 +101,7 @@ ArrayMaxHeap<ItemType>::ArrayMaxHeap(const ItemType someArray[], const int array
    {
       for (int j = i + 1; j < n; j++)
       {
-         if (anArray[i] == anArray[j])
+         if (someArray[i] == someArray[j])
          {
             throw std::invalid_argument("found duplicate");
          }
