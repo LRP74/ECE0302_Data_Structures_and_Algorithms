@@ -97,6 +97,16 @@ template <typename ItemType>
 ArrayMaxHeap<ItemType>::ArrayMaxHeap(const ItemType someArray[], const int arraySize)
     : itemCount(arraySize)
 {
+   for (int i = 0; i < n; i++)
+   {
+      for (int j = i + 1; j < n; j++)
+      {
+         if (anArray[i] == anArray[j])
+         {
+            throw std::invalid_argument("found duplicate");
+         }
+      }
+   }
    for (int i = 0; i < itemCount; i++)
       items[i] = someArray[i];
    heapCreate();
