@@ -222,25 +222,30 @@ void ArrayMaxHeap<ItemType>::heapSort(ItemType anArray[], int n)
    //    Heapify root to restore heap
    // 4. End state: Heap region empty, Sorted region = entire array (ascending order)
    // 5. Reverse array to get descending order
-   if (n > itemCount)
+   if (n > DEFAULT_CAPACITY)
    {
-      throw std::invalid_argument("anArray is bigger than items");
+      throw std::invalid_argument("anArray is too big");
    }
 
-   // for (int i = 0; i < itemCount; i++)
-   // {
-   //    if (items[i] == anArray[i])
-   //    {
-   //       return false;  // return if duplicate
-   //    }
+   for (int i = 0; i < n; i++)
+   {
+      for (int j = 0; j < n; j++)
+      {
+         if (anArray[i] == anArray[j])
+         {
+            throw std::invalid_argument("found duplicate");
+         }
+         
+      }
       
-   // }
+   }
+   
 
-   for (int i = 0; i < itemCount; i++)
+   for (int i = 0; i < n; i++)
    {
       items[i] = anArray[i];
    }
-
+   itemCount = n;
    heapCreate();
 
    while (itemCount > 1)
@@ -249,8 +254,20 @@ void ArrayMaxHeap<ItemType>::heapSort(ItemType anArray[], int n)
       itemCount--;
       heapRebuild(0);
    }
+   
+   for (int i = 0; i < n; i++)
+   {
+    anArray[i] = items[i];
+   }
 
-
-
+   int j = n - 1;
+   int i = 0;
+   while (i < j)
+   {
+      std::swap(anArray[i],anArray[j]);
+      j--;
+      i++;
+   }
+   
    
 }
