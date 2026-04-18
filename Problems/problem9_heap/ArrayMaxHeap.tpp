@@ -97,9 +97,9 @@ template <typename ItemType>
 ArrayMaxHeap<ItemType>::ArrayMaxHeap(const ItemType someArray[], const int arraySize)
     : itemCount(arraySize)
 {
-   for (int i = 0; i < n; i++)
+   for (int i = 0; i < arraySize; i++)
    {
-      for (int j = i + 1; j < n; j++)
+      for (int j = i + 1; j < arraySize; j++)
       {
          if (someArray[i] == someArray[j])
          {
