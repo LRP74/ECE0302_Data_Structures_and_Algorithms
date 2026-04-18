@@ -255,6 +255,7 @@ void ArrayMaxHeap<ItemType>::heapSort(ItemType anArray[], int n)
       heapRebuild(0);
    }
    
+   itemCount = 0;
    for (int i = 0; i < n; i++)
    {
     anArray[i] = items[i];
