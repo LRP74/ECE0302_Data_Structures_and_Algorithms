@@ -117,7 +117,7 @@ void frontier_queue<T>::replaceif(const T &state, int cost)
     {
       if (cost < queue[i].getPathCost())
       {
-        /* code */
+        queue.fcost
       }
       
     }
