@@ -48,6 +48,9 @@ public:
 
 private:
   std::vector<State<T>> queue;
+  int getParent(int index);
+  int getLeftChild(int index);
+  int getRightChild(int index);
 };
 
 #include "frontier_queue.tpp"
