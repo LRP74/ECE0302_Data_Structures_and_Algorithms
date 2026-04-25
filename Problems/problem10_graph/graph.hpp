@@ -6,6 +6,8 @@
 #include <stack>
 #include <map>
 #include <set>
+#include <vector>
+#include <functional>
 
 template <typename ItemType>
 class Graph : public AbstractGraph<ItemType>
@@ -23,7 +25,8 @@ private:
 Represent the graph as an adjacency list using a std::map<ItemType, std::set<ItemType>> mapping each vertex to its set of neighbors. Track edge count in a separate integer member.
 The default constructor should initialize an empty graph (zero vertices, zero edges). No other initialization is required.
     */
-    std::map<ItemType, std::set<ItemType>> adjacencyList;   // a sorted map with a key and the item. it is a self balancing BST (red-black)
+    std::vector<std::vector<bool>> adjacencyMatrix; // a 2D vector of bools to represent the adjacency matrix
+    std::vector<ItemType> vertices; // a vector to store the vertices in the graph
     int edgeCount;
 
 

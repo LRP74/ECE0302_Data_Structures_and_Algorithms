@@ -3,92 +3,150 @@
 template <typename ItemType>
 Graph<ItemType>::Graph()
 {
-  edgeCount = 0;
+  // TODO
+  edgeCount = 0; // Initialize edge count to zero
 }
 
 template <typename ItemType>
 int Graph<ItemType>::getNumVertices() const
 {
   // TODO
-  // getNumVertices should return the number of keys in your adjacency map.
-  return adjacencyList.size();
+  return vertices.size(); // Return the number of vertices
 }
 
 template <typename ItemType>
 int Graph<ItemType>::getNumEdges() const
 {
   // TODO
-  return edgeCount;
+  return edgeCount; // Return the number of edges
 }
 
 template <typename ItemType>
 bool Graph<ItemType>::add(ItemType start, ItemType end)
 {
-  // TODO
-  if (adjacencyList.find(start) == adjacencyList.end()) {
-    // If either vertex does not exist, add it to the graph
-    adjacencyList[start]; // This will create an entry for start if it doesn't exist
-    adjacencyList[end];   // This will create an entry for end if it doesn't exist
+  if (start == end)
+  {
+    return false; 
   }
-  // Check if the edge already exists or if start and end are the same
-  if (start == end || adjacencyList[start].count(end) > 0) {
-    return false; // Edge already exists or start and end are the same
+
+  int startIndex = -1;
+  int endIndex = -1;
+
+  for (int i = 0; i < vertices.size(); i++)
+  {
+    if (vertices[i] == start)
+      startIndex = i;
+
+    if (vertices[i] == end)
+      endIndex = i;
   }
-  // Add the edge (undirected)
-  adjacencyList[start].insert(end);
-  adjacencyList[end].insert(start);
-  
-  return true; // Placeholder
+
+  // add start to the vertices vector if it does not exist
+  if (startIndex == -1)
+  {
+    vertices.push_back(start);
+    startIndex = vertices.size() - 1;
+  }
+
+  // add end to the vertices vector if it does not exist
+  if (endIndex == -1)
+  {
+    vertices.push_back(end);
+    endIndex = vertices.size() - 1;
+  }
+
+  // dont add again if the edge already exists
+  if (adjacencyMatrix[startIndex][endIndex] != 0)
+    return false;
+
+  // undirected edge, so set both [start][end] and [end][start] to 1
+  adjacencyMatrix[startIndex][endIndex] = 1;
+  adjacencyMatrix[endIndex][startIndex] = 1;
+
+  edgeCount++;
+
+  return true;
 }
 
 template <typename ItemType>
 bool Graph<ItemType>::remove(ItemType start, ItemType end)
 {
-  // TODO
-    // Check if the edge exists or if start and end are the same
-  if (start == end || adjacencyList.find(start) == adjacencyList.end()) {
-    return false; // Edge does not exist or start and end are the same
+  if (start == end)
+  {
+    return false;
   }
-  // Remove the edge (undirected)
-  adjacencyList[start].erase(end);
-  adjacencyList[end].erase(start);
-  edgeCount--; // Decrement edge count
-  // Remove vertices if they have no other edges
-  if (adjacencyList[start].empty()) {
-    adjacencyList.erase(start);
+
+  int startIndex = -1;
+  int endIndex = -1;
+
+  for (int i = 0; i < vertices.size(); i++)
+  {
+    if (vertices[i] == start)
+      startIndex = i;
+
+    if (vertices[i] == end)
+      endIndex = i;
   }
-  if (adjacencyList[end].empty()) {
-    adjacencyList.erase(end);
-  }
-  
-  return true; // Placeholder
+
+  if (startIndex == -1 || endIndex == -1)
+    return false;
+
+  if (adjacencyMatrix[startIndex][endIndex] == 0)
+    return false;
+
+  adjacencyMatrix[startIndex][endIndex] = 0;
+  adjacencyMatrix[endIndex][startIndex] = 0;
+
+  edgeCount--;
+
+
+  return true;
 }
 
 template <typename ItemType>
 void Graph<ItemType>::depthFirstTraversal(ItemType start, std::function<void(ItemType &)> visit)
 {
-  // TODO, use a stack and similar code structure to breadthFirstTraversal
-  std::stack<ItemType> s;
-  std::set<ItemType> visited; // set is a container that stores unique items in sorted order, and provides fast lookup
-  ItemType currentNode = s.top();
+std::stack<ItemType> s;
+  std::set<ItemType> visited;
 
-  s.push(start);  //push onto the stack where you are starting known as "source node"
+  s.push(start);
   visited.insert(start);
-  while (!s.empty())  //while there is something on the stack, that means there is something we want to pop off
-  {    
-    s.pop(); // start by popping the start
-    // push onto the stack its connections (neighbors) that have not been visited yet, and mark them as visited
-    visit(currentNode);
-    for (ItemType neighbor : adjacencyList[currentNode]) 
+
+  while (!s.empty())
+  {
+    ItemType current = s.top();
+    s.pop();
+
+    visit(current);
+
+    // Find the index of the current vertex
+    int currentIndex = -1;
+    for (int i = 0; i < vertices.size(); i++)
     {
-      if (!visited.count(neighbor)) // count is a method in std::set that returns 1 if the item is in the set, and 0 otherwise
+      if (vertices[i] == current)
       {
-        visited.insert(neighbor);
-        s.push(neighbor); // push the neighbor onto the stack
+        currentIndex = i;
+      }
+    }
 
-  }
+    // If current was not found, skip it
+    if (currentIndex == -1)
+      continue;
 
-}
+    // Look across the row for neighbors
+    for (int i = 0; i < vertices.size(); i++)
+    {
+      if (adjacencyMatrix[currentIndex][i] != 0)
+      {
+        ItemType neighbor = vertices[i];
+
+        if (!visited.count(neighbor))
+        {
+          visited.insert(neighbor);
+          s.push(neighbor);
+        }
+      }
+    }
   }
 }
 
@@ -97,15 +155,14 @@ void Graph<ItemType>::breadthFirstTraversal(ItemType start, std::function<void(I
 {
   std::queue<ItemType> q;
   std::set<ItemType> visited; // set is a container that stores unique items in sorted order, and provides fast lookup
-
-  q.push(start);  
+  q.push(start);
   visited.insert(start);
   while (!q.empty())
   {
     ItemType current = q.front();
     q.pop();
     visit(current);
-    for (ItemType neighbor : adjacencyList[current]) // TODO: get the neighbors of current
+    for (ItemType neighbor : std::vector<ItemType>{}) // TODO: get the neighbors of current
     {
       if (!visited.count(neighbor)) // count is a method in std::set that returns 1 if the item is in the set, and 0 otherwise
       {
