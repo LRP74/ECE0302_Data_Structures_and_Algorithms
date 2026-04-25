@@ -97,9 +97,6 @@ bool Graph<ItemType>::add(ItemType start, ItemType end)
 template <typename ItemType>
 bool Graph<ItemType>::remove(ItemType start, ItemType end)
 {
-
-  bool startIsolated = true;
-  bool endIsolated = true;
   if (start == end)
   {
     return false;
@@ -108,7 +105,7 @@ bool Graph<ItemType>::remove(ItemType start, ItemType end)
   int startIndex = -1;
   int endIndex = -1;
 
-  // Find the indices of start and end in the vertices vector
+  // find start and end
   for (int i = 0; i < vertices.size(); i++)
   {
     if (vertices[i] == start)
@@ -118,91 +115,104 @@ bool Graph<ItemType>::remove(ItemType start, ItemType end)
       endIndex = i;
   }
 
-  // If either start or end is not in the graph, return false
+  // if either vertex does not exist
   if (startIndex == -1 || endIndex == -1)
+  {
     return false;
+  }
 
+  // if edge does not exist
   if (adjacencyMatrix[startIndex][endIndex] == false)
+  {
     return false;
+  }
 
-  // remove the edge
+  // temporarily remove the edge
   adjacencyMatrix[startIndex][endIndex] = false;
   adjacencyMatrix[endIndex][startIndex] = false;
 
+  // check if start and end are isolated
+  bool startIsolated = true;
+  bool endIsolated = true;
+
+  for (int i = 0; i < adjacencyMatrix.size(); i++)
+  {
+    if (adjacencyMatrix[startIndex][i] == true)
+      startIsolated = false;
+
+    if (adjacencyMatrix[endIndex][i] == true)
+      endIsolated = false;
+  }
+
+  // if neither vertex is isolated, make sure the graph is still connected
+  if (!startIsolated && !endIsolated)
+  {
+    std::queue<int> q;
+    std::set<int> visited;
+
+    q.push(startIndex);
+    visited.insert(startIndex);
+
+    while (!q.empty())
+    {
+      int current = q.front();
+      q.pop();
+
+      for (int i = 0; i < adjacencyMatrix.size(); i++)
+      {
+        if (adjacencyMatrix[current][i] == true && !visited.count(i))
+        {
+          visited.insert(i);
+          q.push(i);
+        }
+      }
+    }
+
+    // if not all vertices were visited, removing the edge disconnected the graph
+    if (visited.size() != vertices.size())
+    {
+      adjacencyMatrix[startIndex][endIndex] = true;
+      adjacencyMatrix[endIndex][startIndex] = true;
+      return false;
+    }
+  }
+
   edgeCount--;
 
-  // Check if start still has any edges
-  for (int i = 0; i < adjacencyMatrix.size(); i++)
-  {
-    if (adjacencyMatrix[startIndex][i] != false)
-    {
-      startIsolated = false;
-      break;
-    }
-  }
-  // Check if end still has any edges
-  for (int i = 0; i < adjacencyMatrix.size(); i++)
-  {
-    if (adjacencyMatrix[endIndex][i] != false)
-    {
-      endIsolated = false;
-      break;
-    }
-  }
-  // Remove larger index first so the other index does not shift
+  // remove isolated vertices, bigger index first
   if (startIsolated && endIsolated)
   {
-    if (startIndex > endIndex)
-    {
-      vertices.erase(vertices.begin() + startIndex);
-      adjacencyMatrix.erase(adjacencyMatrix.begin() + startIndex);
-      for (int i = 0; i < adjacencyMatrix.size(); i++)
-      {
-        adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + startIndex);
-      }
+    int first = startIndex;
+    int second = endIndex;
 
-      vertices.erase(vertices.begin() + endIndex);
-      adjacencyMatrix.erase(adjacencyMatrix.begin() + endIndex);
-      for (int i = 0; i < adjacencyMatrix.size(); i++)
-      {
-        adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + endIndex);
-      }
-    }
-    else
-    {
-      vertices.erase(vertices.begin() + endIndex);
-      adjacencyMatrix.erase(adjacencyMatrix.begin() + endIndex);
-      for (int i = 0; i < adjacencyMatrix.size(); i++)
-      {
-        adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + endIndex);
-      }
+    if (first < second)
+      std::swap(first, second);
 
-      vertices.erase(vertices.begin() + startIndex);
-      adjacencyMatrix.erase(adjacencyMatrix.begin() + startIndex);
-      for (int i = 0; i < adjacencyMatrix.size(); i++)
-      {
-        adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + startIndex);
-      }
-    }
+    vertices.erase(vertices.begin() + first);
+    adjacencyMatrix.erase(adjacencyMatrix.begin() + first);
+    for (int i = 0; i < adjacencyMatrix.size(); i++)
+      adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + first);
+
+    vertices.erase(vertices.begin() + second);
+    adjacencyMatrix.erase(adjacencyMatrix.begin() + second);
+    for (int i = 0; i < adjacencyMatrix.size(); i++)
+      adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + second);
   }
   else if (startIsolated)
   {
     vertices.erase(vertices.begin() + startIndex);
     adjacencyMatrix.erase(adjacencyMatrix.begin() + startIndex);
     for (int i = 0; i < adjacencyMatrix.size(); i++)
-    {
       adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + startIndex);
-    }
   }
   else if (endIsolated)
   {
     vertices.erase(vertices.begin() + endIndex);
     adjacencyMatrix.erase(adjacencyMatrix.begin() + endIndex);
     for (int i = 0; i < adjacencyMatrix.size(); i++)
-    {
       adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + endIndex);
-    }
   }
+
   return true;
 }
 
