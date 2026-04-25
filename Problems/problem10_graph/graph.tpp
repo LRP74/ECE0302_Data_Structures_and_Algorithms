@@ -46,6 +46,11 @@ bool Graph<ItemType>::add(ItemType start, ItemType end)
     }
   }
 
+  if (startIndex != -1 && endIndex != -1 && adjacencyMatrix[startIndex][endIndex] != false)
+  {
+    return false; // edge already exists
+  }
+
   // If start is not already in the graph, add it
   if (startIndex == -1)
   {
@@ -92,6 +97,9 @@ bool Graph<ItemType>::add(ItemType start, ItemType end)
 template <typename ItemType>
 bool Graph<ItemType>::remove(ItemType start, ItemType end)
 {
+
+  bool startIsolated = true;
+  bool endIsolated = true;
   if (start == end)
   {
     return false;
@@ -117,12 +125,24 @@ bool Graph<ItemType>::remove(ItemType start, ItemType end)
   if (adjacencyMatrix[startIndex][endIndex] == false)
     return false;
 
-    // remove the edge
+  // remove the edge
   adjacencyMatrix[startIndex][endIndex] = false;
   adjacencyMatrix[endIndex][startIndex] = false;
 
   edgeCount--;
 
+  for (int i = 0; i < adjacencyMatrix.size(); i++)
+  {
+    if (adjacencyMatrix[startIndex][i])
+    {
+      startIsolated = false;
+    }
+
+    if (adjacencyMatrix[endIndex][i])
+    {
+      endIsolated = false;
+    }
+  }
 
   return true;
 }
@@ -130,7 +150,7 @@ bool Graph<ItemType>::remove(ItemType start, ItemType end)
 template <typename ItemType>
 void Graph<ItemType>::depthFirstTraversal(ItemType start, std::function<void(ItemType &)> visit)
 {
-std::stack<ItemType> s;
+  std::stack<ItemType> s;
   std::set<ItemType> visited;
 
   s.push(start);
