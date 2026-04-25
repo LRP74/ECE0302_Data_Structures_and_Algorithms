@@ -54,10 +54,10 @@ bool Graph<ItemType>::add(ItemType start, ItemType end)
 
     for (int i = 0; i < adjacencyMatrix.size(); i++)
     {
-      adjacencyMatrix[i].push_back(0); // add new column
+      adjacencyMatrix[i].push_back(false); // add new column
     }
 
-    adjacencyMatrix.push_back(std::vector<int>(vertices.size(), 0)); // add new row
+    adjacencyMatrix.push_back(std::vector<bool>(vertices.size(), false)); // add new row
   }
 
   // add end if it is not already in the graph
@@ -68,21 +68,21 @@ bool Graph<ItemType>::add(ItemType start, ItemType end)
 
     for (int i = 0; i < adjacencyMatrix.size(); i++)
     {
-      adjacencyMatrix[i].push_back(0); // add new column
+      adjacencyMatrix[i].push_back(false); // add new column
     }
 
-    adjacencyMatrix.push_back(std::vector<int>(vertices.size(), 0)); // add new row
+    adjacencyMatrix.push_back(std::vector<bool>(vertices.size(), false)); // add new row
   }
 
   // dont add edge if it already exists
-  if (adjacencyMatrix[startIndex][endIndex] != 0)
+  if (adjacencyMatrix[startIndex][endIndex] != false)
   {
     return false;
   }
 
   // add the edge
-  adjacencyMatrix[startIndex][endIndex] = 1;
-  adjacencyMatrix[endIndex][startIndex] = 1;
+  adjacencyMatrix[startIndex][endIndex] = true;
+  adjacencyMatrix[endIndex][startIndex] = true;
 
   edgeCount++;
 
@@ -114,12 +114,12 @@ bool Graph<ItemType>::remove(ItemType start, ItemType end)
   if (startIndex == -1 || endIndex == -1)
     return false;
 
-  if (adjacencyMatrix[startIndex][endIndex] == 0)
+  if (adjacencyMatrix[startIndex][endIndex] == false)
     return false;
 
     // remove the edge
-  adjacencyMatrix[startIndex][endIndex] = 0;
-  adjacencyMatrix[endIndex][startIndex] = 0;
+  adjacencyMatrix[startIndex][endIndex] = false;
+  adjacencyMatrix[endIndex][startIndex] = false;
 
   edgeCount--;
 
@@ -160,7 +160,7 @@ std::stack<ItemType> s;
     // Look across the row for neighbors
     for (int i = 0; i < vertices.size(); i++)
     {
-      if (adjacencyMatrix[currentIndex][i] != 0)
+      if (adjacencyMatrix[currentIndex][i] != false)
       {
         ItemType neighbor = vertices[i];
 
