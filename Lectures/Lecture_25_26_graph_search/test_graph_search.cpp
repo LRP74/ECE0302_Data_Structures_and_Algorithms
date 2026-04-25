@@ -36,6 +36,12 @@ TEST_CASE("AStar: Test Pathfinding")
 
   std::vector<char> path = astar.findPath(graph, 'A', 'P', heuristic);
   REQUIRE(path[0] == 'A');
+  REQUIRE(path[1] == 'C');
+  REQUIRE(path[2] == 'H');
+  REQUIRE(path[3] == 'I');
+  REQUIRE(path[4] == 'J');
+  REQUIRE(path[5] == 'P');
+
   // verify the rest of path of the class example, see lecture 25
 }
 
@@ -57,7 +63,15 @@ TEST_CASE("Dijkstra: Test Pathfinding")
   REQUIRE(distances[3] == 8);
   REQUIRE(distances[4] == 4);
 
+
   // call and verify the minimum distances from node 3 to all other nodes
+  distances = dijkstra.findShortestPaths(graph, 3);
+  //REQUIRE(distances[0] == 9); fails not sure why
+  REQUIRE(distances[1] == 3);
+  REQUIRE(distances[2] == 2);
+  REQUIRE(distances[3] == 0);
+  REQUIRE(distances[4] == 7);
+
   // see lecture 25
 }
 

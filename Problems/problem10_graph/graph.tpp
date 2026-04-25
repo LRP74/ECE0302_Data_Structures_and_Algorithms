@@ -3,21 +3,22 @@
 template <typename ItemType>
 Graph<ItemType>::Graph()
 {
-  // TODO
+  edgeCount = 0;
 }
 
 template <typename ItemType>
 int Graph<ItemType>::getNumVertices() const
 {
   // TODO
-  return 0; // Placeholder
+  // getNumVertices should return the number of keys in your adjacency map.
+  return adjacencyList.size();
 }
 
 template <typename ItemType>
 int Graph<ItemType>::getNumEdges() const
 {
   // TODO
-  return 0; // Placeholder
+  return edgeCount;
 }
 
 template <typename ItemType>

@@ -2,6 +2,7 @@
 #define _GRAPH_H_
 
 #include "abstract_graph.hpp"
+#include <queue>
 
 template <typename ItemType>
 class Graph : public AbstractGraph<ItemType>
@@ -13,6 +14,16 @@ private:
     // For adjacency matrix, you may use a 2D array, or a vector of vectors etc and an array of vertices to map the indices to vertices
     // For adjacency list, you can use a std::map to map vertices to the set of adjacent vertices
     // Refer to std::vector, std::set, std::map, std::unordered_map etc
+    /*
+    *** Add private data members to graph.hpp and implement the constructor in graph.tpp
+
+Represent the graph as an adjacency list using a std::map<ItemType, std::set<ItemType>> mapping each vertex to its set of neighbors. Track edge count in a separate integer member.
+The default constructor should initialize an empty graph (zero vertices, zero edges). No other initialization is required.
+    */
+    std::map<ItemType, std::set<ItemType>> adjacencyList;
+    int edgeCount;
+
+
 public:
     Graph();
     int getNumVertices() const;
