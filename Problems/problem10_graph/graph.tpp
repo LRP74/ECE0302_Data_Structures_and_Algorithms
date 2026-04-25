@@ -240,7 +240,7 @@ void Graph<ItemType>::depthFirstTraversal(ItemType start, std::function<void(Ite
   std::set<ItemType> visited;
 
   s.push(start);
-  
+
   // standard DFS loop
   while (!s.empty())
   {
@@ -268,19 +268,17 @@ void Graph<ItemType>::depthFirstTraversal(ItemType start, std::function<void(Ite
     if (currentIndex == -1)
       continue;
 
-    // push neighbors onto the stack in reverse order so that they are visited in the correct order
-    for (int i = vertices.size() - 1; i >= 0; i--)
+    std::vector<ItemType> neighbors;
+    for (int i = 0; i < vertices.size(); i++)
     {
-      if (adjacencyMatrix[currentIndex][i])
-      {
-        ItemType neighbor = vertices[i];
-
-        if (!visited.count(neighbor))
-        {
-          s.push(neighbor);
-        }
-      }
+      if (adjacencyMatrix[currentIndex][i] && !visited.count(vertices[i]))
+        neighbors.push_back(vertices[i]);
     }
+
+    std::sort(neighbors.begin(), neighbors.end(), std::greater<ItemType>());
+
+    for (ItemType &neighbor : neighbors)
+      s.push(neighbor);
   }
 }
 
@@ -306,7 +304,7 @@ void Graph<ItemType>::breadthFirstTraversal(ItemType start, std::function<void(I
   q.push(start);
   visited.insert(start);
 
-    // standard BFS loop
+  // standard BFS loop
   while (!q.empty())
   {
     ItemType current = q.front();
