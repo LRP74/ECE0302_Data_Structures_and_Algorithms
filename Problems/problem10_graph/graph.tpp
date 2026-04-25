@@ -131,21 +131,82 @@ bool Graph<ItemType>::remove(ItemType start, ItemType end)
 
   edgeCount--;
 
+  // Check if start still has any edges
   for (int i = 0; i < adjacencyMatrix.size(); i++)
   {
-    if (adjacencyMatrix[startIndex][i])
+    if (adjacencyMatrix[startIndex][i] != false)
     {
       startIsolated = false;
-    }
-
-    if (adjacencyMatrix[endIndex][i])
-    {
-      endIsolated = false;
+      break;
     }
   }
+  // Check if end still has any edges
+  for (int i = 0; i < adjacencyMatrix.size(); i++)
+  {
+    if (adjacencyMatrix[endIndex][i] != false)
+    {
+      endIsolated = false;
+      break;
+    }
+  }
+  // Remove larger index first so the other index does not shift
+  if (startIsolated && endIsolated)
+  {
+    if (startIndex > endIndex)
+    {
+      vertices.erase(vertices.begin() + startIndex);
+      adjacencyMatrix.erase(adjacencyMatrix.begin() + startIndex);
+      for (int i = 0; i < adjacencyMatrix.size(); i++)
+      {
+        adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + startIndex);
+      }
 
+      vertices.erase(vertices.begin() + endIndex);
+      adjacencyMatrix.erase(adjacencyMatrix.begin() + endIndex);
+      for (int i = 0; i < adjacencyMatrix.size(); i++)
+      {
+        adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + endIndex);
+      }
+    }
+    else
+    {
+      vertices.erase(vertices.begin() + endIndex);
+      adjacencyMatrix.erase(adjacencyMatrix.begin() + endIndex);
+      for (int i = 0; i < adjacencyMatrix.size(); i++)
+      {
+        adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + endIndex);
+      }
+
+      vertices.erase(vertices.begin() + startIndex);
+      adjacencyMatrix.erase(adjacencyMatrix.begin() + startIndex);
+      for (int i = 0; i < adjacencyMatrix.size(); i++)
+      {
+        adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + startIndex);
+      }
+    }
+  }
+  else if (startIsolated)
+  {
+    vertices.erase(vertices.begin() + startIndex);
+    adjacencyMatrix.erase(adjacencyMatrix.begin() + startIndex);
+    for (int i = 0; i < adjacencyMatrix.size(); i++)
+    {
+      adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + startIndex);
+    }
+  }
+  else if (endIsolated)
+  {
+    vertices.erase(vertices.begin() + endIndex);
+    adjacencyMatrix.erase(adjacencyMatrix.begin() + endIndex);
+    for (int i = 0; i < adjacencyMatrix.size(); i++)
+    {
+      adjacencyMatrix[i].erase(adjacencyMatrix[i].begin() + endIndex);
+    }
+  }
   return true;
 }
+
+
 
 template <typename ItemType>
 void Graph<ItemType>::depthFirstTraversal(ItemType start, std::function<void(ItemType &)> visit)
