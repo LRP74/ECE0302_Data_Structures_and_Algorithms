@@ -218,8 +218,6 @@ bool Graph<ItemType>::remove(ItemType start, ItemType end)
   return true;
 }
 
-
-
 template <typename ItemType>
 void Graph<ItemType>::depthFirstTraversal(ItemType start, std::function<void(ItemType &)> visit)
 {
@@ -251,7 +249,8 @@ void Graph<ItemType>::depthFirstTraversal(ItemType start, std::function<void(Ite
       continue;
 
     // Look across the row for neighbors
-    for (int i = 0; i < vertices.size(); i++)
+    // ai helped to fix this
+    for (int i = vertices.size() - 1; i >= 0; i--)
     {
       if (adjacencyMatrix[currentIndex][i] != false)
       {
@@ -279,12 +278,29 @@ void Graph<ItemType>::breadthFirstTraversal(ItemType start, std::function<void(I
     ItemType current = q.front();
     q.pop();
     visit(current);
-    for (ItemType neighbor : std::vector<ItemType>{}) // TODO: get the neighbors of current
+    int currentIndex = -1;
+    // find current in vertices
+    for (int i = 0; i < vertices.size(); i++)
     {
-      if (!visited.count(neighbor)) // count is a method in std::set that returns 1 if the item is in the set, and 0 otherwise
+      if (vertices[i] == current)
       {
-        visited.insert(neighbor);
-        q.push(neighbor);
+        currentIndex = i;
+      }
+      // get the neighbors of current
+      if (currentIndex != -1)
+      {
+        for (int j = 0; j < vertices.size(); j++)
+        {
+          if (adjacencyMatrix[currentIndex][j] != false)
+          {
+            ItemType neighbor = vertices[j];
+            if (!visited.count(neighbor))
+            {
+              visited.insert(neighbor);
+              q.push(neighbor);
+            }
+          }
+        }
       }
     }
   }
