@@ -8,6 +8,7 @@
 #include <set>
 #include <vector>
 #include <functional>
+#include <algorithm> // for std::sort
 
 template <typename ItemType>
 class Graph : public AbstractGraph<ItemType>
