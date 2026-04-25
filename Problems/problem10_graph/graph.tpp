@@ -225,14 +225,18 @@ void Graph<ItemType>::depthFirstTraversal(ItemType start, std::function<void(Ite
   std::set<ItemType> visited;
 
   s.push(start);
-  visited.insert(start);
+  // visited.insert(start);
 
   while (!s.empty())
   {
     ItemType current = s.top();
     s.pop();
 
-    visit(current);
+    if (!visited.count(current))
+    {
+      visit(current);
+      visited.insert(current);
+    }
 
     // Find the index of the current vertex
     int currentIndex = -1;
@@ -286,7 +290,18 @@ void Graph<ItemType>::breadthFirstTraversal(ItemType start, std::function<void(I
       {
         currentIndex = i;
       }
-      // get the neighbors of current
+      int currentIndex = -1;
+
+      // find current in vertices
+      for (int i = 0; i < vertices.size(); i++)
+      {
+        if (vertices[i] == current)
+        {
+          currentIndex = i;
+        }
+      }
+
+      // if current was not found, skip it
       if (currentIndex != -1)
       {
         for (int j = 0; j < vertices.size(); j++)
@@ -294,6 +309,7 @@ void Graph<ItemType>::breadthFirstTraversal(ItemType start, std::function<void(I
           if (adjacencyMatrix[currentIndex][j] != false)
           {
             ItemType neighbor = vertices[j];
+
             if (!visited.count(neighbor))
             {
               visited.insert(neighbor);
