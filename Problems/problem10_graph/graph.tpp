@@ -221,48 +221,62 @@ bool Graph<ItemType>::remove(ItemType start, ItemType end)
 template <typename ItemType>
 void Graph<ItemType>::depthFirstTraversal(ItemType start, std::function<void(ItemType &)> visit)
 {
+  // find the index of the start vertex
+  int startIndex = -1;
+  // find the index of start in the vertices vector
+  for (int i = 0; i < vertices.size(); i++)
+  {
+    if (vertices[i] == start)
+    {
+      startIndex = i;
+      break;
+    }
+  }
+  // if start vertex does not exist, do nothing
+  if (startIndex == -1)
+    return;
+
   std::stack<ItemType> s;
   std::set<ItemType> visited;
 
   s.push(start);
-  // visited.insert(start);
-
+  
+  // standard DFS loop
   while (!s.empty())
   {
     ItemType current = s.top();
     s.pop();
 
-    if (!visited.count(current))
-    {
-      visit(current);
-      visited.insert(current);
-    }
+    // skip if already visited
+    if (visited.count(current))
+      continue;
 
-    // Find the index of the current vertex
+    visit(current);
+    visited.insert(current);
+
+    // find the index of current in the vertices vector
     int currentIndex = -1;
     for (int i = 0; i < vertices.size(); i++)
     {
       if (vertices[i] == current)
       {
         currentIndex = i;
+        break;
       }
     }
 
-    // If current was not found, skip it
     if (currentIndex == -1)
       continue;
 
-    // Look across the row for neighbors
-    // ai helped to fix this
+    // push neighbors onto the stack in reverse order so that they are visited in the correct order
     for (int i = vertices.size() - 1; i >= 0; i--)
     {
-      if (adjacencyMatrix[currentIndex][i] != false)
+      if (adjacencyMatrix[currentIndex][i])
       {
         ItemType neighbor = vertices[i];
 
         if (!visited.count(neighbor))
         {
-          visited.insert(neighbor);
           s.push(neighbor);
         }
       }
@@ -273,51 +287,68 @@ void Graph<ItemType>::depthFirstTraversal(ItemType start, std::function<void(Ite
 template <typename ItemType>
 void Graph<ItemType>::breadthFirstTraversal(ItemType start, std::function<void(ItemType &)> visit)
 {
+  // find the index of the start vertex
+  int startIndex = -1;
+  for (int i = 0; i < vertices.size(); i++)
+  {
+    if (vertices[i] == start)
+    {
+      startIndex = i;
+      break;
+    }
+  }
+  if (startIndex == -1)
+    return;
+
   std::queue<ItemType> q;
-  std::set<ItemType> visited; // set is a container that stores unique items in sorted order, and provides fast lookup
+  std::set<ItemType> visited;
+
   q.push(start);
   visited.insert(start);
+
+    // standard BFS loop
   while (!q.empty())
   {
     ItemType current = q.front();
     q.pop();
     visit(current);
+
     int currentIndex = -1;
-    // find current in vertices
+    // find the index of current in the vertices vector
     for (int i = 0; i < vertices.size(); i++)
     {
       if (vertices[i] == current)
       {
         currentIndex = i;
+        break;
       }
-      int currentIndex = -1;
+    }
 
-      // find current in vertices
-      for (int i = 0; i < vertices.size(); i++)
+    // if current vertex does not exist, skip
+    if (currentIndex == -1)
+      continue;
+
+    std::vector<ItemType> neighbors;
+    //  find neighbors of current vertex and add them to the neighbors vector
+    for (int j = 0; j < vertices.size(); j++)
+    {
+      // if there is an edge and the neighbor has not been visited, add it to the neighbors vector
+      if (adjacencyMatrix[currentIndex][j] && !visited.count(vertices[j]))
       {
-        if (vertices[i] == current)
-        {
-          currentIndex = i;
-        }
+        neighbors.push_back(vertices[j]);
       }
+    }
 
-      // if current was not found, skip it
-      if (currentIndex != -1)
-      {
-        for (int j = 0; j < vertices.size(); j++)
-        {
-          if (adjacencyMatrix[currentIndex][j] != false)
-          {
-            ItemType neighbor = vertices[j];
+    // ai helped me with this fix
+    // std::sort is used to ensure that neighbors are visited in a consistent order
+    // this is important for testing, since the order of visiting neighbors can affect the output of the traversal
+    std::sort(neighbors.begin(), neighbors.end());
 
-            if (!visited.count(neighbor))
-            {
-              visited.insert(neighbor);
-              q.push(neighbor);
-            }
-          }
-        }
-      }
+    // add neighbors to the queue and mark them as visited
+    for (ItemType &neighbor : neighbors)
+    {
+      visited.insert(neighbor);
+      q.push(neighbor);
     }
   }
 }
