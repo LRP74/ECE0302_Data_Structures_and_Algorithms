@@ -32,7 +32,7 @@ bool Graph<ItemType>::add(ItemType start, ItemType end)
   int startIndex = -1;
   int endIndex = -1;
 
-  // Find the indices of start and end in the vertices vector
+  // find the indices of start and end in the vertices vector
   for (int i = 0; i < vertices.size(); i++)
   {
     if (vertices[i] == start)
@@ -46,12 +46,20 @@ bool Graph<ItemType>::add(ItemType start, ItemType end)
     }
   }
 
-  if (startIndex != -1 && endIndex != -1 && adjacencyMatrix[startIndex][endIndex] != false)
+  // if the graph is not empty, do not add two brand new vertices
+  // because that would make the graph disconnected
+  if (!vertices.empty() && startIndex == -1 && endIndex == -1)
   {
-    return false; // edge already exists
+    return false;
   }
 
-  // If start is not already in the graph, add it
+  // if both vertices already exist and the edge already exists, don't add it
+  if (startIndex != -1 && endIndex != -1 && adjacencyMatrix[startIndex][endIndex] == true)
+  {
+    return false;
+  }
+
+  // add start if it is not already in the graph
   if (startIndex == -1)
   {
     vertices.push_back(start);
@@ -59,10 +67,10 @@ bool Graph<ItemType>::add(ItemType start, ItemType end)
 
     for (int i = 0; i < adjacencyMatrix.size(); i++)
     {
-      adjacencyMatrix[i].push_back(false); // add new column
+      adjacencyMatrix[i].push_back(false);
     }
 
-    adjacencyMatrix.push_back(std::vector<bool>(vertices.size(), false)); // add new row
+    adjacencyMatrix.push_back(std::vector<bool>(vertices.size(), false));
   }
 
   // add end if it is not already in the graph
@@ -73,19 +81,13 @@ bool Graph<ItemType>::add(ItemType start, ItemType end)
 
     for (int i = 0; i < adjacencyMatrix.size(); i++)
     {
-      adjacencyMatrix[i].push_back(false); // add new column
+      adjacencyMatrix[i].push_back(false);
     }
 
-    adjacencyMatrix.push_back(std::vector<bool>(vertices.size(), false)); // add new row
+    adjacencyMatrix.push_back(std::vector<bool>(vertices.size(), false));
   }
 
-  // dont add edge if it already exists
-  if (adjacencyMatrix[startIndex][endIndex] != false)
-  {
-    return false;
-  }
-
-  // add the edge
+  // add the edge both ways because this is an undirected graph
   adjacencyMatrix[startIndex][endIndex] = true;
   adjacencyMatrix[endIndex][startIndex] = true;
 
