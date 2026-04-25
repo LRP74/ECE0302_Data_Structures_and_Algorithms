@@ -26,40 +26,61 @@ bool Graph<ItemType>::add(ItemType start, ItemType end)
 {
   if (start == end)
   {
-    return false; 
+    return false;
   }
 
   int startIndex = -1;
   int endIndex = -1;
 
+  // Find the indices of start and end in the vertices vector
   for (int i = 0; i < vertices.size(); i++)
   {
     if (vertices[i] == start)
+    {
       startIndex = i;
+    }
 
     if (vertices[i] == end)
+    {
       endIndex = i;
+    }
   }
 
-  // add start to the vertices vector if it does not exist
+  // If start is not already in the graph, add it
   if (startIndex == -1)
   {
     vertices.push_back(start);
     startIndex = vertices.size() - 1;
+
+    for (int i = 0; i < adjacencyMatrix.size(); i++)
+    {
+      adjacencyMatrix[i].push_back(0); // add new column
+    }
+
+    adjacencyMatrix.push_back(std::vector<int>(vertices.size(), 0)); // add new row
   }
 
-  // add end to the vertices vector if it does not exist
+  // add end if it is not already in the graph
   if (endIndex == -1)
   {
     vertices.push_back(end);
     endIndex = vertices.size() - 1;
+
+    for (int i = 0; i < adjacencyMatrix.size(); i++)
+    {
+      adjacencyMatrix[i].push_back(0); // add new column
+    }
+
+    adjacencyMatrix.push_back(std::vector<int>(vertices.size(), 0)); // add new row
   }
 
-  // dont add again if the edge already exists
+  // dont add edge if it already exists
   if (adjacencyMatrix[startIndex][endIndex] != 0)
+  {
     return false;
+  }
 
-  // undirected edge, so set both [start][end] and [end][start] to 1
+  // add the edge
   adjacencyMatrix[startIndex][endIndex] = 1;
   adjacencyMatrix[endIndex][startIndex] = 1;
 
@@ -79,6 +100,7 @@ bool Graph<ItemType>::remove(ItemType start, ItemType end)
   int startIndex = -1;
   int endIndex = -1;
 
+  // Find the indices of start and end in the vertices vector
   for (int i = 0; i < vertices.size(); i++)
   {
     if (vertices[i] == start)
@@ -88,12 +110,14 @@ bool Graph<ItemType>::remove(ItemType start, ItemType end)
       endIndex = i;
   }
 
+  // If either start or end is not in the graph, return false
   if (startIndex == -1 || endIndex == -1)
     return false;
 
   if (adjacencyMatrix[startIndex][endIndex] == 0)
     return false;
 
+    // remove the edge
   adjacencyMatrix[startIndex][endIndex] = 0;
   adjacencyMatrix[endIndex][startIndex] = 0;
 
