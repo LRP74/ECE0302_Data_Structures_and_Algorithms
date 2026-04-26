@@ -113,22 +113,38 @@ void frontier_queue<T>::replaceif(const T &state, int cost)
 {
   for (int i = 0; i < queue.size(); i++)
   {
+    // if the state is in the frontier and the new cost is lower, update the path cost and f-cost of the state
     if (state == queue[i].getValue())
     {
+      // if the state is in the frontier and the new cost is lower, update the path cost and f-cost of the state
       if (cost < queue[i].getPathCost())
       {
-        queue.fcost
+        queue[i].updatePathCost(cost);
+        // after updating the path cost and f-cost of the state, we need to maintain the min-heap property of the frontier
+        while (i > 0 && queue[i].getFCost() < queue[getParent(i)].getFCost())
+        {
+          std::swap(queue[i], queue[getParent(i)]);
+          i = getParent(i);
+        }
       }
-      
+
+      return;
     }
-    
   }
-  
 }
 
 template <typename T>
 int frontier_queue<T>::getCurrentPathCost(const T &state)
 {
   // TODO
-  return 0;
+  for (int i = 0; i < queue.size(); i++)
+  {
+    if (state == queue[i].getValue())
+    {
+      return queue[i].getPathCost();
+    }
+    
+  }
+
+  return -1;
 }
