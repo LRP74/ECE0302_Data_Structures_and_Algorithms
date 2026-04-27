@@ -1,5 +1,6 @@
 #include "puzzle.hpp"
 #include <stdexcept>
+#include <cmath> // for abs
 
 bool Puzzle::fromString(const std::string &str)
 {
@@ -121,25 +122,51 @@ unsigned long long Puzzle::hash() const
   // TODO
   // use bitwise << and | to implemnt the concatenation
   // e.g., 2<<4 | 3 is actually hex 23, which is 35 in decimal
-  return 0;
+  unsigned long long result = 0;
+  for (int i = 0; i < 9; ++i) {
+    result = (result << 4) | board[i];
+  }
+  return result;
 }
 
 bool Puzzle::operator==(const Puzzle &rhs) const
 {
   // TODO
   // do not compare tile by tile, use other public member functions
-  return false;
+  return hash() == rhs.hash();  
 }
 
 bool Puzzle::operator!=(const Puzzle &rhs) const
 {
   // TODO
-  return false;
+  return !(*this == rhs);
 }
 
 int Puzzle::heuristic(const Puzzle &goal) const
 {
   // TODO
   // Research Manhattan distance and implement the heuristic function
-  return 0;
+  int manhattanDistance = 0;
+  for (int i = 0; i < 9; ++i)
+  {
+    if (board[i] != BLANK)
+    {
+      int tileValue = board[i];
+      int currentRow = i / 3;
+      int currentCol = i % 3;
+      int goalIndex = -1;
+      for (int j = 0; j < 9; ++j)
+      {
+        if (goal.board[j] == tileValue)
+        {
+          goalIndex = j;
+          break;
+        }
+      }
+      int goalRow = goalIndex / 3;
+      int goalCol = goalIndex % 3;
+      manhattanDistance += abs(currentRow - goalRow) + abs(currentCol - goalCol);
+    }
+  }
+  return manhattanDistance;
 }

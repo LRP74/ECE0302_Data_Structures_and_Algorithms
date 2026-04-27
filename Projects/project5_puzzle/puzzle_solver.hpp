@@ -7,6 +7,8 @@
 #include "frontier_queue.hpp"
 #include "puzzle.hpp"
 #include "lib/gif.h"
+#include <unordered_set>
+#include <unordered_map>
 
 /** @brief Writes a single puzzle state as one frame into an open GIF.
  *  @param gif The GifWriter object to write the frame to.
