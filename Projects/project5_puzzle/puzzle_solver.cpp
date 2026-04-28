@@ -104,7 +104,14 @@ bool PuzzleSolver::search()
 
     if (current_puzzle == goal)
     {
+      solution_cost = current_gcost;
+
       Puzzle p = current_puzzle;
+      while (p != initial)
+      {
+        solution_path.insert(solution_path.begin(), p);
+        p = parent[p];
+      }
       solution_path.insert(solution_path.begin(), initial);
 
       // GIF generation
