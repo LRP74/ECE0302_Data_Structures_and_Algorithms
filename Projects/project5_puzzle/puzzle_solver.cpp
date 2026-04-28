@@ -148,6 +148,11 @@ bool PuzzleSolver::search()
         frontier.push(neighbor, neighbor_g, neighbor_h);
         parent[neighbor] = current_puzzle;
       }
+      else if (neighbor_g < frontier.getCurrentPathCost(neighbor))
+      {
+        frontier.replaceif(neighbor, neighbor_g);
+        parent[neighbor] = current_puzzle;
+      }
     }
   }
   return false;
