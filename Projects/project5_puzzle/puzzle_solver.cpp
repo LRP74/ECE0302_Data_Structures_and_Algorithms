@@ -114,16 +114,16 @@ bool PuzzleSolver::search()
       }
       solution_path.insert(solution_path.begin(), initial);
 
-      // GIF generation
-      GifWriter gif;
-      Image<Pixel> img = initial.toPicture();
-      int frame_duration = 100;
-      GifBegin(&gif, "puzzle_solver_output.gif", img.width(), img.height(), frame_duration, 8, true);
-      for (const Puzzle &frame : solution_path)
-      {
-        addFrameToGif(gif, frame, frame_duration);
-      }
-      GifEnd(&gif);
+      // // GIF generation
+      // GifWriter gif;
+      // Image<Pixel> img = initial.toPicture();
+      // int frame_duration = 100;
+      // GifBegin(&gif, "puzzle_solver_output.gif", img.width(), img.height(), frame_duration, 8, true);
+      // for (const Puzzle &frame : solution_path)
+      // {
+      //   addFrameToGif(gif, frame, frame_duration);
+      // }
+      // GifEnd(&gif);
 
       return true;
     }
