@@ -25,31 +25,34 @@ int frontier_queue<T>::getRightChild(int index)
 template <typename T>
 State<T> frontier_queue<T>::pop()
 {
-  State<T> root = queue[0];
+  //Remove and return the smallest element (which is always at the root, index 0)
+  //Restore the heap property after removing it
+  State<T> root = queue[0]; // save the root to return later
 
-  queue[0] = queue.back();
-  queue.pop_back();
+  queue[0] = queue.back();  // move the last element to the root bc you can't just delete the root without replacing it with something else
+  queue.pop_back(); // remove the last element from the vector
 
-  int index = 0;
+  int index = 0;  // start at the root and bubble down the new root element to restore the min-heap property
 
   while (true)
   {
     int left = getLeftChild(index);
     int right = getRightChild(index);
-    int smallest = index;
+    int smallest = index;   // assume the current index is the smallest
 
+    // compare the current index with its left and right children to find the smallest among them
     if (left < queue.size() &&
         queue[left].getFCost() < queue[smallest].getFCost())
     {
       smallest = left;
     }
-
+    // compare the current smallest with the right child
     if (right < queue.size() &&
         queue[right].getFCost() < queue[smallest].getFCost())
     {
       smallest = right;
     }
-
+    // if the smallest is not the current index, swap and continue bubbling down
     if (smallest != index)
     {
       std::swap(queue[index], queue[smallest]);
@@ -74,6 +77,10 @@ void frontier_queue<T>::push(const T &state, int cost, int heur)
 
   // watched this video for help https://www.youtube.com/watch?v=UTrr0B4ny9s
   // shape handled by vector and order is handled by the while loop below
+  // so for bubble up. as you insert nodes you compare to the parent. if the inserted node 
+  // is larger than the parent then swap. 
+  // then check if you are at the root node. if not check the parent of the swapped node 
+  // and continue until you reach the root node
   while (index !=0 && queue[index].getFCost() < queue[getParent(index)].getFCost())
   {
     std::swap(queue[index],queue[getParent(index)]);

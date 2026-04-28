@@ -85,5 +85,64 @@ bool PuzzleSolver::search()
   //      - if not "seen" before, enqueue neighbor with g, h values, set up the parent relationship
   //      - if already in frontier with higher g, update that entry via replaceif, update the parent relationship if needed
   // 7) If frontier becomes empty, no solution is found: return false.
+  frontier_queue<Puzzle> frontier;
+  // explored is a visited stucture to keep track of explored states, so we don't revisit them and get stuck in loops
+  std::unordered_set<Puzzle> explored;
+  // parent is like the camefrom structure we used in project 4
+  std::unordered_map<Puzzle, Puzzle> parent;
+  // enqueue the initial state into the frontier with g=0 and h=initial.heuristic(goal)
+  frontier.push(initial, 0, initial.heuristic(goal));
+
+  while (!frontier.empty())
+  {
+    // pop the state with the smallest f-cost from the frontier and get its puzzle state and g-cost
+    State<Puzzle> current_state = frontier.pop();
+    // current_puzzle is the puzzle state of the current state, and current_gcost is the g-cost to reach this state
+    Puzzle current_puzzle = current_state.getValue();
+    // get the g-cost to reach the current state
+    int current_gcost = current_state.getPathCost();
+
+    if (current_puzzle == goal)
+    {
+      Puzzle p = current_puzzle;
+      solution_path.insert(solution_path.begin(), initial);
+
+      // GIF generation
+      GifWriter gif;
+      Image<Pixel> img = initial.toPicture();
+      int frame_duration = 100;
+      GifBegin(&gif, "puzzle_solver_output.gif", img.width(), img.height(), frame_duration, 8, true);
+      for (const Puzzle &frame : solution_path)
+      {
+        addFrameToGif(gif, frame, frame_duration);
+      }
+      GifEnd(&gif);
+
+      return true;
+    }
+
+    explored.insert(current_puzzle);
+
+    for (Puzzle::Action a : {Puzzle::LEFT, Puzzle::RIGHT, Puzzle::UP, Puzzle::DOWN})
+    {
+      std::pair<bool, Puzzle> result = current_puzzle.apply(a);
+      bool valid = result.first;
+      Puzzle neighbor = result.second;
+      if (!valid)
+        continue;
+      if (explored.count(neighbor))
+        continue;
+
+      int neighbor_g = current_gcost + 1;
+      int neighbor_h = neighbor.heuristic(goal);
+
+      if (!frontier.contains(neighbor))
+      {
+        frontier.push(neighbor, neighbor_g, neighbor_h);
+        parent[neighbor] = current_puzzle;
+      }
+    }
+  }
   return false;
 }
+

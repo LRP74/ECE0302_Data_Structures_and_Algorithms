@@ -1,5 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
+#include <chrono>
 
 #include "puzzle_solver.hpp"
 
@@ -152,7 +153,7 @@ TEST_CASE("Simple search test cost 2", "[PuzzleSolver]")
 /** Two time-consuming tests are given here for your reference. Uncomment them to try locally.
  * The test case of cost 31 should execute within 1 minute locally to avoid timeout on the autograder.*/
 
-/*
+
 TEST_CASE("Time-consuming search test cost 8", "[PuzzleSolver]")
 {
   Puzzle puzzle1, puzzle2;
@@ -198,6 +199,6 @@ TEST_CASE("Time-consuming search test cost 31", "[PuzzleSolver]")
   std::cout << "\n**********************************************************\n"
             << std::endl;
 }
-*/
+
 
 // You still need to write your own unit test

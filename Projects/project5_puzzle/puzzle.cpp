@@ -124,7 +124,7 @@ unsigned long long Puzzle::hash() const
   // e.g., 2<<4 | 3 is actually hex 23, which is 35 in decimal
   unsigned long long result = 0;
   for (int i = 0; i < 9; ++i) {
-    result = (result << 4) | board[i];
+    result = (result << 4) | board[i];  //multiply current result by 16 (shift left by 4) and bitwise OR with the next tile value
   }
   return result;
 }
@@ -134,11 +134,14 @@ bool Puzzle::operator==(const Puzzle &rhs) const
   // TODO
   // do not compare tile by tile, use other public member functions
   return hash() == rhs.hash();  
+  //Since hash() packs the entire board into one unique number, 
+  // two puzzles are equal if and only if their hashes are equal — no need to compare tile by tile.
 }
 
 bool Puzzle::operator!=(const Puzzle &rhs) const
 {
   // TODO
+  // call the == operator i implemented above
   return !(*this == rhs);
 }
 
@@ -147,17 +150,31 @@ int Puzzle::heuristic(const Puzzle &goal) const
   // TODO
   // Research Manhattan distance and implement the heuristic function
   int manhattanDistance = 0;
+  // For each tile (except the blank), calculate the distance from its current
+  // position to its goal position and sum these distances.
   for (int i = 0; i < 9; ++i)
   {
     if (board[i] != BLANK)
     {
-      int tileValue = board[i];
-      int currentRow = i / 3;
-      int currentCol = i % 3;
-      int goalIndex = -1;
+      int tileValue = board[i]; // the value of the tile at index i
+      int currentRow = i / 3; // the current row of the tile (0, 1, or 2)
+      int currentCol = i % 3; // the current column of the tile (0, 1, or 2)
+      int goalIndex = -1; // the index of the tile in the goal state
+      /*
+        i=0: row=0/3=0, col=0%3=0
+        i=1: row=1/3=0, col=1%3=1
+        i=2: row=2/3=0, col=2%3=2
+        i=3: row=3/3=1, col=3%3=0
+        i=4: row=4/3=1, col=4%3=1
+        i=5: row=5/3=1, col=5%3=2
+        i=6: row=6/3=2, col=6%3=0
+        i=7: row=7/3=2, col=7%3=1
+        i=8: row=8/3=2, col=8%3=2
+      */
+      // find the index of the tile in the goal state
       for (int j = 0; j < 9; ++j)
       {
-        if (goal.board[j] == tileValue)
+        if (goal.board[j] == tileValue) // if the tile value matches the current tile, we found its position in the goal state
         {
           goalIndex = j;
           break;
