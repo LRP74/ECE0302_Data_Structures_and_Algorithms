@@ -202,3 +202,132 @@ TEST_CASE("Time-consuming search test cost 31", "[PuzzleSolver]")
 
 
 // You still need to write your own unit test
+// Test 1: heuristic returns 0 when puzzle equals goal
+// in plain english, this test checks that if we have a puzzle state p1 and a goal state p2,
+// and if p1 is the same as p2 (they represent the same board configuration),
+// then the heuristic value of p1 with respect to p2 should be 0, which means that
+// there are no misplaced tiles and p1 is already at the goal state
+TEST_CASE("Heuristic returns 0 when puzzle equals goal", "[puzzle]")
+{
+  Puzzle p1, p2;
+  REQUIRE(p1.fromString("123456780"));
+  REQUIRE(p2.fromString("123456780"));
+  REQUIRE(p1.heuristic(p2) == 0);
+}
+// Test 2: heuristic is always <= actual solution cost (admissibility)
+// in plain english, this test checks that for any two puzzle states p1 and p2,
+// the heuristic value of p1 with respect to p2 should always be less than or equal to the actual solution cost
+// to get from p1 to p2, which ensures that the heuristic is admissible and
+// does not overestimate the true cost of reaching the goal state from any given state
+TEST_CASE("Heuristic is always <= actual solution cost", "[puzzle]")
+{
+  Puzzle p1, p2;
+  REQUIRE(p1.fromString("123456780"));
+  REQUIRE(p2.fromString("012345678"));
+  PuzzleSolver solver(p2, p1);
+  REQUIRE(solver.search());
+  REQUIRE(p2.heuristic(p1) <= solver.getSolutionCost());
+}
+// Test 3: search returns false for unsolvable puzzle
+// in plain english, this test checks that if we have an unsolvable puzzle
+// (a puzzle configuration that cannot be transformed into the goal
+// configuration through any sequence of valid moves), then the search function
+// should return false, indicating that no solution exists for that puzzle
+TEST_CASE("Search returns false for unsolvable puzzle", "[PuzzleSolver]")
+{
+  Puzzle p1, p2;
+  REQUIRE(p1.fromString("123456780"));
+  REQUIRE(p2.fromString("123456870")); // swap of 8 and 7 makes it unsolvable
+  PuzzleSolver solver(p2, p1);
+  REQUIRE_FALSE(solver.search());
+}
+// Test 4: solution path starts with initial and ends with goal
+// in plain english, this test checks that the first state in the solution path
+// is the initial state, and the last state in the solution path is the goal state,
+// which makes sure that the solution path correctly shows a valid sequence of
+// moves from the initial state to the goal state
+TEST_CASE("Solution path starts with initial and ends with goal", "[PuzzleSolver]")
+{
+  Puzzle p1, p2;
+  REQUIRE(p1.fromString("123456780"));
+  REQUIRE(p2.fromString("123456870")); // swap of 8 and 7 makes it unsolvable
+  PuzzleSolver solver(p2, p1);
+  REQUIRE_FALSE(solver.search());
+}
+// Test 4: solution path starts with initial and ends with goal
+// in plain english, this test checks that the first state in the solution path
+// is the initial state, and the last state in the solution path is the goal state,
+// which ensures that the solution path correctly represents a valid sequence of
+// moves from the initial state to the goal state
+TEST_CASE("Solution path starts with initial and ends with goal", "[PuzzleSolver]")
+{
+  Puzzle p1, p2;
+  REQUIRE(p1.fromString("123456780"));
+  REQUIRE(p2.fromString("012345678"));
+  PuzzleSolver solver(p2, p1);
+  REQUIRE(solver.search());
+  std::vector<std::string> path = solver.getSolutionPath();
+  REQUIRE(path.front() == "012345678");
+  REQUIRE(path.back() == "123456780");
+}
+// Test 5: each consecutive state in solution path differs by exactly one move
+// in plain english, this test checks that for each pair of consecutive states in
+// the solution path, they should differ by exactly one valid move (one tile moved
+// into the blank space), which ensures that the solution path is a valid sequence of moves
+// from the initial state to the goal state
+TEST_CASE("Each consecutive state in solution path differs by exactly one move", "[PuzzleSolver]")
+{
+  Puzzle p1, p2;
+  REQUIRE(p1.fromString("123456780"));
+  REQUIRE(p2.fromString("123456870")); // swap of 8 and 7 makes it unsolvable
+  PuzzleSolver solver(p2, p1);
+  REQUIRE_FALSE(solver.search());
+}
+// Test 6: hash produces different values for every unique board configuration
+// in plain english, this test checks that if we have three different board configurations,
+// then their hash values should all be different, which means that the hash function
+// is distinguishing between different puzzle states
+TEST_CASE("Hash produces different values for every unique board configuration", "[puzzle]")
+{
+  Puzzle p1, p2, p3;
+  REQUIRE(p1.fromString("123456780"));
+  REQUIRE(p2.fromString("123456708"));
+  REQUIRE(p3.fromString("123456078"));
+  REQUIRE(p1.hash() != p2.hash());
+  REQUIRE(p1.hash() != p3.hash());
+  REQUIRE(p2.hash() != p3.hash());
+}
+// Test 7: replaceif does not update when new cost is higher than existing cost
+// in plain english, this test checks that if we call replaceif with a new cost that
+// is higher than the existing cost of the state in the frontier, then the frontier
+// should not update the path cost or f-cost of that state, and should not change
+// its position in the min-heap order of the frontier
+TEST_CASE("replaceif does not update when new cost is higher than existing cost", "[frontier_queue]")
+{
+  frontier_queue<char> fq;
+  fq.push('A', 1, 1); // f = 2
+  fq.replaceif('A', 2); // new g = 2, new f = 3, which is higher than existing f = 2, so should not update
+  State<char> state = fq.pop();
+  REQUIRE(state.getValue() == 'A');
+  REQUIRE(state.getPathCost() == 1);
+  REQUIRE(state.getFCost() == 2);
+}
+// Test 8: frontier pop always returns states in non-decreasing f-cost order
+// in plain english, this test checks that the frontier always pops the state
+// with the lowest f-cost, and that the f-cost of popped states never decreases (it can stay the same or increase, but not decrease)
+TEST_CASE("Frontier pop always returns states in non-decreasing f-cost order", "[frontier_queue]")
+{
+  frontier_queue<char> fq;
+  fq.push('A', 1, 1); // f = 2
+  fq.push('B', 2, 2); // f = 4
+  fq.push('C', 0, 3); // f = 3
+  State<char> state1 = fq.pop();
+  REQUIRE(state1.getValue() == 'A');
+  REQUIRE(state1.getFCost() == 2);
+  State<char> state2 = fq.pop();
+  REQUIRE(state2.getValue() == 'C');
+  REQUIRE(state2.getFCost() == 3);
+  State<char> state3 = fq.pop();
+  REQUIRE(state3.getValue() == 'B');
+  REQUIRE(state3.getFCost() == 4);
+}
